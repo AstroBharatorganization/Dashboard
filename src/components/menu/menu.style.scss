@@ -1,0 +1,47 @@
+@import "../../styles/variables.style.scss";
+@import "../../styles/responsive.style.scss";
+
+.menu {
+  padding-left: 15px;
+  padding-top: 20px;
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 12px;
+      font-weight: 200;
+      color: $soft-color;
+      text-transform: uppercase;
+
+      @include lg {
+        display: none;
+      }
+    }
+
+    .listItem {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #d0a2f7;
+      img {
+        height: 20px;
+        width: 20px;
+      }
+
+      &:hover {
+        background-color: #e5d4ff;
+      }
+
+      .listItemTitle {
+        @include lg {
+          display: none;
+        }
+      }
+    }
+  }
+}

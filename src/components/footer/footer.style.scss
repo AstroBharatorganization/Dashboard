@@ -1,0 +1,23 @@
+@import "../../styles/variables.style.scss";
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+
+  span {
+    backdrop-filter: saturate(180%) blur(10px);
+    padding: 10px;
+    border-radius: 15px 15px;
+    background-color: $soft-bg;
+    &:first-child {
+      font-weight: bold;
+      color: #d4af37;
+    }
+
+    &:last-child {
+      font-size: 14px;
+    }
+  }
+}

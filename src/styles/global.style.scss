@@ -1,0 +1,43 @@
+@import "./variables.style.scss";
+@import "./responsive.style.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.main {
+  font-family: "Inter", sans-serif;
+  background-color: white;
+  color: $main-color;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+}
+
+.menuContainer {
+  width: 230px;
+  padding: 5px 20px;
+  border-right: 1px solid lightgrey;
+
+  @include lg {
+    width: max-content;
+  }
+}
+
+.contentContainer {
+  padding: 20px 0px 0px 20px;
+  width: 100%;
+}

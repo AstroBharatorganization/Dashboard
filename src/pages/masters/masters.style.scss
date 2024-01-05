@@ -1,0 +1,17 @@
+.masters {
+  // min-width: 100vw;
+  // min-height: 100vh;
+  .table {
+    margin-top: 20px;
+    width: 80vw;
+    height: 70vh;
+  }
+  .info {
+    button {
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
