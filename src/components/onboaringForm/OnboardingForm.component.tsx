@@ -1,400 +1,497 @@
 // Styles
 import "./onBoardingForm.style.scss";
-// Libraries
+
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { AstrologerFormData } from "@/models/master.model";
+import { validateForm } from "../../validation/Register/Register.validation";
+import { useCreateAstrologerMutation } from "../../services/master.service";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { useNavigate } from "react-router-dom";
+
 import {
   TextField,
-  Button,
-  Stack,
-  Select,
-  MenuItem,
-  // FormGroup,
-  // FormControlLabel,
-  // Checkbox,
-  Backdrop,
-  CircularProgress,
   FormControl,
   InputLabel,
+  Select,
+  MenuItem,
+  Input,
+  Button,
 } from "@mui/material";
-// Models
-import { masterSchema, masterSchemaType } from "../../models/master.model";
-// services
-// import { CreateMaster, UploadProfile } from "../../services/master.service";
-interface Status {
-  visible: boolean;
-  isError: boolean;
-  error: string;
+
+interface OnboardingFormProps {
+  setStatus: (status: any) => void;
 }
-type Props = {
-  setStatus: React.Dispatch<React.SetStateAction<Status>>;
-};
 
-const OnboardingForm = ({ setStatus }: Props) => {
-  // const [profile, setprofile] = useState<File>();
-  const [isLoading, setIsLoading] = useState<boolean>();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<masterSchemaType>({
-    resolver: zodResolver(masterSchema),
+const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<AstrologerFormData>({
+    mobileNumber: "",
+    consultationMobileNumber: "",
+    introduction: "",
+    gender: "",
+    name: "",
+    dateOfBirth: "",
+    specialties: [],
+    languages: [],
+    profile: null,
+    gallery: [],
+    incomeRatio: 0.5,
+    callStatus: "live",
+    fullCallFee: 0,
+    CutCallFee: 0,
+    experience: 0,
+    country: "",
+    skills: [],
   });
 
-  console.log("errors", errors);
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<Record<keyof AstrologerFormData, string>>
+  >({});
+  const [createAstrologer] = useCreateAstrologerMutation();
 
-  const onSubmit: SubmitHandler<masterSchemaType> = async (data) => {
-    setIsLoading(true);
-    try {
-      // const created = Date.now().toString();
-      // data.created = created;
-      // console.log("data.profile", data.profile[0]);
-      // if (data.profile == null) return;
-      // const profileurl = await UploadProfile(data.profile[0], data.masterName);
-      // console.log("profileurl", profileurl);
-      // data.profile = profileurl;
+  const handleChange = (field: any, value: any) => {
+    setFormData({ ...formData, [field]: value });
+  };
 
-      // await CreateMaster(data);
+  const handleProfilePictureChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    handleChange("profile", file);
+  };
 
-      // console.log(data);
+  const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const selectedImages = [];
 
-      console.log("Data:->", data);
-      const successObj = {
-        visible: true,
-        isError: false,
-        error: "",
-      };
-      setStatus(successObj);
-      reset();
-    } catch (error) {
-      const errObj = {
-        visible: true,
-        isError: true,
-        error: String(error),
-      };
-      setStatus(errObj);
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        selectedImages.push(files[i]);
+      }
+    }
+
+    setFormData({
+      ...formData,
+      gallery: selectedImages,
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const errors = validateForm(formData);
+
+    if (Object.keys(errors).length === 0) {
+      try {
+        const formDataWithFiles = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+          if (key === "profile") {
+            value && formDataWithFiles.append(key, value);
+          } else if (key === "gallery") {
+            formData.gallery.forEach((image) => {
+              formDataWithFiles.append("gallery", image);
+            });
+          } else {
+            formDataWithFiles.append(key, value);
+          }
+        });
+
+        await createAstrologer(formDataWithFiles).unwrap();
+        toast.success("Registration successful!");
+        setStatus({
+          visible: true,
+          isError: false,
+          error: "",
+        });
+        navigate("/masters");
+        console.log("Form submitted:", formData);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setValidationErrors(errors);
+      console.log("Validation errors:", errors);
     }
   };
 
+  console.log(formData);
+
   return (
     <>
-      {isLoading ? (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack
-            direction={"column"}
-            spacing={2}
-            margin={2}
-            width={1200}
-            alignItems={"stretch"}
-          >
-            <Stack direction={"row"} spacing={4}>
-              <Stack direction={"column"} spacing={4} margin={2}>
-                <Stack direction={"row"} spacing={4}>
-                  <Stack direction={"column"}>
-                    <Stack direction={"column"} spacing={4}>
-                      <TextField
-                        label={"Name"}
-                        fullWidth
-                        {...register("name")}
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                      />
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Country
-                        </InputLabel>
-                        <Select
-                          labelId="country"
-                          {...register("country")}
-                          id="country"
-                          label="country"
-                          defaultValue={"India"}
-                        >
-                          <MenuItem value={"India"}>India</MenuItem>
-                          <MenuItem value={"International"}>
-                            International
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                      <TextField
-                        label={"Mobile Number"}
-                        fullWidth
-                        {...register("phoneNumber")}
-                        error={!!errors.phoneNumber}
-                        helperText={errors.phoneNumber?.message}
-                      />
-                    </Stack>
-                  </Stack>
-                  <Stack direction={"column"} spacing={4}>
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">
-                        Gender
-                      </InputLabel>
-                      <Select
-                        labelId="gender"
-                        {...register("gender")}
-                        id="gender"
-                        label="gender"
-                        defaultValue={""}
-                      >
-                        <MenuItem value={"male"}>Male</MenuItem>
-                        <MenuItem value={"female"}>Female</MenuItem>
-                        <MenuItem value={"Other"}>other</MenuItem>
-                      </Select>
-                    </FormControl>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="container">
+        <div className="form-section">
+          <div>
+            <TextField
+              label="Mobile Number"
+              value={formData.mobileNumber}
+              onChange={(e) =>
+                handleChange(
+                  "mobileNumber",
+                  e.target.value.replace(/\D/g, "").slice(0, 10)
+                )
+              }
+              error={Boolean(validationErrors.mobileNumber)}
+              helperText={validationErrors.mobileNumber}
+            />
+            <br />
 
-                    <TextField
-                      label={"Experience"}
-                      {...register("experience")}
-                      error={!!errors.experience}
-                      helperText={errors.experience?.message}
-                      fullWidth
-                    />
-                    <TextField
-                      label={"Email"}
-                      {...register("email")}
-                      error={!!errors.email}
-                      helperText={errors.email?.message}
-                      fullWidth
-                    />
-                  </Stack>
-                </Stack>
-                <Stack direction={"column"} spacing={4}>
-                  <TextField
-                    label={"Master Introduction"}
-                    {...register("masterIntroduction")}
-                    error={!!errors.masterIntroduction}
-                    helperText={errors.masterIntroduction?.message}
-                    multiline
-                    fullWidth
-                  />
-                </Stack>
-              </Stack>
-              <Stack direction={"column"} spacing={2}>
-                {/* <TextField label={"Date Of Birth"} fullWidth /> */}
+            <TextField
+              sx={{ mt: 2 }}
+              label="Consultation Mobile Number"
+              value={formData.consultationMobileNumber}
+              onChange={(e) =>
+                handleChange(
+                  "consultationMobileNumber",
+                  e.target.value.replace(/\D/g, "").slice(0, 10)
+                )
+              }
+              error={Boolean(validationErrors.consultationMobileNumber)}
+              helperText={validationErrors.consultationMobileNumber}
+            />
+            <br />
 
-                <TextField label={"Dummy"} fullWidth />
-              </Stack>
-            </Stack>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">language</InputLabel>
-              <Stack direction="row">
-                <Select
-                  labelId="gender"
-                  // {...register("language")}
-                  id="gender"
-                  label="gender"
-                  defaultValue={"English"}
-                  multiple={true}
-                  value=""
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.gender}
+                label="Gender"
+                onChange={(e) => handleChange("gender", e.target.value)}
+                error={Boolean(validationErrors.gender)}
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </Select>
+              {validationErrors.gender && (
+                <div
+                  style={{ color: "red", fontSize: "0.7rem", marginTop: "8px" }}
                 >
-                  {[
-                    "English",
-                    "Hindi",
-                    "Bengali",
-                    "Punjabi",
-                    "Gujarati",
-                    "Marathi",
-                    "Odia",
-                    "Konkani",
-                    "Sindhi",
-                    "Tamil",
-                    "Malayalam",
-                    "Kannada",
-                    "Telugu",
-                  ].map((language) => (
-                    <MenuItem value={language}>{language}</MenuItem>
-                  ))}
-                </Select>
-              </Stack>
+                  {validationErrors.gender}
+                </div>
+              )}
             </FormControl>
-            {/* <FormGroup>
-              <h2>Language</h2>
-              <Stack direction={"row"}>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="English"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Hindi"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Bengali"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Punjabi"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Gujrati"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Marathi"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Label"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Marwadi"
-                />
-              </Stack>
-              <Stack direction={"row"}>
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Odia"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Konkani"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Sindhi"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Tamil"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Malayalam"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Kannada"
-                />
-                <FormControlLabel
-                  control={<Checkbox defaultChecked />}
-                  label="Telugu"
-                />
-              </Stack>
-            </FormGroup> */}
-            {/* <h2>Master Profile Details</h2>
-            <Stack direction={"row"} spacing={2}>
-              <TextField label={"Price (In Rupees)"} multiline />
-              <FormControl style={{ width: "150px" }}>
-                <InputLabel id="demo-simple-select-label">Tags</InputLabel>
-                <Select
-                  labelId="tags"
-                  {...register("tags")}
-                  id="tags"
-                  label="tags"
-                  defaultValue={""}
+
+            <br />
+
+            <TextField
+              sx={{ mt: 2 }}
+              label="Name"
+              value={formData.name}
+              onChange={(e) =>
+                handleChange("name", e.target.value.toLowerCase())
+              }
+              error={Boolean(validationErrors.name)}
+              helperText={validationErrors.name}
+            />
+
+            <br />
+
+            <TextField
+              sx={{ mt: 2 }}
+              label="Date of Birth"
+              value={formData.dateOfBirth}
+              onChange={(e) => {
+                const inputDate = e.target.value.replace(/\D/g, "").slice(0, 8);
+                const formattedDate = inputDate.replace(
+                  /(\d{2})(\d{2})(\d{4})/,
+                  "$1-$2-$3"
+                );
+
+                handleChange("dateOfBirth", formattedDate);
+              }}
+              error={Boolean(validationErrors.dateOfBirth)}
+              helperText={validationErrors.dateOfBirth}
+              placeholder="dd-mm-yyyy"
+            />
+
+            <br />
+
+            <TextField
+              sx={{ mt: 2 }}
+              label="Experience"
+              value={formData.experience}
+              onChange={(e) => {
+                const inputFee = parseFloat(e.target.value) || 0;
+                handleChange("experience", inputFee);
+              }}
+              error={Boolean(validationErrors.experience)}
+              helperText={validationErrors.experience}
+              type="number"
+            />
+
+            <br />
+
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Call Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.callStatus}
+                onChange={(e) => handleChange("callStatus", e.target.value)}
+                label="Specialties"
+              >
+                <MenuItem value="offline">Offline</MenuItem>
+                <MenuItem value="live">Live</MenuItem>
+                <MenuItem value="busy">Busy</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          <div className="twoColumn">
+            <TextField
+              label="Full Call Fee"
+              value={formData.fullCallFee}
+              onChange={(e) => {
+                const inputFee = parseFloat(e.target.value) || 0;
+                handleChange("fullCallFee", inputFee);
+              }}
+              error={Boolean(validationErrors.fullCallFee)}
+              helperText={validationErrors.fullCallFee}
+              type="number"
+            />
+            <br />
+
+            <TextField
+              sx={{ mt: 2 }}
+              label="Cut Call Fee"
+              value={formData.CutCallFee}
+              onChange={(e) => {
+                const inputFee = parseFloat(e.target.value) || 0;
+                handleChange("CutCallFee", inputFee);
+              }}
+              error={Boolean(validationErrors.CutCallFee)}
+              helperText={validationErrors.CutCallFee}
+              type="number"
+            />
+            <br />
+
+            <TextField
+              sx={{ mt: 2 }}
+              label="Country"
+              value={formData.country}
+              onChange={(e) => handleChange("country", e.target.value)}
+              error={Boolean(validationErrors.country)}
+              helperText={validationErrors.country}
+            />
+            <br />
+
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">
+                Income Ratio
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formData.incomeRatio}
+                onChange={(e) => handleChange("incomeRatio", e.target.value)}
+                label="Income Ratio"
+              >
+                <MenuItem value={0.1}>10%</MenuItem>
+                <MenuItem value={0.2}>20%</MenuItem>
+                <MenuItem value={0.3}>30%</MenuItem>
+                <MenuItem value={0.4}>40%</MenuItem>
+                <MenuItem value={0.5}>50%</MenuItem>
+                <MenuItem value={0.6}>60%</MenuItem>
+                <MenuItem value={0.7}>70%</MenuItem>
+                <MenuItem value={0.8}>80%</MenuItem>
+                <MenuItem value={0.9}>90%</MenuItem>
+                <MenuItem value={1}>100%</MenuItem>
+              </Select>
+            </FormControl>
+            <br />
+            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Specialties</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                multiple
+                value={formData.specialties}
+                onChange={(e) => handleChange("specialties", e.target.value)}
+                label="Specialties"
+                input={<Input />}
+                error={Boolean(validationErrors.specialties)}
+              >
+                <MenuItem value="Love">Love</MenuItem>
+                <MenuItem value="Marriage">Marriage</MenuItem>
+                <MenuItem value="Career">Career</MenuItem>
+                <MenuItem value="Life">Life</MenuItem>
+                <MenuItem value="Business">Business</MenuItem>
+                <MenuItem value="Health">Health</MenuItem>
+              </Select>
+              {validationErrors.specialties && (
+                <div
+                  style={{ color: "red", fontSize: "0.7rem", marginTop: "8px" }}
                 >
-                  <MenuItem value={"Most Choice"}>Most Choice</MenuItem>
-                  <MenuItem value={"Most Trusted"}>Most Trusted</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl style={{ width: "200px" }}>
-                <InputLabel id="demo-simple-select-label">Badge</InputLabel>
-                <Select
-                  labelId="badge"
-                  {...register("badge")}
-                  id="badge"
-                  label="badge"
-                  defaultValue={"Star Astrologer"}
+                  {validationErrors.specialties}
+                </div>
+              )}
+            </FormControl>
+
+            <br />
+
+            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Languages</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                multiple
+                value={formData.languages}
+                onChange={(e) => handleChange("languages", e.target.value)}
+                label="languages"
+                input={<Input />}
+                error={Boolean(validationErrors.languages)}
+              >
+                <MenuItem value="English">English</MenuItem>
+                <MenuItem value="Hindi">Hindi</MenuItem>
+                <MenuItem value="Bengali">Bengali</MenuItem>
+                <MenuItem value="Punjabi">Punjabi</MenuItem>
+                <MenuItem value="Gujarati">Gujarati</MenuItem>
+                <MenuItem value="Marathi">Marathi</MenuItem>
+                <MenuItem value="Marwadi">Marwadi</MenuItem>
+                <MenuItem value="Odia">Odia</MenuItem>
+                <MenuItem value="Konkani">Konkani</MenuItem>
+                <MenuItem value="Sindi">Sindi</MenuItem>
+                <MenuItem value="Tamil">Tamil</MenuItem>
+                <MenuItem value="Malayalam">Malayalam</MenuItem>
+                <MenuItem value="Kannada">Kannada</MenuItem>
+                <MenuItem value="Telugu">Telugu</MenuItem>
+              </Select>
+              {validationErrors.languages && (
+                <div
+                  style={{ color: "red", fontSize: "0.7rem", marginTop: "8px" }}
                 >
-                  <MenuItem value={"Star Astrologer"}>Star Astrologer</MenuItem>
-                  <MenuItem value={"verified"}>verified</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-            <Stack direction={"row"} spacing={2}>
-              <FormControl style={{ width: "150px" }}>
-                <InputLabel id="demo-simple-select-label">Skills</InputLabel>
-                <Select
-                  labelId="skills"
-                  {...register("skills")}
-                  id="skills"
-                  label="skills"
-                  defaultValue={"Love"}
+                  {validationErrors.languages}
+                </div>
+              )}
+            </FormControl>
+
+            <br />
+
+            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+              <InputLabel id="demo-simple-select-label">Skills</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                multiple
+                value={formData.skills}
+                onChange={(e) => handleChange("skills", e.target.value)}
+                label="Skills"
+                input={<Input />}
+                error={Boolean(validationErrors.skills)}
+              >
+                <MenuItem value="Vedic Astrologer">Vedic Astrologer</MenuItem>
+                <MenuItem value="Tarot">Tarot</MenuItem>
+                <MenuItem value="Numerology">Numerology</MenuItem>
+                <MenuItem value="Vaastu">Vaastu</MenuItem>
+                <MenuItem value="Palmistry">Palmistry</MenuItem>
+                <MenuItem value="Gemology">Gemology</MenuItem>
+                <MenuItem value="Lal Kitab">Lal Kitab</MenuItem>
+                <MenuItem value="Pendulam Dowsing">Pendulum Dowsing</MenuItem>
+              </Select>
+              {validationErrors.skills && (
+                <div
+                  style={{ color: "red", fontSize: "0.7rem", marginTop: "8px" }}
                 >
-                  <MenuItem value={"Love"}>Love</MenuItem>
-                  <MenuItem value={"Marriage"}>Marriage</MenuItem>
-                  <MenuItem value={"Career"}>Career</MenuItem>
-                  <MenuItem value={"Life"}>Life</MenuItem>
-                  <MenuItem value={"Business"}>Business</MenuItem>
-                  <MenuItem value={"Health"}>Health</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl style={{ width: "150px" }}>
-                <InputLabel id="demo-simple-select-label">Ratings</InputLabel>
-                <Select
-                  labelId="ratings"
-                  {...register("ratings")}
-                  id="ratings"
-                  label="ratings"
-                  defaultValue={"5"}
-                >
-                  <MenuItem value={"1"}>1</MenuItem>
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"3"}>3</MenuItem>
-                  <MenuItem value={"3.5"}>3.5</MenuItem>
-                  <MenuItem value={"4"}>4</MenuItem>
-                  <MenuItem value={"4.5"}>4.5</MenuItem>
-                  <MenuItem value={"5"}>5</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label="divide"
-                type="number"
-                placeholder="Enter divide"
-                {...register("divide")}
-                error={!!errors.divide}
-                helperText={errors.divide?.message}
+                  {validationErrors.skills}
+                </div>
+              )}
+            </FormControl>
+          </div>
+        </div>
+
+        <div className="image-section">
+          <TextField
+            sx={{ minWidth: 400 }}
+            label="introduction"
+            value={formData.introduction}
+            onChange={(e) => handleChange("introduction", e.target.value)}
+            error={Boolean(validationErrors.introduction)}
+            helperText={validationErrors.introduction}
+          />
+          <input
+            accept="image/*"
+            id="profile-picture-input"
+            type="file"
+            onChange={handleProfilePictureChange}
+            style={{ display: "none" }}
+          />
+
+          {validationErrors.profile && (
+            <div style={{ color: "red", fontSize: "0.8rem", marginTop: "8px" }}>
+              {validationErrors.profile}
+            </div>
+          )}
+
+          {formData.profile && (
+            <div className="profile-picture-container">
+              <img
+                src={URL.createObjectURL(formData.profile)}
+                alt="Profile"
+                className="profile-picture-thumbnail"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  margin: "5px",
+                  borderRadius: "50px",
+                  border: "2px solid gray",
+                }}
               />
-            </Stack>
-            <h2>Specialties</h2>
-            <FormGroup>
-              <Stack direction={"row"}>
-                {[
-                  "Love",
-                  "Marriage",
-                  "Career",
-                  "Life",
-                  "Business",
-                  "Health",
-                ].map((specialty) => (
-                  <FormControlLabel
-                    key={specialty}
-                    control={
-                      <Checkbox
-                        {...register("specialties", {
-                          shouldUnregister: false,
-                        })}
-                        value={specialty}
-                      />
-                    }
-                    label={specialty}
-                  />
-                ))}
-              </Stack>
-            </FormGroup> */}
-            <Button variant="contained" type="submit">
-              Submit
-            </Button>
-          </Stack>
-        </form>
-      )}
+            </div>
+          )}
+
+          <label htmlFor="profile-picture-input">
+            <Button component="span">Upload Profile Picture</Button>
+          </label>
+
+          <input
+            accept="image/*"
+            id="gallery-images-input"
+            type="file"
+            multiple
+            onChange={handleGalleryImageChange}
+            style={{ display: "none" }}
+            maxLength={5}
+          />
+          {validationErrors.gallery && (
+            <div style={{ color: "red", fontSize: "0.8rem", marginTop: "8px" }}>
+              {validationErrors.gallery}
+            </div>
+          )}
+
+          <div className="gallery-images-container">
+            {formData.gallery.map((image, index) => (
+              <div key={index} className="gallery-image-thumbnail">
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Gallery Image ${index + 1}`}
+                  style={{
+                    width: "60px",
+                    height: "auto",
+                    objectFit: "fill",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <label htmlFor="gallery-images-input">
+            <Button component="span">Upload Gallery Images</Button>
+          </label>
+
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{ width: "300px", height: "auto", fontSize: "16px" }}
+          >
+            REGISTER
+          </Button>
+        </div>
+      </div>
     </>
   );
 };

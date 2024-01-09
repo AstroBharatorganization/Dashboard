@@ -8,7 +8,6 @@ import { Alert, AlertTitle } from "@mui/material";
 import DataTable from "../../components/dataTable/DataTable.component";
 import OnboardingForm from "../../components/onboaringForm/OnboardingForm.component";
 // services
-import { GetMasters } from "../../services/master.service";
 
 // Data
 // import { master } from "../../data";
@@ -50,7 +49,7 @@ export interface PaginationModel {
   page: number;
 }
 const Masters = () => {
-  const [open, setOpen] = useState<boolean>();
+  const [open, setOpen] = useState<boolean>(false);
   const [masters, setMasters] = useState<object[]>([]);
 
   const [status, setStatus] = useState<Status>({
@@ -60,36 +59,39 @@ const Masters = () => {
   });
   useEffect(() => {
     const fetchData = async () => {
-      const data = await GetMasters().catch((error) => {
+      try {
+        // Fetch the master's list data from your API or data source
+        const response = await fetch("your_api_endpoint");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        setMasters(data);
+      } catch (error) {
         console.error("Error fetching data:", error);
-        return [] as object[];
-      });
-      setMasters(() => data);
-      console.log("data", data);
+        setMasters([]); // Set an empty array or handle error as needed
+      }
     };
 
     fetchData();
-  }, [open]);
+  }, [open, status]);
+
+  const handleToggleForm = () => {
+    setOpen(!open);
+  };
 
   return (
     <div className="masters">
-      {status.visible ? (
-        status.error ? (
-          <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-            This is an error alert — <strong>check it out!</strong>
-          </Alert>
-        ) : (
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            This is an error alert — <strong>hurre</strong>
-          </Alert>
-        )
-      ) : (
-        ""
+      {status.visible && (
+        <Alert severity={status.isError ? "error" : "success"}>
+          <AlertTitle>{status.isError ? "Error" : "Success"}</AlertTitle>
+          {status.error}
+        </Alert>
       )}
+
       <div className="info">
-        <button onClick={() => setOpen(!open)}>
+        <button onClick={handleToggleForm}>
           {open ? "Back" : "Add New Master"}
         </button>
         <h1>Masters</h1>
