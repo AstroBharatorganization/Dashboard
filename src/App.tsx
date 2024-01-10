@@ -8,7 +8,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 // pages
 import Home from "./pages/home/Home.page";
 import Login from "./pages/login/Login.page";
-import Masters from "./pages/masters/masters.screen";
+import Masters from "./pages/masters/Masters.screen";
+import Update from "./pages/update/Update.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -52,10 +53,10 @@ function App() {
           path: "masters",
           element: <Masters />,
         },
-        // {
-        //   path: "users",
-        //   element: <Users />,
-        // },
+        {
+          path: "update/:id",
+          element: <Update />,
+        },
         // {
         //   path: "/products",
         //   element: <Products />,

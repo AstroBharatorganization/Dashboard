@@ -1,110 +1,23 @@
-// Styles
-import "./dataTable.style.scss";
-// Libraries
-// import { Link } from "react-router-dom";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// components
-// import { PaginationModel } from "../../pages/masters/masters.screen";
+import * as React from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-type Props = {
+interface DataTableProps {
   columns: GridColDef[];
-  rows: object[];
-  slug: string;
-  // paginationModel: PaginationModel;
-  // setPaginationModel: React.Dispatch<React.SetStateAction<PaginationModel>>;
-};
+  rows: Object[];
+}
 
-const DataTable = (props: Props) => {
-  // TEST THE API
+const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
+  const getRowId = (row: any) => row._id;
 
-  // const queryClient = useQueryClient();
-  // const mutation = useMutation({
-  //   mutationFn: (id: number) => {
-  //     return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
-  //       method: "delete",
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries([`all${props.slug}`]);
-  //   },
-  // });
-
-  // const handleDelete = (id: number) => {
-  //   //delete the item
-  //   mutation.mutate(id);
-  //   // console.log("deleted", id);
-  // };
-
-  // const actionColumn: GridColDef = {
-  //   field: "action",
-  //   headerName: "Action",
-  //   width: 200,
-  //   renderCell: (params) => {
-  //     return (
-  //       <div className="action">
-  //         <Link to={`/${props.slug}/${params.row.id}`}>
-  //           <img src="/view.svg" alt="" />
-  //         </Link>
-  //         <div className="delete" onClick={() => handleDelete(params.row.id)}>
-  //           <img src="/delete.svg" alt="" />
-  //         </div>
-  //       </div>
-  //     );
-  //   },
-  // };
-  // actionColumn
-
+  console.log(rows);
   return (
-    <div className="dataTable">
+    <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns]}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
-        }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        pageSizeOptions={[5]}
+        rows={rows}
+        columns={columns}
+        getRowId={getRowId}
         checkboxSelection
-        disableRowSelectionOnClick
-        disableDensitySelector
       />
-      {/* <DataGrid
-        className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns]}
-        // initialState={{
-        //   pagination: {
-        //     paginationModel: {
-        //       pageSize: 10,
-        //     },
-        //   },
-        // }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        paginationModel={props.paginationModel}
-        onPaginationModelChange={props.setPaginationModel}
-        // pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        disableDensitySelector
-      /> */}
     </div>
   );
 };

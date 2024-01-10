@@ -8,6 +8,11 @@ export const pokemonApi = createApi({
     baseUrl: "http://localhost:8080/api/v1/dashboard",
   }),
   endpoints: (builder) => ({
+    // get astrologers
+    getAstrologers: builder.query({
+      query: () => "/astrologer/all",
+    }),
+
     // post register
     createAstrologer: builder.mutation<any, any>({
       query: (astrologer) => ({
@@ -19,4 +24,5 @@ export const pokemonApi = createApi({
   }),
 });
 
-export const { useCreateAstrologerMutation } = pokemonApi;
+export const { useCreateAstrologerMutation, useGetAstrologersQuery } =
+  pokemonApi;

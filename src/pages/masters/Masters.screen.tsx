@@ -4,50 +4,60 @@ import "./masters.style.scss";
 import { useState, useEffect } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { Alert, AlertTitle } from "@mui/material";
+import { Link } from "react-router-dom";
+
 // Components
 import DataTable from "../../components/dataTable/DataTable.component";
 import OnboardingForm from "../../components/onboaringForm/OnboardingForm.component";
 // services
 
-// Data
-// import { master } from "../../data";
+import { useGetAstrologersQuery } from "../../services/master.service";
 
 const columns: GridColDef[] = [
-  { field: "badge", headerName: "Badge", width: 150 },
-  { field: "contract", headerName: "Contract", width: 150 },
-  { field: "country", headerName: "Country", width: 150 },
-  { field: "created", headerName: "Created", width: 150 },
-  { field: "cutPrice", headerName: "Cut Price", width: 150 },
-  { field: "divide", headerName: "Divide", width: 150 },
-  { field: "email", headerName: "Email", width: 150 },
-  { field: "experience", headerName: "Experience", width: 150 },
-  { field: "followers", headerName: "Followers", width: 150 },
-  { field: "free", headerName: "Free", width: 150 },
-  { field: "gender", headerName: "Gender", width: 200 },
-  { field: "masterCategories", headerName: "Master Categories", width: 250 },
-  { field: "masterDateOfBirth", headerName: "Date of Birth", width: 200 },
-  { field: "masterIntroduction", headerName: "Introduction", width: 200 },
-  { field: "masterName", headerName: "Master Name", width: 200 },
-  { field: "mid", headerName: "ID", width: 90 },
-  { field: "phoneNumber", headerName: "Phone Number", width: 200 },
-  { field: "price", headerName: "Price", width: 200 },
-  { field: "profile_url", headerName: "Profile URL", width: 200 },
-  { field: "ratings", headerName: "Ratings", width: 200 },
-  { field: "registrationDate", headerName: "Registration Date", width: 200 },
-  { field: "segments", headerName: "Segments", width: 200 },
-  { field: "skills", headerName: "Skills", width: 200 },
-  { field: "status", headerName: "Status", width: 200 },
-  { field: "tags", headerName: "Tags", width: 200 },
+  {
+    field: "profileImage",
+    headerName: "",
+    width: 75,
+    renderCell: (params) => (
+      <img
+        src={
+          params.value && params.value.url
+            ? params.value.url
+            : "https://example.com/default-image.jpg"
+        }
+        alt="Profile"
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 50,
+          border: "2px solid #ccc",
+          objectFit: "cover",
+        }}
+      />
+    ),
+  },
+  { field: "_id", headerName: "ID", width: 150 },
+  { field: "aid", headerName: "aid", width: 150 },
+  { field: "name", headerName: "Name", width: 150 },
+  { field: "mostTrusted", headerName: "Most Trusted", width: 150 },
+  { field: "callStatus", headerName: "Call Status", width: 150 },
+  {
+    field: "updateButton",
+    headerName: "Update",
+    width: 150,
+    renderCell: (params) => (
+      <Link to={`/update/${params.row._id}`}>
+        <button>Update</button>
+      </Link>
+    ),
+  },
 ];
 interface Status {
   visible: boolean;
   isError: boolean;
   error: string;
 }
-export interface PaginationModel {
-  pageSize: number;
-  page: number;
-}
+
 const Masters = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [masters, setMasters] = useState<object[]>([]);
@@ -57,25 +67,23 @@ const Masters = () => {
     isError: false,
     error: "",
   });
+
+  const { data: astrologers = [], refetch: refetchAstrologers } =
+    useGetAstrologersQuery("");
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch the master's list data from your API or data source
-        const response = await fetch("your_api_endpoint");
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
+    if (astrologers.data) {
+      setMasters(astrologers.data);
+    }
+  }, [astrologers]);
 
-        const data = await response.json();
-        setMasters(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setMasters([]); // Set an empty array or handle error as needed
-      }
-    };
+  console.log(masters);
 
-    fetchData();
-  }, [open, status]);
+  useEffect(() => {
+    if (open || status.isError === false) {
+      refetchAstrologers();
+    }
+  }, [open, status, refetchAstrologers]);
 
   const handleToggleForm = () => {
     setOpen(!open);
@@ -94,14 +102,21 @@ const Masters = () => {
         <button onClick={handleToggleForm}>
           {open ? "Back" : "Add New Master"}
         </button>
-        <h1>Masters</h1>
       </div>
 
       {open ? (
-        <OnboardingForm setStatus={setStatus} />
+        <div>
+          <h2>Master Registration</h2>
+          <OnboardingForm setStatus={setStatus} />
+        </div>
       ) : (
         <div className="table">
-          <DataTable slug="products" columns={columns} rows={masters} />
+          <h2>Masters</h2>
+          {masters.length > 0 ? (
+            <DataTable columns={columns} rows={masters} />
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
       )}
     </div>
