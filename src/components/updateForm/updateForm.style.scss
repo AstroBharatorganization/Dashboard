@@ -1,0 +1,33 @@
+@import "../../styles/variables.style.scss";
+
+
+ 
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  .form-column {
+    width: 48%;  // Adjust the width as needed
+    margin-right: 2%;  // Adjust the margin between columns as needed
+
+    // Add additional styling for each column if necessary
+    > div {
+      margin-bottom: 2px;  // Adjust the spacing between form fields as needed
+    }
+
+    // Style for labels and error messages
+    label, div[style*="red"] {
+      margin-top: 8px;
+    }
+
+    // Style for select boxes
+    .MuiFormControl-root {
+      width: 100%;
+    }
+  }
+}
+
+.button {
+  margin-top: 16px;  // Adjust the spacing between the form and the button as needed
+}

@@ -15,7 +15,7 @@ import { useGetAstrologersQuery } from "../../services/master.service";
 
 const columns: GridColDef[] = [
   {
-    field: "profileImage",
+    field: "profile",
     headerName: "",
     width: 75,
     renderCell: (params) => (

@@ -21,8 +21,22 @@ export const pokemonApi = createApi({
         body: astrologer,
       }),
     }),
+
+    // update astrologer
+
+    updateAstrologer: builder.mutation<any, any>({
+      query: ({ _id, updatedAstrologer }) => ({
+        
+        url: `/astrologer/update/${_id}`,
+        method: "PUT",
+        body: updatedAstrologer,
+      }),
+    }),
   }),
 });
 
-export const { useCreateAstrologerMutation, useGetAstrologersQuery } =
-  pokemonApi;
+export const {
+  useCreateAstrologerMutation,
+  useGetAstrologersQuery,
+  useUpdateAstrologerMutation,
+} = pokemonApi;

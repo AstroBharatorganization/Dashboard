@@ -45,6 +45,16 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
     experience: 0,
     country: "",
     skills: [],
+    rating: 0,
+    mostTrusted: false,
+    hideInApp: false,
+    hideInDashboard: false,
+    fees: {
+      call: {
+        cut: 0,
+        full: 0,
+      },
+    },
   });
 
   const [validationErrors, setValidationErrors] = useState<
