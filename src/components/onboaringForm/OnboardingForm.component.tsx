@@ -94,6 +94,18 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
             formData.gallery.forEach((image) => {
               formDataWithFiles.append("gallery", image);
             });
+          } else if (key === "skills") {
+            formData.skills.forEach((value) => {
+              formDataWithFiles.append("skills", value);
+            });
+          } else if (key === "specialties") {
+            formData.specialties.forEach((value) => {
+              formDataWithFiles.append("specialties", value);
+            });
+          } else if (key === "languages") {
+            formData.languages.forEach((value) => {
+              formDataWithFiles.append("languages", value);
+            });
           } else {
             formDataWithFiles.append(key, value);
           }
