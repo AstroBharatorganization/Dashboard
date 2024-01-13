@@ -1,47 +1,68 @@
 import React from "react";
-
-import { useGetAstrologersQuery, useUpdateAstrologerMutation } from "../../services/master.service";
+import {
+  useGetAstrologersQuery,
+  useUpdateAstrologerMutation,
+} from "../../services/master.service";
 import { useParams } from "react-router-dom";
 import UpdateForm from "../../components/updateForm/UpdateForm.component";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+
+
+
 const Update: React.FC = () => {
   const { id } = useParams();
+  const { data: astrologer,isFetching } = useGetAstrologersQuery();
+  const navigate = useNavigate();
 
-  console.log(id);
-  const { data: astrologer, isLoading, error } = useGetAstrologersQuery([]);
-  let selectedAstrologer: any = null;
+  let selectedAstrologer
+
   if (astrologer) {
     selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
-
     console.log(selectedAstrologer);
   }
 
-  const [updateAstrologer] =
-  useUpdateAstrologerMutation();
+  const [updatedAstrologer, { isLoading: isUpdating }] =
+    useUpdateAstrologerMutation();
 
-  const handleFormSubmit = async(values: any) => {
+    console.log(updatedAstrologer,"update")
+
+  const handleFormSubmit = async (values: any) => {
+    console.log(values, "in page");
+
     try {
-      // Make the update request using the updateAstrologer mutation
-      const updatedAstrologer = await updateAstrologer({
+      await updatedAstrologer({
         _id: id,
-        name:name,
-        // Include any other fields you want to update
-        // This should match the fields available in the AstrologerFormData interface
-        ...values,
+        updatedAstrologer: values,
       }).unwrap();
+      toast.success("Updated successfully!");
 
-      console.log("Astrologer updated successfully:", updatedAstrologer);
+      setTimeout(() => {
+        navigate("/masters");
+      }, 4000);
     } catch (error) {
+      toast.error("Update Failed.. Please try again.");
       console.error("Error updating astrologer:", error);
     }
   };
 
   return (
     <div>
-      <h2>update</h2>
-      {selectedAstrologer && (
+      <ToastContainer position="top-right" autoClose={3000} />
+      <h2>Update</h2>
+      {isFetching && (
+        <div style={{ textAlign: "center" }}>
+          <CircularProgress size={100} />
+        </div>
+      )}
+
+      {!isFetching && selectedAstrologer && (
         <UpdateForm
           astrologer={selectedAstrologer}
           onSubmit={handleFormSubmit}
+          isUpdating={isUpdating}
         />
       )}
     </div>

@@ -16,15 +16,21 @@ export interface AstrologerFormData {
   fullCallFee: number;
   CutCallFee: number;
   skills: string[];
-  rating:number;
-  mostTrusted:boolean;
-  hideInApp:boolean;
-  hideInDashboard:boolean;
+  rating: number;
+  mostTrusted: boolean;
+  hideInApp: boolean;
+  hideInDashboard: boolean;
   fees: {
     call: {
       cut: number;
       full: number;
     };
-   
   };
+}
+
+export interface GetAstrologers {
+  message: string;
+  status: number;
+  success: boolean;
+  data: AstrologerFormData[];
 }

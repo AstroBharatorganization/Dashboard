@@ -326,7 +326,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
               </Select>
             </FormControl>
             <br />
-            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
               <InputLabel id="demo-simple-select-label">Specialties</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -335,7 +335,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
                 value={formData.specialties}
                 onChange={(e) => handleChange("specialties", e.target.value)}
                 label="Specialties"
-                input={<Input />}
+                // input={<Input />}
                 error={Boolean(validationErrors.specialties)}
               >
                 <MenuItem value="Love">Love</MenuItem>
@@ -356,7 +356,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
 
             <br />
 
-            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
               <InputLabel id="demo-simple-select-label">Languages</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -365,7 +365,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
                 value={formData.languages}
                 onChange={(e) => handleChange("languages", e.target.value)}
                 label="languages"
-                input={<Input />}
+                // input={<Input />}
                 error={Boolean(validationErrors.languages)}
               >
                 <MenuItem value="English">English</MenuItem>
@@ -394,7 +394,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
 
             <br />
 
-            <FormControl sx={{ minWidth: 120, mt: 2 }}>
+            <FormControl sx={{ minWidth: 222, mt: 2 }}>
               <InputLabel id="demo-simple-select-label">Skills</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -403,7 +403,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
                 value={formData.skills}
                 onChange={(e) => handleChange("skills", e.target.value)}
                 label="Skills"
-                input={<Input />}
+                // input={<Input />}
                 error={Boolean(validationErrors.skills)}
               >
                 <MenuItem value="Vedic Astrologer">Vedic Astrologer</MenuItem>

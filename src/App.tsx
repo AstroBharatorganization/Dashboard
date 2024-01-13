@@ -10,6 +10,7 @@ import Home from "./pages/home/Home.page";
 import Login from "./pages/login/Login.page";
 import Masters from "./pages/masters/Masters.screen";
 import Update from "./pages/update/Update.page";
+import Users from "./pages/user/Users.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -57,10 +58,10 @@ function App() {
           path: "update/:id",
           element: <Update />,
         },
-        // {
-        //   path: "/products",
-        //   element: <Products />,
-        // },
+        {
+          path: "/users",
+          element: <Users />,
+        },
         // {
         //   path: "/users/:id",
         //   element: <User />,

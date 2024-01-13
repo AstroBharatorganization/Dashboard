@@ -3,7 +3,7 @@ import "./masters.style.scss";
 // Libraries
 import { useState, useEffect } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 
 // Components
@@ -68,16 +68,23 @@ const Masters = () => {
     error: "",
   });
 
-  const { data: astrologers = [], refetch: refetchAstrologers } =
-    useGetAstrologersQuery("");
+  const {
+    data: GetAstrologer,
+    refetch: refetchAstrologers,
+    isFetching,
+    
+  } = useGetAstrologersQuery();
+
+  console.log(GetAstrologer, "at data");
 
   useEffect(() => {
-    if (astrologers.data) {
-      setMasters(astrologers.data);
+    if (GetAstrologer) {
+      setMasters(GetAstrologer.data);
+      console.log(masters);
     }
-  }, [astrologers]);
+  }, [GetAstrologer]);
 
-  console.log(masters);
+  console.log(masters, "ss");
 
   useEffect(() => {
     if (open || status.isError === false) {
@@ -112,10 +119,14 @@ const Masters = () => {
       ) : (
         <div className="table">
           <h2>Masters</h2>
-          {masters.length > 0 ? (
+          {isFetching ? (
+            <div style={{ textAlign: "center" }}>
+              <CircularProgress size={100} />
+            </div>
+          ) : masters.length ? (
             <DataTable columns={columns} rows={masters} />
           ) : (
-            <p>Loading...</p>
+            <p>No masters available.</p>
           )}
         </div>
       )}

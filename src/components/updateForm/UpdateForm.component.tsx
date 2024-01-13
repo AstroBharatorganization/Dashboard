@@ -13,16 +13,19 @@ import {
   FormControlLabel,
   Checkbox,
   Avatar,
+  CircularProgress,
 } from "@mui/material";
 
 interface AstrologerEditFormProps {
   astrologer: AstrologerFormData;
   onSubmit: (values: any) => void;
+  isUpdating: boolean;
 }
 
 const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   astrologer,
   onSubmit,
+  isUpdating,
 }) => {
   console.log(astrologer, "at display");
   const validationSchema = Yup.object().shape({
@@ -38,12 +41,9 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
     // .required("Full Call Fee is required")
     // .min(0, "Full Fee cannot be negative"),
 
-    
     // cutCallfee:Yup.number()
     // .required("Call Cut Fee is required")
     // .min(0, "Call Cut Fee cannot be negative"),
-
-
 
     rating: Yup.number()
       .typeError("Please enter a valid number for rating.")
@@ -105,6 +105,11 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="form-container">
+        {isUpdating && (
+          <div style={{ textAlign: "center" }}>
+            <CircularProgress />
+          </div>
+        )}
         <div className="form-column">
           <TextField
             label="Name"
@@ -396,7 +401,7 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
 
         <div className="form-column">
           <div>
-            {astrologer.profile&& "url" in astrologer.profile && (
+            {astrologer.profile && "url" in astrologer.profile && (
               <Avatar
                 alt={astrologer.name}
                 src={astrologer.profile.url as string}
