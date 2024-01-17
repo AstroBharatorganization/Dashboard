@@ -11,8 +11,8 @@ export const pokemonApi = createApi({
   }),
   endpoints: (builder) => ({
     // get astrologers
-    getAstrologers: builder.query<GetAstrologers, void>({
-      query: () => "/astrologer/all",
+    getAstrologers: builder.query<GetAstrologers, number>({
+      query: (page = 1) => `/astrologer/all?page=${page}`,
     }),
 
     // post register
@@ -31,6 +31,16 @@ export const pokemonApi = createApi({
         url: `/astrologer/update/${_id}`,
         method: "PUT",
         body: updatedAstrologer,
+      }),
+    }),
+
+    // search user
+
+    searchAstrologers: builder.query<GetAstrologers, object>({
+      query: (filters) => ({
+        url: "/astrologer/search",
+        method: "POST",
+        body: filters,
       }),
     }),
 
@@ -57,4 +67,5 @@ export const {
   useUpdateAstrologerMutation,
   useGetUsersQuery,
   useLazySearchUsersQuery,
+  useLazySearchAstrologersQuery,
 } = pokemonApi;

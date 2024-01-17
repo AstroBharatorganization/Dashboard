@@ -27,7 +27,6 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   onSubmit,
   isUpdating,
 }) => {
-  console.log(astrologer, "at display");
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -92,19 +91,28 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
       hideInApp: astrologer.hideInApp || false,
       cutCallFee: astrologer.fees.call.cut,
       fullCallFee: astrologer.fees.call.full,
+      profile: astrologer.profile,
+      new: null,
     },
+
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log("formik.handleSubmit called with values:", values);
-      console.log("formik.errors:", formik.errors);
-      console.log("formik.touched:", formik.touched);
+    onSubmit: async (values) => {
+      console.log(values);
+
       onSubmit(values);
     },
   });
 
+  const handleProfilePictureChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    formik.setFieldValue("new", file);
+  };
+
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="form-container">
+      <form onSubmit={formik.handleSubmit} className="form-container" encType="multipart/form-data">
         {isUpdating && (
           <div style={{ textAlign: "center" }}>
             <CircularProgress />
@@ -407,6 +415,43 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
                 src={astrologer.profile.url as string}
                 sx={{ width: 100, height: 100 }}
               />
+            )}
+
+            <input
+              accept="image/*"
+              id="profile-picture-input"
+              type="file"
+              onChange={handleProfilePictureChange}
+              style={{ display: "none" }}
+            />
+
+            {formik.values.new && (
+              <div className="profile-picture-container">
+                <img
+                  src={URL.createObjectURL(formik.values.new)}
+                  alt="Profile"
+                  className="profile-picture-thumbnail"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    margin: "5px",
+                    borderRadius: "50px",
+                    border: "2px solid gray",
+                  }}
+                />
+              </div>
+            )}
+
+            <label htmlFor="profile-picture-input">
+              <Button component="span">Upload Profile Picture</Button>
+            </label>
+
+            {formik.errors.profile && (
+              <div
+                style={{ color: "red", fontSize: "0.8rem", marginTop: "8px" }}
+              >
+                {formik.errors.profile}
+              </div>
             )}
           </div>
         </div>

@@ -17,7 +17,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Input,
   Button,
 } from "@mui/material";
 
@@ -70,7 +69,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    handleChange("profile", file);
+    handleChange("new", file);
   };
 
   const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

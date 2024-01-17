@@ -14,24 +14,23 @@ import { CircularProgress } from "@mui/material";
 
 const Update: React.FC = () => {
   const { id } = useParams();
-  const { data: astrologer,isFetching } = useGetAstrologersQuery();
+  const { data: astrologer,isFetching } = useGetAstrologersQuery(1);
   const navigate = useNavigate();
 
   let selectedAstrologer
 
   if (astrologer) {
     selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
-    console.log(selectedAstrologer);
+    
   }
 
   const [updatedAstrologer, { isLoading: isUpdating }] =
     useUpdateAstrologerMutation();
 
-    console.log(updatedAstrologer,"update")
+  
 
   const handleFormSubmit = async (values: any) => {
-    console.log(values, "in page");
-
+   
     try {
       await updatedAstrologer({
         _id: id,

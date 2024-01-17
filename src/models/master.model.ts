@@ -30,6 +30,7 @@ export interface AstrologerFormData {
 
 export interface GetAstrologers {
   message: string;
+  length:number;
   status: number;
   success: boolean;
   data: AstrologerFormData[];

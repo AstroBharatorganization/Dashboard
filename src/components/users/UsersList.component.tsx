@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useGetUsersQuery } from "../../services/master.service";
 import "./usersList.style.scss";
-import { Pagination, CircularProgress, TextField, Button } from "@mui/material";
+import { Pagination, CircularProgress } from "@mui/material";
 
 const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isFetching, isSuccess, isError, error } =
-    useGetUsersQuery(currentPage);
-
-  console.log(data);
+  const { data, isFetching } = useGetUsersQuery(currentPage);
 
   const usersLength = data?.length || 0;
   let limit = 10;
@@ -21,8 +18,6 @@ const UsersList = () => {
 
   return (
     <div className="user">
-      <h2>Users </h2>
-
       {isFetching ? (
         <div style={{ textAlign: "center" }}>
           <CircularProgress size={100} />

@@ -23,5 +23,22 @@
     align-items: center;
     margin-top: 20px;
   }
+
+
+
+  .user-search-results-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  .no-users-found-message {
+    font-size: 25px;
+    color: #555; 
+    padding: 20px;
+    text-align: center;
+  }
+  
   
  

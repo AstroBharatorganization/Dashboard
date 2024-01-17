@@ -1,22 +1,34 @@
 import React from "react";
+import "./usersList.style.scss";
+import { GetUsers } from "../../models/users.model";
 
 interface UserSearchResultsProps {
-  results: any;
+  results: GetUsers;
 }
 
 const UsersSearchResult: React.FC<UserSearchResultsProps> = ({ results }) => {
-
-  console.log(results ,"at search")
   return (
-    <div>
-      <h2>Search Results</h2>
-      <ul>
-        {/* {results.map((user:any) => (
-        <li key={user._id}>
-          <strong>{user.username}</strong> - {user.wallet}
-        </li>
-      ))} */}
-      </ul>
+    <div className="user-search-results-container">
+      {results.data.length === 0 ? (
+        <div className="no-users-found-message">No users found</div>
+      ) : (
+        <table className="user-table">
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Wallet Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.data.map((user: any) => (
+              <tr key={user._id}>
+                <td>{user.username}</td>
+                <td>{user.wallet}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
