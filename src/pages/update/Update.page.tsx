@@ -3,34 +3,36 @@ import {
   useGetAstrologersQuery,
   useUpdateAstrologerMutation,
 } from "../../services/master.service";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import UpdateForm from "../../components/updateForm/UpdateForm.component";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
-
-
 const Update: React.FC = () => {
   const { id } = useParams();
-  const { data: astrologer,isFetching } = useGetAstrologersQuery(1);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const page = queryParams.get("page") ?? "1";
+
+  console.log(page, "at update");
+
+  const { data: astrologer, isFetching } = useGetAstrologersQuery(
+    parseInt(page, 10) || 1
+  );
   const navigate = useNavigate();
 
-  let selectedAstrologer
+  let selectedAstrologer;
 
   if (astrologer) {
     selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
-    
   }
 
   const [updatedAstrologer, { isLoading: isUpdating }] =
     useUpdateAstrologerMutation();
 
-  
-
   const handleFormSubmit = async (values: any) => {
-   
     try {
       await updatedAstrologer({
         _id: id,

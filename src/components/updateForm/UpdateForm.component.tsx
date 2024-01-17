@@ -112,7 +112,11 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className="form-container" encType="multipart/form-data">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="form-container"
+        encType="multipart/form-data"
+      >
         {isUpdating && (
           <div style={{ textAlign: "center" }}>
             <CircularProgress />

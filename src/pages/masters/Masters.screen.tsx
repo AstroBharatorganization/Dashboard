@@ -16,45 +16,6 @@ import {
   useLazySearchAstrologersQuery,
 } from "../../services/master.service";
 
-const columns: GridColDef[] = [
-  {
-    field: "profile",
-    headerName: "",
-    width: 75,
-    renderCell: (params) => (
-      <img
-        src={
-          params.value && params.value.url
-            ? params.value.url
-            : "https://example.com/default-image.jpg"
-        }
-        alt="Profile"
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 50,
-          border: "2px solid #ccc",
-          objectFit: "cover",
-        }}
-      />
-    ),
-  },
-  { field: "_id", headerName: "ID", width: 150 },
-  { field: "aid", headerName: "aid", width: 150 },
-  { field: "name", headerName: "Name", width: 150 },
-  { field: "mostTrusted", headerName: "Most Trusted", width: 150 },
-  { field: "callStatus", headerName: "Call Status", width: 150 },
-  {
-    field: "updateButton",
-    headerName: "Update",
-    width: 150,
-    renderCell: (params) => (
-      <Link to={`/update/${params.row._id}`}>
-        <button>Update</button>
-      </Link>
-    ),
-  },
-];
 interface Status {
   visible: boolean;
   isError: boolean;
@@ -72,6 +33,46 @@ const Masters = () => {
     isError: false,
     error: "",
   });
+
+  const columns: GridColDef[] = [
+    {
+      field: "profile",
+      headerName: "",
+      width: 75,
+      renderCell: (params) => (
+        <img
+          src={
+            params.value && params.value.url
+              ? params.value.url
+              : "https://example.com/default-image.jpg"
+          }
+          alt="Profile"
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 50,
+            border: "2px solid #ccc",
+            objectFit: "cover",
+          }}
+        />
+      ),
+    },
+    { field: "_id", headerName: "ID", width: 150 },
+    { field: "aid", headerName: "aid", width: 150 },
+    { field: "name", headerName: "Name", width: 150 },
+    { field: "mostTrusted", headerName: "Most Trusted", width: 150 },
+    { field: "callStatus", headerName: "Call Status", width: 150 },
+    {
+      field: "updateButton",
+      headerName: "Update",
+      width: 150,
+      renderCell: (params) => (
+        <Link to={`/update/${params.row._id}?page=${currentPage}`}>
+          <button>Update</button>
+        </Link>
+      ),
+    },
+  ];
 
   interface Filters {
     name: string;
@@ -143,7 +144,6 @@ const Masters = () => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
   };
-
 
   return (
     <div className="masters">
@@ -283,16 +283,20 @@ const Masters = () => {
             </div>
           ) : masters.length ? (
             <>
-            <DataTable columns={columns} rows={masters} />
+              <DataTable
+                columns={columns}
+                rows={masters}
+                currentPage={currentPage}
+              />
 
-            <div className="pagination-container">
-            <Pagination
-              count={Math.ceil(astrologersLength / limit)}
-              page={currentPage}
-              onChange={handleChange}
-            />
-          </div>
-          </>
+              <div className="pagination-container">
+                <Pagination
+                  count={Math.ceil(astrologersLength / limit)}
+                  page={currentPage}
+                  onChange={handleChange}
+                />
+              </div>
+            </>
           ) : (
             <div style={{ textAlign: "center" }}>
               <p>No masters available.</p>

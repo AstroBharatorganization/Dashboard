@@ -4,9 +4,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 interface DataTableProps {
   columns: GridColDef[];
   rows: Object[];
+  currentPage: number;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
+const DataTable: React.FC<DataTableProps> = ({
+  columns,
+  rows,
+  currentPage,
+}) => {
   const getRowId = (row: any) => row._id;
 
   console.log(rows);
