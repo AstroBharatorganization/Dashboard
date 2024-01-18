@@ -5,6 +5,9 @@ import "./styles/global.style.scss";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // pages
 import Home from "./pages/home/Home.page";
 import Login from "./pages/login/Login.page";
@@ -17,9 +20,19 @@ import Navbar from "./components/navbar/Navbar.component";
 import Footer from "./components/footer/Footer.component";
 import Menu from "./components/menu/Menu.component";
 
+import { useAppDispatch } from "./store/hooks";
+import { useEffect } from "react";
+import { setAdmin } from "./features/authSlice.ts";
+
 const queryClient = new QueryClient();
 
 function App() {
+  const dispatch = useAppDispatch();
+  const admin = JSON.parse(localStorage.getItem("admin") || "{}");
+
+  useEffect(() => {
+    dispatch(setAdmin(admin));
+  }, []);
   const Layout = () => {
     return (
       <div className="main">
@@ -62,10 +75,7 @@ function App() {
           path: "/users",
           element: <Users />,
         },
-        // {
-        //   path: "/users/:id",
-        //   element: <User />,
-        // },
+
         // {
         //   path: "/products/:id",
         //   element: <Product />,
@@ -78,7 +88,12 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

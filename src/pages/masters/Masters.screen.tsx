@@ -129,7 +129,7 @@ const Masters = () => {
     if (open || status.isError === false) {
       refetchAstrologers();
     }
-  }, [open, status, refetchAstrologers]);
+  }, [open, status, refetchAstrologers,currentPage]);
 
   const handleToggleForm = () => {
     setOpen(!open);

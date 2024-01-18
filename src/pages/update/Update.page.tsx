@@ -34,15 +34,33 @@ const Update: React.FC = () => {
 
   const handleFormSubmit = async (values: any) => {
     try {
+      console.log(values, "at page");
+
+      const formDataWithFiles = new FormData();
+
+      for (const [key, value] of Object.entries(values)) {
+        if (value instanceof File) {
+          formDataWithFiles.append("profile", value);
+        } else if (Array.isArray(value)) {
+          value.forEach((item, index) => {
+            formDataWithFiles.append(`${key}[${index}]`, item);
+          });
+        } else if (typeof value === "string") {
+          formDataWithFiles.append(key, value);
+        } else if (typeof value === "boolean" || typeof value === "number") {
+          formDataWithFiles.append(key, value.toString());
+        }
+      }
+
       await updatedAstrologer({
         _id: id,
-        updatedAstrologer: values,
+        updatedAstrologer: formDataWithFiles,
       }).unwrap();
       toast.success("Updated successfully!");
 
       setTimeout(() => {
         navigate("/masters");
-      }, 4000);
+      }, 1000);
     } catch (error) {
       toast.error("Update Failed.. Please try again.");
       console.error("Error updating astrologer:", error);

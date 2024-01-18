@@ -15,6 +15,10 @@ export const pokemonApi = createApi({
       query: (page = 1) => `/astrologer/all?page=${page}`,
     }),
 
+    
+
+    
+
     // post register
     createAstrologer: builder.mutation<AstrologerFormData, object>({
       query: (astrologer) => ({
@@ -29,7 +33,7 @@ export const pokemonApi = createApi({
     updateAstrologer: builder.mutation<AstrologerFormData, any>({
       query: ({ _id, updatedAstrologer }) => ({
         url: `/astrologer/update/${_id}`,
-        method: "PUT",
+        method: "POST",
         body: updatedAstrologer,
       }),
     }),
@@ -58,6 +62,16 @@ export const pokemonApi = createApi({
         body: { username },
       }),
     }),
+
+    // admin login
+
+    adminLogin: builder.mutation({
+      query: (credentials) => ({
+        url: "/admin/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
@@ -68,4 +82,5 @@ export const {
   useGetUsersQuery,
   useLazySearchUsersQuery,
   useLazySearchAstrologersQuery,
+  useAdminLoginMutation,
 } = pokemonApi;

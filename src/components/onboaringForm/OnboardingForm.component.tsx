@@ -69,7 +69,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    handleChange("new", file);
+    handleChange("profile", file);
   };
 
   const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +92,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
     e.preventDefault();
 
     const errors = validateForm(formData);
+
+    console.log(formData, "at form");
 
     if (Object.keys(errors).length === 0) {
       try {
@@ -237,7 +239,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
               label="Experience"
               value={formData.experience}
               onChange={(e) => {
-                const inputFee = parseFloat(e.target.value) || 0;
+                const inputFee = parseFloat(e.target.value);
                 handleChange("experience", inputFee);
               }}
               error={Boolean(validationErrors.experience)}

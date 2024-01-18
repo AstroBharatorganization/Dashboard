@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AstrologerFormData } from "@/models/master.model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,6 +27,10 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   onSubmit,
   isUpdating,
 }) => {
+
+  const [isNewImageAdded, setNewImageAdded] = useState(false);
+
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -96,9 +100,8 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
     },
 
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      console.log(values);
 
+    onSubmit: async (values) => {
       onSubmit(values);
     },
   });
@@ -108,6 +111,7 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   ) => {
     const file = e.target.files?.[0];
     formik.setFieldValue("new", file);
+    setNewImageAdded(true)
   };
 
   return (
@@ -413,7 +417,7 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
 
         <div className="form-column">
           <div>
-            {astrologer.profile && "url" in astrologer.profile && (
+            {!isNewImageAdded && astrologer.profile && "url" in astrologer.profile && (
               <Avatar
                 alt={astrologer.name}
                 src={astrologer.profile.url as string}
