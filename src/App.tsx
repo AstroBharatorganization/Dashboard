@@ -14,6 +14,7 @@ import Login from "./pages/login/Login.page";
 import Masters from "./pages/masters/Masters.screen";
 import Update from "./pages/update/Update.page";
 import Users from "./pages/user/Users.page";
+import Wallet from "./pages/wallet/Wallet.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -23,6 +24,7 @@ import Menu from "./components/menu/Menu.component";
 import { useAppDispatch } from "./store/hooks";
 import { useEffect } from "react";
 import { setAdmin } from "./features/authSlice.ts";
+
 
 const queryClient = new QueryClient();
 
@@ -76,10 +78,10 @@ function App() {
           element: <Users />,
         },
 
-        // {
-        //   path: "/products/:id",
-        //   element: <Product />,
-        // },
+        {
+          path: "/wallet",
+          element: <Wallet />,
+        },
       ],
     },
     {

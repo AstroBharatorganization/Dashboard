@@ -1,23 +1,22 @@
 // Need to use the React-specific entry point to import createApi
-import { GetUsers } from "@/models/users.model";
+import { GetUsers } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { GetSearchWallet, GetWallet } from "../models/wallet.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api/v1/dashboard",
+
+    // baseUrl:"https://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1",
   }),
   endpoints: (builder) => ({
     // get astrologers
     getAstrologers: builder.query<GetAstrologers, number>({
       query: (page = 1) => `/astrologer/all?page=${page}`,
     }),
-
-    
-
-    
 
     // post register
     createAstrologer: builder.mutation<AstrologerFormData, object>({
@@ -72,6 +71,22 @@ export const pokemonApi = createApi({
         body: credentials,
       }),
     }),
+
+    // get wallet
+
+    getWallet: builder.query<GetWallet, number>({
+      query: (page = 1) => `wallet/all?page=${page}`,
+    }),
+
+    // search wallet
+
+    getSearchWallet: builder.query<GetSearchWallet, object>({
+      query: (filters) => ({
+        url: "/wallet/search",
+        method: "POST",
+        body: filters,
+      }),
+    }),
   }),
 });
 
@@ -83,4 +98,6 @@ export const {
   useLazySearchUsersQuery,
   useLazySearchAstrologersQuery,
   useAdminLoginMutation,
+  useGetWalletQuery,
+  useLazyGetSearchWalletQuery,
 } = pokemonApi;

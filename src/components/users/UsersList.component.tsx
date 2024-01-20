@@ -13,6 +13,8 @@ const UsersList = () => {
   const users = data?.data || [];
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+
+    console.log(event)
     setCurrentPage(value);
   };
 

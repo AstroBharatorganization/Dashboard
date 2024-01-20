@@ -7,11 +7,7 @@ interface DataTableProps {
   currentPage: number;
 }
 
-const DataTable: React.FC<DataTableProps> = ({
-  columns,
-  rows,
-  currentPage,
-}) => {
+const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
   const getRowId = (row: any) => row._id;
 
   console.log(rows);

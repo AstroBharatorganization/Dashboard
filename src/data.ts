@@ -94,6 +94,12 @@ export const menu = [
                 url: "/masters",
                 icon: "guru.png",
             },
+            {
+                id: 3,
+                title: "Wallet",
+                url: "/wallet",
+                
+            },
 
         ],
     },

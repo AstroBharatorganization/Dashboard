@@ -103,8 +103,6 @@ const Masters = () => {
   const astrologersLength = GetAstrologer?.length || 0;
   let limit = 10;
 
-  console.log(astrologersLength, "at page");
-
   const [fetch, { data: searchResult, isSuccess: isSuccessSearch }] =
     useLazySearchAstrologersQuery();
 
@@ -121,15 +119,11 @@ const Masters = () => {
     }
   }, [searchResult]);
 
-  console.log(searchResult, "d");
-
-  console.log(masters, "ss");
-
   useEffect(() => {
     if (open || status.isError === false) {
       refetchAstrologers();
     }
-  }, [open, status, refetchAstrologers,currentPage]);
+  }, [open, status, refetchAstrologers, currentPage]);
 
   const handleToggleForm = () => {
     setOpen(!open);
@@ -138,10 +132,10 @@ const Masters = () => {
   const handleSearch = () => {
     setFilters(filters);
     fetch({ filters });
-    console.log(filters, "ds");
   };
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log(event);
     setCurrentPage(value);
   };
 

@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LoginRequest } from "../../models/admin.model";
 import { useAdminLoginMutation } from "../../services/master.service";
 import { useAppDispatch } from "../../store/hooks";
-import { setAdmin } from "../../features/authslice";
+import { setAdmin } from "../../features/authSlice.ts";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
