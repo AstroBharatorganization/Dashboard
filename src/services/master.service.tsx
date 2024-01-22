@@ -3,6 +3,11 @@ import { GetUsers } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetSearchWallet, GetWallet } from "../models/wallet.model";
+import { GetIncomeReport, SearchIncomeData } from "../models/income.model";
+import {
+  GetCallRecords,
+  GetSearchCallRecord,
+} from "../models/callRecord.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -87,6 +92,37 @@ export const pokemonApi = createApi({
         body: filters,
       }),
     }),
+
+    // get income
+    getIncome: builder.query<GetIncomeReport, number>({
+      query: (page = 1) => `income/all?page=${page}`,
+    }),
+
+    // search Income
+
+    getSearchIncome: builder.query<SearchIncomeData, object>({
+      query: (filters) => ({
+        url: "/income/search",
+        method: "POST",
+        body: filters,
+      }),
+    }),
+
+    // get call record
+
+    getCallRecords: builder.query<GetCallRecords, number>({
+      query: (page = 1) => `callRecord/all?page=${page}`,
+    }),
+
+    // searchCallRecord
+
+    getSearchCallRecord: builder.query<GetSearchCallRecord, object>({
+      query: (filters) => ({
+        url: "/CallRecord/search",
+        method: "POST",
+        body: filters,
+      }),
+    }),
   }),
 });
 
@@ -100,4 +136,8 @@ export const {
   useAdminLoginMutation,
   useGetWalletQuery,
   useLazyGetSearchWalletQuery,
+  useGetIncomeQuery,
+  useLazyGetSearchIncomeQuery,
+  useGetCallRecordsQuery,
+  useLazyGetSearchCallRecordQuery,
 } = pokemonApi;

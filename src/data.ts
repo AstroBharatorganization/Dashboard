@@ -100,6 +100,18 @@ export const menu = [
                 url: "/wallet",
                 
             },
+            {
+                id: 4,
+                title: "Income",
+                url: "/income",
+                
+            },
+            {
+                id: 5,
+                title: "Call Record",
+                url: "/callRecord",
+                
+            },
 
         ],
     },
