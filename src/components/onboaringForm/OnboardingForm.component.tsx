@@ -59,7 +59,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
   const [validationErrors, setValidationErrors] = useState<
     Partial<Record<keyof AstrologerFormData, string>>
   >({});
-  const [createAstrologer] = useCreateAstrologerMutation();
+  const [createAstrologer, { isSuccess }] = useCreateAstrologerMutation();
 
   const handleChange = (field: any, value: any) => {
     setFormData({ ...formData, [field]: value });
@@ -92,8 +92,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
     e.preventDefault();
 
     const errors = validateForm(formData);
-
-    console.log(formData, "at form");
 
     if (Object.keys(errors).length === 0) {
       try {
@@ -129,8 +127,10 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
           isError: false,
           error: "",
         });
-        navigate("/masters");
-        console.log("Form submitted:", formData);
+        if (isSuccess) {
+          navigate("/masters");
+          console.log("Form submitted:", formData);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -139,8 +139,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
       console.log("Validation errors:", errors);
     }
   };
-
-  console.log(formData);
 
   return (
     <>
@@ -270,7 +268,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
               label="Full Call Fee"
               value={formData.fullCallFee}
               onChange={(e) => {
-                const inputFee = parseFloat(e.target.value) || 0;
+                const inputFee = parseFloat(e.target.value);
                 handleChange("fullCallFee", inputFee);
               }}
               error={Boolean(validationErrors.fullCallFee)}
@@ -284,7 +282,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
               label="Cut Call Fee"
               value={formData.CutCallFee}
               onChange={(e) => {
-                const inputFee = parseFloat(e.target.value) || 0;
+                const inputFee = parseFloat(e.target.value);
                 handleChange("CutCallFee", inputFee);
               }}
               error={Boolean(validationErrors.CutCallFee)}

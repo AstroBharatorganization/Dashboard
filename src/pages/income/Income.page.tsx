@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Pagination, TextField } from "@mui/material";
+import { Button, CircularProgress, Pagination, TextField } from "@mui/material";
 import { Dayjs } from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,12 +23,17 @@ const Income = () => {
   });
   const [value, setValue] = React.useState<Dayjs | null>(null);
 
-  const [fetch, { data: searchResult, isSuccess: isSuccessSearch }] =
-    useLazyGetSearchIncomeQuery();
+  const [
+    fetch,
+    {
+      data: searchResult,
+      isSuccess: isSuccessSearch,
+      isFetching: isSearchFetching,
+    },
+  ] = useLazyGetSearchIncomeQuery();
 
   let searchData;
   if (isSuccessSearch && searchResult) {
-    console.log(searchResult, "result");
     searchData = searchResult.data || [];
   }
 
@@ -38,9 +43,14 @@ const Income = () => {
     isSuccess,
   } = useGetIncomeQuery(currentPage);
 
-  if (isFetching) {
-    return <p>Loading...</p>;
+  if (isFetching || isSearchFetching) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <CircularProgress size={100} />
+      </div>
+    );
   }
+
   let incomeTableData;
   if (isSuccess) {
     incomeTableData = IncomeRecord.data || [];

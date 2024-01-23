@@ -37,11 +37,11 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
         <Table sx={{ minWidth: 200 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">Date</TableCell>
-              <TableCell align="left">User</TableCell>
-              <TableCell align="left">Astrologer</TableCell>
-              <TableCell align="left">Call Status</TableCell>
-              <TableCell align="left">Call Duration</TableCell>
+              <TableCell sx={{fontWeight:'bold'}}  align="left">Date</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">User</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Call Status</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Call Duration</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

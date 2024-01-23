@@ -14,21 +14,38 @@ interface WalletTableProps {
 }
 
 const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
-  console.log(data, "in viw");
   return (
     <TableContainer sx={{ mr: 20 }} component={Paper}>
       <Table sx={{ minWidth: 200 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Date</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell align="left">Payment Id</TableCell>
-            <TableCell align="left">Status</TableCell>
-            <TableCell align="left">Transaction type</TableCell>
-            <TableCell align="left">Total Payment</TableCell>
-            <TableCell align="left">User Wallet Amount</TableCell>
-            <TableCell align="left">Gst AMount</TableCell>
-            <TableCell align="left">Coupon Used</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Date
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Description
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Payment Id
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Status
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Transaction type
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Total Payment
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              User Wallet Amount
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Gst AMount
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Coupon Used
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

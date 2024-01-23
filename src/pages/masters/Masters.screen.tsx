@@ -109,7 +109,6 @@ const Masters = () => {
   useEffect(() => {
     if (GetAstrologer) {
       setMasters(GetAstrologer.data);
-      console.log(masters);
     }
   }, [GetAstrologer]);
 
@@ -148,109 +147,116 @@ const Masters = () => {
       </div>
       {!open ? (
         <div className="searchContainer">
-          <label>
-            Name:
-            <input
-              className="searchLabel"
-              type="text"
-              value={filters.name}
-              onChange={(e) =>
-                setFilters({ ...filters, name: e.target.value.toLowerCase() })
-              }
-            />
-          </label>
-          <label>
-            aid:
-            <input
-              className="searchLabel"
-              type="text"
-              value={filters.aid}
-              onChange={(e) => setFilters({ ...filters, aid: e.target.value })}
-            />
-          </label>
-          <label>
-            Mobile Number:
-            <input
-              className="searchLabel"
-              type="text"
-              value={filters.mobileNumber}
-              onChange={(e) =>
-                setFilters({ ...filters, mobileNumber: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            Gender:
-            <select
-              className="searchLabel"
-              value={filters.gender}
-              onChange={(e) =>
-                setFilters({ ...filters, gender: e.target.value })
-              }
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </label>
-          <label>
-            Consultation Mobile:
-            <input
-              className="searchLabel"
-              type="text"
-              value={filters.consultationMobileNumber}
-              onChange={(e) =>
-                setFilters({
-                  ...filters,
-                  consultationMobileNumber: e.target.value,
-                })
-              }
-            />
-          </label>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <label>
+              Name:
+              <input
+                className="searchLabel"
+                type="text"
+                value={filters.name}
+                onChange={(e) =>
+                  setFilters({ ...filters, name: e.target.value.toLowerCase() })
+                }
+              />
+            </label>
+            <label>
+              aid:
+              <input
+                 
+                className="searchLabel"
+                type="text"
+                value={filters.aid}
+                onChange={(e) =>
+                  setFilters({ ...filters, aid: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Mobile Number:
+              <input
+                className="searchLabel"
+                type="text"
+                value={filters.mobileNumber}
+                onChange={(e) =>
+                  setFilters({ ...filters, mobileNumber: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Consultation Mobile:
+              <input
+                className="searchLabel"
+                type="text"
+                value={filters.consultationMobileNumber}
+                onChange={(e) =>
+                  setFilters({
+                    ...filters,
+                    consultationMobileNumber: e.target.value,
+                  })
+                }
+              />
+            </label>
+          </div>
+          <div style={{ display: "flex", alignItems: "center",  gap: "10px"}}>
+            <label>
+              Gender:
+              <select
+                className="searchLabel"
+                value={filters.gender}
+                onChange={(e) =>
+                  setFilters({ ...filters, gender: e.target.value })
+                }
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </label>
 
-          <label>
-            Call Status:
-            <select
-              className="searchLabel"
-              value={filters.callStatus}
-              onChange={(e) =>
-                setFilters({ ...filters, callStatus: e.target.value })
-              }
-            >
-              <option value="">Select Call Status</option>
-              <option value="live">Live</option>
-              <option value="offline">Offline</option>
-              <option value="busy">Busy</option>
-            </select>
-          </label>
+            <label>
+              Call Status:
+              <select
+                className="searchLabel"
+                value={filters.callStatus}
+                onChange={(e) =>
+                  setFilters({ ...filters, callStatus: e.target.value })
+                }
+              >
+                <option value="">Select Call Status</option>
+                <option value="live">Live</option>
+                <option value="offline">Offline</option>
+                <option value="busy">Busy</option>
+              </select>
+            </label>
 
-          <label>
-            Language:
-            <select
-              value={filters.language}
-              onChange={(e) =>
-                setFilters({ ...filters, language: e.target.value })
-              }
-            >
-              <option value="">Select a language</option>
-              <option value="English">English</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Bengali">Bengali</option>
-              <option value="Punjabi">Punjabi</option>
-              <option value="Gujarati">Gujarati</option>
-              <option value="Marathi">Marathi</option>
-              <option value="Marwadi">Marwadi</option>
-              <option value="Odia">Odia</option>
-              <option value="Konkani">Konkani</option>
-              <option value="Sindi">Sindi</option>
-              <option value="Tamil">Tamil</option>
-              <option value="Malayalam">Malayalam</option>
-              <option value="Kannada">Kannada</option>
-              <option value="Telugu">Telugu</option>
-            </select>
-          </label>
+            <label>
+              Language:
+              <select
+                value={filters.language}
+                onChange={(e) =>
+                  setFilters({ ...filters, language: e.target.value })
+                }
+              >
+                <option value="">Select a language</option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Bengali">Bengali</option>
+                <option value="Punjabi">Punjabi</option>
+                <option value="Gujarati">Gujarati</option>
+                <option value="Marathi">Marathi</option>
+                <option value="Marwadi">Marwadi</option>
+                <option value="Odia">Odia</option>
+                <option value="Konkani">Konkani</option>
+                <option value="Sindi">Sindi</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Malayalam">Malayalam</option>
+                <option value="Kannada">Kannada</option>
+                <option value="Telugu">Telugu</option>
+              </select>
+            </label>
 
-          <button onClick={handleSearch}>Search</button>
+            <button onClick={handleSearch}>Search</button>
+          </div>
         </div>
       ) : (
         ""

@@ -27,9 +27,7 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   onSubmit,
   isUpdating,
 }) => {
-
   const [isNewImageAdded, setNewImageAdded] = useState(false);
-
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -111,8 +109,16 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
   ) => {
     const file = e.target.files?.[0];
     formik.setFieldValue("new", file);
-    setNewImageAdded(true)
+    setNewImageAdded(true);
   };
+
+  if (isUpdating) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <CircularProgress size={100} />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -121,11 +127,6 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
         className="form-container"
         encType="multipart/form-data"
       >
-        {isUpdating && (
-          <div style={{ textAlign: "center" }}>
-            <CircularProgress />
-          </div>
-        )}
         <div className="form-column">
           <TextField
             label="Name"
@@ -417,13 +418,15 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
 
         <div className="form-column">
           <div>
-            {!isNewImageAdded && astrologer.profile && "url" in astrologer.profile && (
-              <Avatar
-                alt={astrologer.name}
-                src={astrologer.profile.url as string}
-                sx={{ width: 100, height: 100 }}
-              />
-            )}
+            {!isNewImageAdded &&
+              astrologer.profile &&
+              "url" in astrologer.profile && (
+                <Avatar
+                  alt={astrologer.name}
+                  src={astrologer.profile.url as string}
+                  sx={{ width: 100, height: 100, border: "2px solid gray" }}
+                />
+              )}
 
             <input
               accept="image/*"

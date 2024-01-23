@@ -34,15 +34,15 @@ const IncomeTable: React.FC<IncomeTableProps> = ({ data }) => {
 
   return (
     <div>
-      <TableContainer sx={{ mr: 20 }} component={Paper}>
-        <Table sx={{ minWidth: 200 }} aria-label="simple table">
+      <TableContainer  component={Paper}>
+        <Table  aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">Date</TableCell>
-              <TableCell align="left">Astrologer</TableCell>
-              <TableCell align="left">Astrologer Cut</TableCell>
-              <TableCell align="left">Company Cut</TableCell>
-              <TableCell align="left">Ratio</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Date</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer Cut</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Company Cut</TableCell>
+              <TableCell sx={{fontWeight:'bold'}} align="left">Ratio</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

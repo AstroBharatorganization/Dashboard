@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Pagination, TextField } from "@mui/material";
+import { Button, CircularProgress, Pagination, TextField } from "@mui/material";
 import { Dayjs } from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -35,19 +35,22 @@ const CallRecord = () => {
     fetch,
     {
       data: searchResult,
-
       isSuccess: isSuccessSearch,
+      isFetching: isFetchingSearch,
     },
   ] = useLazyGetSearchCallRecordQuery();
 
   let searchData;
   if (isSuccessSearch && searchResult) {
-    console.log(searchResult, "result");
     searchData = searchResult.data || [];
   }
 
-  if (isFetching) {
-    return <p>Loading...</p>;
+  if (isFetching || isFetchingSearch) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <CircularProgress size={100} />
+      </div>
+    );
   }
   let callRecordTableData;
   if (isSuccess) {

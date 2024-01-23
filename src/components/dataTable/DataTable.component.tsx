@@ -10,7 +10,6 @@ interface DataTableProps {
 const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
   const getRowId = (row: any) => row._id;
 
-  console.log(rows);
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid

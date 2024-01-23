@@ -58,14 +58,20 @@ const Update: React.FC = () => {
       }).unwrap();
       toast.success("Updated successfully!");
 
-      setTimeout(() => {
-        navigate("/masters");
-      }, 1000);
+      navigate("/masters");
     } catch (error) {
       toast.error("Update Failed.. Please try again.");
       console.error("Error updating astrologer:", error);
     }
   };
+
+  if (isUpdating || isFetching) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <CircularProgress size={100} />
+      </div>
+    );
+  }
 
   return (
     <div>

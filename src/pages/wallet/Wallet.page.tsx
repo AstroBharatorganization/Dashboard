@@ -8,6 +8,7 @@ import WalletTable from "../../components/wallet/WalletTable.components";
 import WalletSearch from "../../components/wallet/WalletSearch.component";
 import {
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -38,11 +39,16 @@ const Wallet = () => {
     isSuccess,
   } = useGetWalletQuery(currentPage);
 
-  const [fetch, { data: searchResult, isSuccess: isSuccessSearch }] =
-    useLazyGetSearchWalletQuery();
+  const [
+    fetch,
+    {
+      data: searchResult,
+      isSuccess: isSuccessSearch,
+      isFetching: isFetchingSearch,
+    },
+  ] = useLazyGetSearchWalletQuery();
   let searchData;
   if (isSuccessSearch && searchResult) {
-    console.log(searchResult, "result");
     searchData = searchResult.data || [];
   }
 
@@ -52,8 +58,12 @@ const Wallet = () => {
 
   let limit = 10;
 
-  if (isFetching) {
-    return <p>Loading...</p>;
+  if (isFetching || isFetchingSearch) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <CircularProgress size={100} />
+      </div>
+    );
   }
   let walletTableData;
   if (isSuccess) {
