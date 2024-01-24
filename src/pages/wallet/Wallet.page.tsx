@@ -101,11 +101,11 @@ const Wallet = () => {
             sx={{ mr: 1 }}
             placeholder="Select"
           >
-            <MenuItem value="Created">Created</MenuItem>
-            <MenuItem value="Authorized">Authorized</MenuItem>
-            <MenuItem value="Captured">Captured</MenuItem>
-            <MenuItem value="Refunded">Refunded</MenuItem>
-            <MenuItem value="Failed">Failed</MenuItem>
+            <MenuItem value="created">Created</MenuItem>
+            <MenuItem value="authorized">Authorized</MenuItem>
+            <MenuItem value="captured">Captured</MenuItem>
+            <MenuItem value="refunded">Refunded</MenuItem>
+            <MenuItem value="failed">Failed</MenuItem>
           </Select>
         </FormControl>
 

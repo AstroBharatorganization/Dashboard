@@ -57,7 +57,7 @@ const Masters = () => {
         />
       ),
     },
-    { field: "_id", headerName: "ID", width: 150 },
+    { field: "_id", headerName: "ID", width: 250 },
     { field: "aid", headerName: "aid", width: 150 },
     { field: "name", headerName: "Name", width: 150 },
     { field: "mostTrusted", headerName: "Most Trusted", width: 150 },
@@ -146,7 +146,9 @@ const Masters = () => {
         </button>
       </div>
       {!open ? (
+        
         <div className="searchContainer">
+          <h3>Search Here</h3>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <label>
               Name:

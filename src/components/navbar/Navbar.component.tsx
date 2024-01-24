@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
-        <img src="guru.png" alt="" />
+        <img src="logo.jpg" alt="" />
         <span>Astro Bharat</span>
       </div>
       <div className="icons">

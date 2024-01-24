@@ -77,6 +77,7 @@ const CallRecord = () => {
 
   const isFilterEmpty =
     Object.values(filter).every((value) => value === "") && !value;
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
