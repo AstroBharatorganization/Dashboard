@@ -5,7 +5,7 @@ import {
 } from "../../services/master.service";
 import { useLocation, useParams } from "react-router-dom";
 import UpdateForm from "../../components/updateForm/UpdateForm.component";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
@@ -75,7 +75,6 @@ const Update: React.FC = () => {
 
   return (
     <div>
-      <ToastContainer position="top-right" autoClose={3000} />
       <h2>Update</h2>
       {isFetching && (
         <div style={{ textAlign: "center" }}>

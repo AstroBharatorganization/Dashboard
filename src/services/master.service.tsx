@@ -8,6 +8,13 @@ import {
   GetCallRecords,
   GetSearchCallRecord,
 } from "../models/callRecord.model";
+import {
+  Banner,
+  GetBannerText,
+  GetBannerTitle,
+  GetFirstBanner,
+  GetSecondBannerList,
+} from "../models/banner.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -123,6 +130,70 @@ export const pokemonApi = createApi({
         body: filters,
       }),
     }),
+
+    // upload First banner
+
+    addSingleBanner: builder.mutation<Banner, object>({
+      query: (data) => ({
+        url: "/banner/first/add",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // get First banner
+
+    getSingleBanner: builder.query<GetFirstBanner, void>({
+      query: () => `/banner/first/get`,
+    }),
+
+    // upload second Banner
+
+    addSecondBannerList: builder.mutation<Banner, object>({
+      query: (data) => ({
+        url: "/banner/second/add",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // get Second Banner list
+
+    getSecondBannerList: builder.query<GetSecondBannerList, void>({
+      query: () => `/banner/second/get`,
+    }),
+
+    // add banner Text and Description
+
+    addBannerTextAndDescription: builder.mutation<Banner, object>({
+      query: (data) => ({
+        url: "/banner/homeText/add",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // get Banner Text and Description
+
+    getBannerTextAndDescription: builder.query<GetBannerText, void>({
+      query: () => `/banner/homeText/get`,
+    }),
+
+    // add Banner Title
+
+    addBannerTitle: builder.mutation<Banner, object>({
+      query: (data) => ({
+        url: "/banner/bannerTitle/add",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    // get Banner Title
+
+    getBannerTitle: builder.query<GetBannerTitle, void>({
+      query: () => `/banner/bannerTitle/get`,
+    }),
   }),
 });
 
@@ -140,4 +211,12 @@ export const {
   useLazyGetSearchIncomeQuery,
   useGetCallRecordsQuery,
   useLazyGetSearchCallRecordQuery,
+  useAddSingleBannerMutation,
+  useGetSingleBannerQuery,
+  useAddSecondBannerListMutation,
+  useGetSecondBannerListQuery,
+  useGetBannerTextAndDescriptionQuery,
+  useAddBannerTextAndDescriptionMutation,
+  useAddBannerTitleMutation,
+  useGetBannerTitleQuery,
 } = pokemonApi;

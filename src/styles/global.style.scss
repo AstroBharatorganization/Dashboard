@@ -11,11 +11,18 @@ a {
   text-decoration: none;
   color: white;
 }
+body {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+.app-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
 
 .main {
   font-family: "Inter", sans-serif;
   background-color: white;
-  color: $main-color;
+  color: $main-color; 
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -25,19 +32,25 @@ a {
 
 .container {
   display: flex;
+  overflow-y: auto; 
+  width: 100vw
 }
 
 .menuContainer {
-  width: 230px;
+  width: 200px;
   padding: 5px 20px;
   border-right: 1px solid lightgrey;
 
-  @include lg {
-    width: max-content;
+  .container {
+    width: calc(100vw - 17px); /* Adjust the value based on your browser's scrollbar width */
   }
 }
 
 .contentContainer {
-  padding: 20px 0px 0px 20px;
-  width: 100%;
+  padding: 20px;
+  flex: 1;
 }
+
+
+
+

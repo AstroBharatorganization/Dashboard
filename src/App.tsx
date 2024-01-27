@@ -17,10 +17,11 @@ import Users from "./pages/user/Users.page";
 import Wallet from "./pages/wallet/Wallet.page";
 import Income from "./pages/income/Income.page";
 import CallRecord from "./pages/callRecord/CallRecord.page";
+import Banner from "./pages/banner/Banner.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
-import Footer from "./components/footer/Footer.component";
+
 import Menu from "./components/menu/Menu.component";
 
 import { useAppDispatch } from "./store/hooks";
@@ -38,6 +39,7 @@ function App() {
   }, []);
   const Layout = () => {
     return (
+      <div className="app-container">
       <div className="main">
         <div className="outerContainer">
           <Navbar />
@@ -53,6 +55,7 @@ function App() {
           </div>
         </div>
         {/* <Footer /> */}
+      </div>
       </div>
     );
   };
@@ -91,6 +94,11 @@ function App() {
           path: "/callRecord",
           element: <CallRecord />,
         },
+        {
+          path: "/banner",
+          element: <Banner />,
+        },
+        
       ],
     },
     {

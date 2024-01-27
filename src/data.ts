@@ -112,6 +112,12 @@ export const menu = [
                 url: "/callRecord",
                 
             },
+            {
+                id: 6,
+                title: "Banner",
+                url: "/banner",
+                
+            },
 
         ],
     },
