@@ -20,14 +20,15 @@ import {
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1/dashboard",
+    // baseUrl: "http://localhost:8080/api/v1/dashboard",
 
-    // baseUrl:"https://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1",
+    baseUrl:
+      "http://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1/dashboard",
   }),
   endpoints: (builder) => ({
     // get astrologers
     getAstrologers: builder.query<GetAstrologers, number>({
-      query: (page = 1) => `/astrologer/all?page=${page}`,
+      query: (page = 1) => `astrologer/all?page=${page}`,
     }),
 
     // post register
@@ -194,6 +195,15 @@ export const pokemonApi = createApi({
     getBannerTitle: builder.query<GetBannerTitle, void>({
       query: () => `/banner/bannerTitle/get`,
     }),
+
+    // call record refund
+
+    refundCallRecord: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/CallRecord/refund/${id}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -219,4 +229,5 @@ export const {
   useAddBannerTextAndDescriptionMutation,
   useAddBannerTitleMutation,
   useGetBannerTitleQuery,
+  useRefundCallRecordMutation,
 } = pokemonApi;

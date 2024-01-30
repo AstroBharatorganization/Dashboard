@@ -2,6 +2,7 @@ import { AstrologerFormData } from "./master.model";
 import { Users } from "./users.model";
 
 export interface CallRecords {
+  _id: number;
   astrologer: AstrologerFormData["name"];
   user: Users["username"];
   astrologerName: string;
@@ -10,6 +11,8 @@ export interface CallRecords {
   callDuration: number;
   createdAt: Date;
   updatedAt: Date;
+  refund: boolean;
+  wallet: number;
 }
 
 export interface GetCallRecords {

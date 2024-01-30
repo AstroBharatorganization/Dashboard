@@ -1,5 +1,5 @@
 import { CallRecords } from "@/models/callRecord.model";
-import React from "react";
+import React, { useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,13 +8,48 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { useRefundCallRecordMutation } from "../../services/master.service";
 
 interface CallRecordTableProps {
   data: CallRecords[];
 }
 
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
+  const [selectedId, setSelectedId] = useState<any>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const [refundCallRecordMutation] = useRefundCallRecordMutation();
+
+  const handleRefundClick = (id: number) => {
+    setSelectedId(id);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedId(null);
+    setModalOpen(false);
+  };
+
+  const handleConfirmRefund = async () => {
+    console.log(selectedId, "id");
+    await refundCallRecordMutation(selectedId);
+
+    handleModalClose();
+  };
+
   if (data.length === 0) {
     return (
       <div
@@ -37,11 +72,27 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
         <Table sx={{ minWidth: 200 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{fontWeight:'bold'}}  align="left">Date</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">User</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Call Status</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Call Duration</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                User
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Astrologer
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Call Status
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Call Duration
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Call type
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Refund
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -59,11 +110,43 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
                 <TableCell align="left">{row.astrologerName || ""}</TableCell>
                 <TableCell align="left">{row.callStatus || ""}</TableCell>
                 <TableCell align="left">{row.callDuration || ""}</TableCell>
+                <TableCell
+                  align="left"
+                  style={{ color: row.wallet === 0 ? "green" : "red" }}
+                >
+                  {row.wallet === 0 ? "Free" : "Paid"}
+                </TableCell>
+                <TableCell align="left">
+                  <Button
+                    onClick={() => handleRefundClick(row._id)}
+                    disabled={row.refund || row.wallet === 0 || !row.wallet}
+                  >
+                    Refund
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography variant="h6" id="modal-title">
+            Confirm Refund
+          </Typography>
+          <Typography id="modal-description">
+            Are you sure you want to refund the selected call record?
+          </Typography>
+          <Button onClick={handleConfirmRefund}>Confirm</Button>
+          <Button onClick={handleModalClose}>Cancel</Button>
+        </Box>
+      </Modal>
     </div>
   );
 };

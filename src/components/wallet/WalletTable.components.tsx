@@ -14,6 +14,7 @@ interface WalletTableProps {
 }
 
 const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
+  console.log(data);
   return (
     <TableContainer sx={{ mr: 20 }} component={Paper}>
       <Table sx={{ minWidth: 200 }} aria-label="simple table">
@@ -36,6 +37,9 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
               Transaction type
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Refund
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
               Total Payment
@@ -64,13 +68,16 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
               </TableCell>
               <TableCell align="left">{row.description || ""}</TableCell>
               <TableCell align="left">{row.username || ""}</TableCell>
-              <TableCell align="left">{row.totalPayment || ""}</TableCell>
+              <TableCell align="left">{row.razorPayPaymentId || ""}</TableCell>
               <TableCell align="left">{row.status || ""}</TableCell>
-              <TableCell align="left">{row.transactionType || ""}</TableCell>
+              <TableCell align="left" style={{ color: row.transactionType === 'credit' ? 'green' : 'red'}}>{row.transactionType || ""}</TableCell>
+              <TableCell align="left">{row.refund ? "Yes" : "No"}</TableCell>
               <TableCell align="left">{row.totalPayment || ""}</TableCell>
               <TableCell align="left">{row.userWalletAmount || ""}</TableCell>
               <TableCell align="left">{row.gstAmount || ""}</TableCell>
-              <TableCell align="left">{row.couponUsed || ""}</TableCell>
+              <TableCell align="left">
+                {row.couponUsed ? "Yes" : "No"}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

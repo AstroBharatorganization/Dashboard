@@ -29,6 +29,9 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
 }) => {
   const [isNewImageAdded, setNewImageAdded] = useState(false);
 
+  const [isGallery, setIsGallery] = useState(false);
+
+  console.log(astrologer, "astro");
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     gender: Yup.string().required("Gender is required"),
@@ -94,12 +97,15 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
       cutCallFee: astrologer.fees.call.cut,
       fullCallFee: astrologer.fees.call.full,
       profile: astrologer.profile,
+      gallery: astrologer.gallery,
       new: null,
+      newGallery: [],
     },
 
     validationSchema: validationSchema,
 
     onSubmit: async (values) => {
+      console.log(values);
       onSubmit(values);
     },
   });
@@ -110,6 +116,20 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
     const file = e.target.files?.[0];
     formik.setFieldValue("new", file);
     setNewImageAdded(true);
+  };
+
+  const handleGalleryImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const selectedImages = [];
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        selectedImages.push(files[i]);
+      }
+    }
+
+    formik.setFieldValue("newGallery", selectedImages);
+    setIsGallery(true);
   };
 
   if (isUpdating) {
@@ -465,6 +485,50 @@ const UpdateForm: React.FC<AstrologerEditFormProps> = ({
               </div>
             )}
           </div>
+
+          {formik.values.newGallery.map((image, index) => (
+            <div key={index} className="gallery-image-thumbnail">
+              <img
+                src={URL.createObjectURL(image)}
+                alt={`Gallery Image ${index + 1}`}
+                style={{
+                  width: "60px",
+                  height: "auto",
+                  objectFit: "fill",
+                }}
+              />
+            </div>
+          ))}
+
+          {!isGallery &&
+            astrologer?.galleryUrl?.map((banner, index) => (
+              <div key={index} className="gallery-image-thumbnail">
+                <img
+                  src={banner}
+                  alt={`Existing Banner ${index + 1}`}
+                  className="profile-picture-thumbnail"
+                  style={{
+                    width: "60px",
+                    height: "auto",
+                    objectFit: "fill",
+                  }}
+                />
+              </div>
+            ))}
+
+          <input
+            accept="image/*"
+            id="gallery-images-input"
+            type="file"
+            multiple
+            onChange={handleGalleryImageChange}
+            style={{ display: "none" }}
+            maxLength={5}
+          />
+
+          <label htmlFor="gallery-images-input">
+            <Button component="span">Upload Gallery Images</Button>
+          </label>
         </div>
       </form>
     </>

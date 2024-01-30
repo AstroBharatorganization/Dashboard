@@ -39,17 +39,40 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
         <Table sx={{ minWidth: 200 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Date</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} >Description</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
 
-              {hasUsername && <TableCell sx={{fontWeight:'bold'}} align="left">Username</TableCell>}
-              <TableCell sx={{fontWeight:'bold'}} align="left">Payment Id</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Status</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Transaction type</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Total Payment</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">User Wallet Amount</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Gst AMount</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Coupon Used</TableCell>
+              {hasUsername && (
+                <TableCell sx={{ fontWeight: "bold" }} align="left">
+                  Username
+                </TableCell>
+              )}
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Payment Id
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Status
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Transaction type
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Refund
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Total Payment
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                User Wallet Amount
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Gst AMount
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Coupon Used
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,13 +91,25 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
                 {hasUsername && (
                   <TableCell align="left">{row.username || ""}</TableCell>
                 )}
-                <TableCell align="left">{row.totalPayment || ""}</TableCell>
+                <TableCell align="left">
+                  {row.razorPayPaymentId || ""}
+                </TableCell>
                 <TableCell align="left">{row.status || ""}</TableCell>
-                <TableCell align="left">{row.transactionType || ""}</TableCell>
+                <TableCell
+                  align="left"
+                  style={{
+                    color: row.transactionType === "credit" ? "green" : "red",
+                  }}
+                >
+                  {row.transactionType || ""}
+                </TableCell>
+                <TableCell align="left">{row.refund ? "Yes" : "No"}</TableCell>
                 <TableCell align="left">{row.totalPayment || ""}</TableCell>
                 <TableCell align="left">{row.userWalletAmount || ""}</TableCell>
                 <TableCell align="left">{row.gstAmount || ""}</TableCell>
-                <TableCell align="left">{row.couponUsed || ""}</TableCell>
+                <TableCell align="left">
+                  {row.couponUsed ? "Yes" : "No"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

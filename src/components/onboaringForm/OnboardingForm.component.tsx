@@ -54,6 +54,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
         full: 0,
       },
     },
+    galleryUrl: [],
   });
 
   const [validationErrors, setValidationErrors] = useState<

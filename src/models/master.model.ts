@@ -26,11 +26,12 @@ export interface AstrologerFormData {
       full: number;
     };
   };
+  galleryUrl: string[];
 }
 
 export interface GetAstrologers {
   message: string;
-  length:number;
+  length: number;
   status: number;
   success: boolean;
   data: AstrologerFormData[];

@@ -15,6 +15,7 @@ export interface WalletRecord {
   createdAt: Date;
   updatedAt: Date;
   username: string;
+  refund:boolean;
 }
 
 export interface GetWallet {

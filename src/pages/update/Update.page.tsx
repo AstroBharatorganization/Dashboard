@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   useGetAstrologersQuery,
   useUpdateAstrologerMutation,
@@ -11,12 +11,13 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
 const Update: React.FC = () => {
+  const [errorMsg, setErrorMsg] = useState("");
   const { id } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const page = queryParams.get("page") ?? "1";
 
-  console.log(page, "at update");
+  console.log(errorMsg, "at update");
 
   const { data: astrologer, isFetching } = useGetAstrologersQuery(
     parseInt(page, 10) || 1
@@ -29,7 +30,7 @@ const Update: React.FC = () => {
     selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
   }
 
-  const [updatedAstrologer, { isLoading: isUpdating }] =
+  const [updatedAstrologer, { isLoading: isUpdating, error }] =
     useUpdateAstrologerMutation();
 
   const handleFormSubmit = async (values: any) => {
@@ -39,8 +40,12 @@ const Update: React.FC = () => {
       const formDataWithFiles = new FormData();
 
       for (const [key, value] of Object.entries(values)) {
-        if (value instanceof File) {
+        if (value instanceof File && key === "new") {
           formDataWithFiles.append("profile", value);
+        } else if (Array.isArray(value) && key === "newGallery") {
+          value.forEach((file) => {
+            formDataWithFiles.append(`gallery`, file);
+          });
         } else if (Array.isArray(value)) {
           value.forEach((item, index) => {
             formDataWithFiles.append(`${key}[${index}]`, item);
@@ -61,9 +66,21 @@ const Update: React.FC = () => {
       navigate("/masters");
     } catch (error) {
       toast.error("Update Failed.. Please try again.");
+
+      const errMsg = await extractErrorMessage(error);
+      setErrorMsg(errMsg);
       console.error("Error updating astrologer:", error);
     }
   };
+
+  function extractErrorMessage(error: any) {
+    if ("status" in error && "error" in error) {
+      console.log("here");
+      return error.error; // For FetchBaseQueryError
+    } else {
+      return error.message || "An error occurred."; // For other errors
+    }
+  }
 
   if (isUpdating || isFetching) {
     return (
