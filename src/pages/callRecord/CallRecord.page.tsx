@@ -29,6 +29,7 @@ const CallRecord = () => {
     data: CallRecordData,
     isFetching,
     isSuccess,
+    refetch
   } = useGetCallRecordsQuery(currentPage);
 
   const [
@@ -116,10 +117,10 @@ const CallRecord = () => {
       <h2 style={{ margin: 5 }}>Call Records</h2>
 
       {isSuccessSearch ? (
-        <CallRecordTable data={searchData!} />
+        <CallRecordTable data={searchData!} refetchData={refetch} />
       ) : (
         <>
-          <CallRecordTable data={callRecordTableData!} />
+          <CallRecordTable data={callRecordTableData!} refetchData={refetch} />
 
           <div className="pagination-container">
             <Pagination

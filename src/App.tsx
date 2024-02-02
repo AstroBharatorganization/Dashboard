@@ -18,6 +18,9 @@ import Wallet from "./pages/wallet/Wallet.page";
 import Income from "./pages/income/Income.page";
 import CallRecord from "./pages/callRecord/CallRecord.page";
 import Banner from "./pages/banner/Banner.page";
+import Queries from "./pages/queries/Queries.page";
+import QueriesDetail from "./pages/queries/QueriesDetail.page";
+import Reports from "./pages/report/Reports.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -40,22 +43,22 @@ function App() {
   const Layout = () => {
     return (
       <div className="app-container">
-      <div className="main">
-        <div className="outerContainer">
-          <Navbar />
-          <div className="container">
-            <div className="menuContainer">
-              <Menu />
-            </div>
-            <div className="contentContainer">
-              <QueryClientProvider client={queryClient}>
-                <Outlet />
-              </QueryClientProvider>
+        <div className="main">
+          <div className="outerContainer">
+            <Navbar />
+            <div className="container">
+              <div className="menuContainer">
+                <Menu />
+              </div>
+              <div className="contentContainer">
+                <QueryClientProvider client={queryClient}>
+                  <Outlet />
+                </QueryClientProvider>
+              </div>
             </div>
           </div>
+          {/* <Footer /> */}
         </div>
-        {/* <Footer /> */}
-      </div>
       </div>
     );
   };
@@ -98,7 +101,18 @@ function App() {
           path: "/banner",
           element: <Banner />,
         },
-        
+        {
+          path: "/queries",
+          element: <Queries />,
+        },
+        {
+          path: "/queries/details/:id",
+          element: <QueriesDetail />,
+        },
+        {
+          path: "/reports",
+          element: <Reports />,
+        },
       ],
     },
     {

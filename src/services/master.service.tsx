@@ -2,7 +2,11 @@
 import { GetUsers } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetSearchWallet, GetWallet } from "../models/wallet.model";
+import {
+  GetSearchWallet,
+  GetWallet,
+  GetWalletChart,
+} from "../models/wallet.model";
 import { GetIncomeReport, SearchIncomeData } from "../models/income.model";
 import {
   GetCallRecords,
@@ -15,15 +19,16 @@ import {
   GetFirstBanner,
   GetSecondBannerList,
 } from "../models/banner.model";
+import { GetQueryRecord, GetQueryRecordById } from "../models/query.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "http://localhost:8080/api/v1/dashboard",
+    baseUrl: "http://localhost:8080/api/v1/dashboard",
 
-    baseUrl:
-      "http://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1/dashboard",
+    // baseUrl:
+    //   "http://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1/dashboard",
   }),
   endpoints: (builder) => ({
     // get astrologers
@@ -204,6 +209,43 @@ export const pokemonApi = createApi({
         method: "POST",
       }),
     }),
+
+    // get all query records
+
+    getQueryRecords: builder.query<GetQueryRecord, void>({
+      query: () => `/query/all`,
+    }),
+
+    // get query by one
+
+    getQueryRecordsById: builder.query<GetQueryRecordById, any>({
+      query: (id) => `/query/details?id=${id}`,
+    }),
+
+    // query updation
+
+    updateQueryRecord: builder.mutation<void, any>({
+      query: (id) => ({
+        url: `/query/update/${id}`,
+        method: "POST",
+      }),
+    }),
+
+    // get wallet chart
+
+    getWalletChart: builder.query<GetWalletChart, void>({
+      query: () => `/wallet/walletChart`,
+    }),
+
+    //  search wallet chart
+
+    searchWalletChart: builder.query<GetWallet, object>({
+      query: (data) => ({
+        url: `/wallet/searchChart`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -230,4 +272,9 @@ export const {
   useAddBannerTitleMutation,
   useGetBannerTitleQuery,
   useRefundCallRecordMutation,
+  useGetQueryRecordsQuery,
+  useGetQueryRecordsByIdQuery,
+  useUpdateQueryRecordMutation,
+  useGetWalletChartQuery,
+  useSearchWalletChartQuery,
 } = pokemonApi;

@@ -15,7 +15,7 @@ export interface WalletRecord {
   createdAt: Date;
   updatedAt: Date;
   username: string;
-  refund:boolean;
+  refund: boolean;
 }
 
 export interface GetWallet {
@@ -30,5 +30,21 @@ export interface GetSearchWallet {
   status: number;
   message: string;
   data: WalletRecord[];
+  success: boolean;
+}
+
+export interface WalletChart {
+  totalGstAmountDay: number;
+  totalPaymentDay: number;
+  totalUserWalletAmountDay: number;
+  totalGstAmountMonth: number;
+  totalPaymentMonth: number;
+  totalUserWalletAmountMonth: number;
+}
+
+export interface GetWalletChart {
+  status: number;
+  message: string;
+  data: WalletChart;
   success: boolean;
 }

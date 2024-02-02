@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useGetAstrologersQuery,
   useUpdateAstrologerMutation,
@@ -30,7 +30,7 @@ const Update: React.FC = () => {
     selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
   }
 
-  const [updatedAstrologer, { isLoading: isUpdating, error }] =
+  const [updatedAstrologer, { isLoading: isUpdating }] =
     useUpdateAstrologerMutation();
 
   const handleFormSubmit = async (values: any) => {

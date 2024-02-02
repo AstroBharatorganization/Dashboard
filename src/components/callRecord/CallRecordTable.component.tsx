@@ -13,6 +13,7 @@ import { useRefundCallRecordMutation } from "../../services/master.service";
 
 interface CallRecordTableProps {
   data: CallRecords[];
+  refetchData: () => void;
 }
 
 const style = {
@@ -27,7 +28,10 @@ const style = {
   p: 4,
 };
 
-const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
+const CallRecordTable: React.FC<CallRecordTableProps> = ({
+  data,
+  refetchData,
+}) => {
   const [selectedId, setSelectedId] = useState<any>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -44,13 +48,14 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
   };
 
   const handleConfirmRefund = async () => {
-    console.log(selectedId, "id");
+   
     await refundCallRecordMutation(selectedId);
 
     handleModalClose();
+    refetchData()
   };
 
-  if (data.length === 0) {
+  if (data?.length === 0) {
     return (
       <div
         style={{
@@ -96,7 +101,7 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({ data }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, index) => (
+            {data?.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
