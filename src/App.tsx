@@ -21,6 +21,7 @@ import Banner from "./pages/banner/Banner.page";
 import Queries from "./pages/queries/Queries.page";
 import QueriesDetail from "./pages/queries/QueriesDetail.page";
 import Reports from "./pages/report/Reports.page";
+import Feedback from "./pages/feedback/Feedback.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -112,6 +113,10 @@ function App() {
         {
           path: "/reports",
           element: <Reports />,
+        },
+        {
+          path: "/feedback",
+          element: <Feedback />,
         },
       ],
     },

@@ -4,6 +4,7 @@ import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   GetSearchWallet,
+  GetSearchWalletChart,
   GetWallet,
   GetWalletChart,
 } from "../models/wallet.model";
@@ -20,6 +21,7 @@ import {
   GetSecondBannerList,
 } from "../models/banner.model";
 import { GetQueryRecord, GetQueryRecordById } from "../models/query.model";
+import { GetFeedBackRecord } from "../models/feedback.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -212,8 +214,8 @@ export const pokemonApi = createApi({
 
     // get all query records
 
-    getQueryRecords: builder.query<GetQueryRecord, void>({
-      query: () => `/query/all`,
+    getQueryRecords: builder.query<GetQueryRecord, number>({
+      query: (page=1) => `/query/all?page=${page}`,
     }),
 
     // get query by one
@@ -231,6 +233,12 @@ export const pokemonApi = createApi({
       }),
     }),
 
+    // get feedback
+
+    getFeedbackRecords: builder.query<GetFeedBackRecord, number>({
+      query: (page = 1) => `/feedback/all?page=${page}`,
+    }),
+
     // get wallet chart
 
     getWalletChart: builder.query<GetWalletChart, void>({
@@ -239,7 +247,7 @@ export const pokemonApi = createApi({
 
     //  search wallet chart
 
-    searchWalletChart: builder.query<GetWallet, object>({
+    searchWalletChart: builder.query<GetSearchWalletChart, object>({
       query: (data) => ({
         url: `/wallet/searchChart`,
         method: "POST",
@@ -275,6 +283,7 @@ export const {
   useGetQueryRecordsQuery,
   useGetQueryRecordsByIdQuery,
   useUpdateQueryRecordMutation,
+  useGetFeedbackRecordsQuery,
   useGetWalletChartQuery,
-  useSearchWalletChartQuery,
+  useLazySearchWalletChartQuery,
 } = pokemonApi;

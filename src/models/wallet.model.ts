@@ -48,3 +48,16 @@ export interface GetWalletChart {
   data: WalletChart;
   success: boolean;
 }
+
+export interface SearchWalletChart {
+  totalGstAmount: number;
+  totalUserWalletAmount: number;
+  totalPayment: number;
+}
+
+export interface GetSearchWalletChart {
+  status: number;
+  message: string;
+  data: SearchWalletChart;
+  success: boolean;
+}

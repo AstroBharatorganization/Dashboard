@@ -29,7 +29,7 @@ const CallRecord = () => {
     data: CallRecordData,
     isFetching,
     isSuccess,
-    refetch
+    refetch,
   } = useGetCallRecordsQuery(currentPage);
 
   const [

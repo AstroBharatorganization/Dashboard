@@ -18,6 +18,7 @@ export interface GetQueryRecord {
   status: number;
   message: string;
   success: boolean;
+  length: number;
   data: QueryRecord[];
 }
 

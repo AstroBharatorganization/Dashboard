@@ -57,10 +57,11 @@ const Masters = () => {
         />
       ),
     },
-    { field: "_id", headerName: "ID", width: 250 },
+    { field: "_id", headerName: "ID", width: 150 },
     { field: "aid", headerName: "aid", width: 150 },
     { field: "name", headerName: "Name", width: 150 },
     { field: "mostTrusted", headerName: "Most Trusted", width: 150 },
+    { field: "password", headerName: "Password", width: 150 },
     { field: "callStatus", headerName: "Call Status", width: 150 },
     {
       field: "updateButton",
