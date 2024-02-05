@@ -1,5 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import {
   useGetBannerTextAndDescriptionQuery,
@@ -12,6 +13,7 @@ const HomeBannerTextDescri = () => {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedDescription, setUpdatedDescription] = useState("");
 
+  const [isChanged, setIsChanged] = useState(false);
   useEffect(() => {
     setUpdatedTitle(bannerData?.data?.title || "");
     setUpdatedDescription(bannerData?.data?.description || "");
@@ -19,11 +21,23 @@ const HomeBannerTextDescri = () => {
 
   const [addData] = useAddBannerTextAndDescriptionMutation();
 
+  const handleChangeTitle = (e: any) => {
+    setUpdatedTitle(e.target.value);
+    setIsChanged(true);
+  };
+
+  const handleChangeDescription = (e: any) => {
+    setUpdatedDescription(e.target.value);
+    setIsChanged(true);
+  };
+
   const handleUpdate = () => {
     addData({
       title: updatedTitle,
       description: updatedDescription,
     });
+    toast.success(" Updated successfully!");
+    setIsChanged(false);
   };
 
   return (
@@ -47,16 +61,20 @@ const HomeBannerTextDescri = () => {
           <TextField
             label="Text"
             value={updatedTitle}
-            onChange={(e) => setUpdatedTitle(e.target.value)}
+            onChange={handleChangeTitle}
             name="updatedTitle"
           />
           <TextField
             label="Description"
             value={updatedDescription}
-            onChange={(e) => setUpdatedDescription(e.target.value)}
+            onChange={handleChangeDescription}
           />
 
-          <Button variant="contained" onClick={handleUpdate}>
+          <Button
+            variant="contained"
+            onClick={handleUpdate}
+            disabled={!isChanged}
+          >
             Update
           </Button>
         </Box>

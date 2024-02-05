@@ -25,8 +25,6 @@ const SecondBannerList = () => {
 
   const { data: secondBannerList } = useGetSecondBannerListQuery();
 
-  console.log(secondBannerList, "get query");
-
   const handleUpload = async () => {
     if (selectedSecondBanners && selectedSecondBanners.length > 0) {
       const formData = new FormData();
@@ -44,7 +42,12 @@ const SecondBannerList = () => {
   return (
     <>
       <div
-        style={{ textAlign: "left", padding: "20px", border: "1px solid #ccc",marginTop:10  }}
+        style={{
+          textAlign: "left",
+          padding: "20px",
+          border: "1px solid #ccc",
+          marginTop: 10,
+        }}
       >
         <h2>Second Banners</h2>
 
@@ -57,8 +60,7 @@ const SecondBannerList = () => {
           }}
         >
           {selectedSecondBanners
-            ? 
-              Array.from(selectedSecondBanners).map((file, index) => (
+            ? Array.from(selectedSecondBanners).map((file, index) => (
                 <div key={index} className="profile-picture-container">
                   <img
                     src={URL.createObjectURL(file)}

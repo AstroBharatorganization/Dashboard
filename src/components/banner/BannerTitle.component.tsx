@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
+import { toast } from "react-toastify";
 
 import {
   useGetBannerTitleQuery,
@@ -11,6 +12,8 @@ const BannerTitle = () => {
 
   const [updatedTitle, setUpdatedTitle] = useState("");
 
+  const [isTitleChanged, setIsTitleChanged] = useState(false);
+
   useEffect(() => {
     setUpdatedTitle(bannerData?.data?.title || "");
   }, [bannerData?.data?.title]);
@@ -19,13 +22,17 @@ const BannerTitle = () => {
 
   const handleChange = (event: any) => {
     setUpdatedTitle(event.target.value);
+    setIsTitleChanged(true);
   };
 
   const handleUpdate = () => {
     addData({
       title: updatedTitle,
     });
+    toast.success(" Title  Updated successfully!");
+    setIsTitleChanged(false);
   };
+
   return (
     <>
       <div
@@ -50,7 +57,11 @@ const BannerTitle = () => {
             onChange={handleChange}
           />
 
-          <Button variant="contained" onClick={handleUpdate}>
+          <Button
+            variant="contained"
+            onClick={handleUpdate}
+            disabled={!isTitleChanged}
+          >
             Update
           </Button>
         </Box>
