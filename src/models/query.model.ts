@@ -28,3 +28,20 @@ export interface GetQueryRecordById {
   success: boolean;
   data: QueryRecord;
 }
+
+export interface AstrologerQueryRecord {
+  _id: number;
+  astrologerId: string;
+  name: string;
+  createdAt: Date;
+  isAnswered: boolean;
+  query: string;
+}
+
+export interface GetAstrologersQuery {
+  status: number;
+  message: string;
+  success: boolean;
+  length: number;
+  data: AstrologerQueryRecord[];
+}

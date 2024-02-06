@@ -22,6 +22,7 @@ import Queries from "./pages/queries/Queries.page";
 import QueriesDetail from "./pages/queries/QueriesDetail.page";
 import Reports from "./pages/report/Reports.page";
 import Feedback from "./pages/feedback/Feedback.page";
+import AstroQuery from "./pages/queries/AstroQueries.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -109,6 +110,10 @@ function App() {
         {
           path: "/queries/details/:id",
           element: <QueriesDetail />,
+        },
+        {
+          path: "/astroQueries",
+          element: <AstroQuery />,
         },
         {
           path: "/reports",

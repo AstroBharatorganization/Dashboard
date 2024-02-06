@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,14 +7,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { CircularProgress, Pagination, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Pagination,
+  Typography,
+} from "@mui/material";
 
+import {
+  useGetAstrologersQueryQuery,
+  useUpdateAstrologerQueryRecordMutation,
+} from "../../services/master.service";
+
+import { AstrologerQueryRecord } from "../../models/query.model";
 import { Link } from "react-router-dom";
 
-import { useGetQueryRecordsQuery } from "../../services/master.service";
-import { QueryRecord } from "../../models/query.model";
-
-const Queries = () => {
+const AstrologerQuery = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const {
@@ -22,13 +30,11 @@ const Queries = () => {
     isSuccess,
     isFetching,
     refetch,
-  } = useGetQueryRecordsQuery(currentPage);
+  } = useGetAstrologersQueryQuery(currentPage);
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  const [statusUpdateMutation] = useUpdateAstrologerQueryRecordMutation();
 
-  let resultData: QueryRecord[] = [];
+  let resultData: AstrologerQueryRecord[] = [];
 
   if (isFetching) {
     return (
@@ -40,6 +46,11 @@ const Queries = () => {
   if (isSuccess) {
     resultData = queryRecordData.data || [];
   }
+
+  const handleToggleClosed = async (id: number) => {
+    await statusUpdateMutation(id);
+    refetch();
+  };
 
   const queryDataLength = queryRecordData?.length || 0;
   let limit = 10;
@@ -59,9 +70,9 @@ const Queries = () => {
           justifyContent: "space-between",
         }}
       >
-        <h2>User Queries</h2>
-        <Link to="/astroQueries">
-          <button>Go to Astrologer Query</button>
+        <h2>Astrologer Queries</h2>
+        <Link to="/queries">
+          <button>Go to User Query</button>
         </Link>
       </div>
 
@@ -90,11 +101,15 @@ const Queries = () => {
                     Date
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
-                    Username
+                    Astrologer ID
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
-                    Type
+                    Name
                   </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="left">
+                    Query
+                  </TableCell>
+
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Status
                   </TableCell>
@@ -115,17 +130,26 @@ const Queries = () => {
                         ? new Date(row.createdAt).toLocaleDateString()
                         : ""}
                     </TableCell>
-                    <TableCell align="left">{row.username || ""}</TableCell>
-                    <TableCell align="left">{row.type || ""}</TableCell>
+                    <TableCell align="left">{row.astrologerId || ""}</TableCell>
+                    <TableCell align="left">{row.name || ""}</TableCell>
+                    <TableCell align="left">{row.query || ""}</TableCell>
                     <TableCell
                       align="left"
-                      style={{ color: row.closed ? "green" : "red" }}
+                      style={{ color: row.isAnswered ? "green" : "red" }}
                     >
-                      {row.closed ? "Closed" : "Pending"}
+                      {row.isAnswered ? "Closed" : "Pending"}
                     </TableCell>
-                    <TableCell align="left">
-                      {" "}
-                      <Link to={`/queries/details/${row._id}`}>Details</Link>
+
+                    <TableCell>
+                      {!row.isAnswered && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleToggleClosed(row._id)}
+                        >
+                          Close
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -145,4 +169,4 @@ const Queries = () => {
   );
 };
 
-export default Queries;
+export default AstrologerQuery;

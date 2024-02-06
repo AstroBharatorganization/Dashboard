@@ -204,9 +204,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ setStatus }) => {
               sx={{ mt: 2 }}
               label="Name"
               value={formData.name}
-              onChange={(e) =>
-                handleChange("name", e.target.value.toLowerCase())
-              }
+              onChange={(e) => handleChange("name", e.target.value)}
               error={Boolean(validationErrors.name)}
               helperText={validationErrors.name}
             />

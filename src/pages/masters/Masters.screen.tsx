@@ -101,6 +101,8 @@ const Masters = () => {
     isFetching,
   } = useGetAstrologersQuery(currentPage);
 
+  console.log(GetAstrologer,"astrologers")
+
   const astrologersLength = GetAstrologer?.length || 0;
   let limit = 10;
 
@@ -139,6 +141,18 @@ const Masters = () => {
     setCurrentPage(value);
   };
 
+  const handleReset = () => {
+    setFilters({
+      name: "",
+      aid: "",
+      gender: "",
+      mobileNumber: "",
+      consultationMobileNumber: "",
+      callStatus: "",
+      language: "",
+    });
+  };
+
   return (
     <div className="masters">
       <div className="info">
@@ -147,7 +161,6 @@ const Masters = () => {
         </button>
       </div>
       {!open ? (
-        
         <div className="searchContainer">
           <h3>Search Here</h3>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -165,7 +178,6 @@ const Masters = () => {
             <label>
               aid:
               <input
-                 
                 className="searchLabel"
                 type="text"
                 value={filters.aid}
@@ -200,7 +212,7 @@ const Masters = () => {
               />
             </label>
           </div>
-          <div style={{ display: "flex", alignItems: "center",  gap: "10px"}}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <label>
               Gender:
               <select
@@ -259,6 +271,8 @@ const Masters = () => {
             </label>
 
             <button onClick={handleSearch}>Search</button>
+
+            <button onClick={handleReset}>Reset</button>
           </div>
         </div>
       ) : (

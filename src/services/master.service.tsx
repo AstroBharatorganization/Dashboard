@@ -20,7 +20,11 @@ import {
   GetFirstBanner,
   GetSecondBannerList,
 } from "../models/banner.model";
-import { GetQueryRecord, GetQueryRecordById } from "../models/query.model";
+import {
+  GetQueryRecord,
+  GetQueryRecordById,
+  GetAstrologersQuery,
+} from "../models/query.model";
 import { GetFeedBackRecord } from "../models/feedback.model";
 
 // Define a service using a base URL and expected endpoints
@@ -215,7 +219,7 @@ export const pokemonApi = createApi({
     // get all query records
 
     getQueryRecords: builder.query<GetQueryRecord, number>({
-      query: (page=1) => `/query/all?page=${page}`,
+      query: (page = 1) => `/query/all?page=${page}`,
     }),
 
     // get query by one
@@ -254,6 +258,21 @@ export const pokemonApi = createApi({
         body: data,
       }),
     }),
+
+    // get astrologer queries
+
+    getAstrologersQuery: builder.query<GetAstrologersQuery, number>({
+      query: (page = 1) => `/query/astroQueries?page=${page}`,
+    }),
+
+    // update astrologer query status
+
+    updateAstrologerQueryRecord: builder.mutation<void, any>({
+      query: (id) => ({
+        url: `/query/updateAstroQuery/${id}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -286,4 +305,6 @@ export const {
   useGetFeedbackRecordsQuery,
   useGetWalletChartQuery,
   useLazySearchWalletChartQuery,
+  useGetAstrologersQueryQuery,
+  useUpdateAstrologerQueryRecordMutation,
 } = pokemonApi;

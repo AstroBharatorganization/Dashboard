@@ -88,6 +88,16 @@ const Wallet = () => {
   const isFilterEmpty =
     Object.values(filter).every((value) => value === "") && !value;
 
+  const handleReset = () => {
+    setFilter({
+      status: "",
+      transactionType: "",
+      username: "",
+      date: "",
+    });
+    setValue(null);
+  };
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -148,6 +158,9 @@ const Wallet = () => {
           disabled={isFilterEmpty}
         >
           Search
+        </Button>
+        <Button variant="contained" onClick={handleReset}>
+          Reset
         </Button>
       </div>
       <h2 style={{ margin: 5 }}>Wallet Records</h2>

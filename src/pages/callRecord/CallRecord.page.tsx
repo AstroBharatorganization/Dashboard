@@ -79,6 +79,15 @@ const CallRecord = () => {
   const isFilterEmpty =
     Object.values(filter).every((value) => value === "") && !value;
 
+  const handleReset = () => {
+    setFilter({
+      astrologerName: "",
+      date: "",
+      username: "",
+    });
+    setValue(null);
+  };
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -112,6 +121,10 @@ const CallRecord = () => {
           disabled={isFilterEmpty}
         >
           Search
+        </Button>
+
+        <Button variant="contained" onClick={handleReset}>
+          Reset
         </Button>
       </div>
       <h2 style={{ margin: 5 }}>Call Records</h2>
