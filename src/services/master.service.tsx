@@ -26,6 +26,7 @@ import {
   GetAstrologersQuery,
 } from "../models/query.model";
 import { GetFeedBackRecord } from "../models/feedback.model";
+import { GetStateRecord } from "../models/astrologerOther.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
@@ -104,9 +105,12 @@ export const pokemonApi = createApi({
 
     // search wallet
 
-    getSearchWallet: builder.query<GetSearchWallet, object>({
-      query: (filters) => ({
-        url: "/wallet/search",
+    getSearchWallet: builder.query<
+      GetSearchWallet,
+      { filters: object; pageNumber: number }
+    >({
+      query: ({ filters, pageNumber }) => ({
+        url: `/wallet/search?page=${pageNumber}`,
         method: "POST",
         body: filters,
       }),
@@ -135,9 +139,12 @@ export const pokemonApi = createApi({
 
     // searchCallRecord
 
-    getSearchCallRecord: builder.query<GetSearchCallRecord, object>({
-      query: (filters) => ({
-        url: "/CallRecord/search",
+    getSearchCallRecord: builder.query<
+      GetSearchCallRecord,
+      { filters: object; pageNumber: number }
+    >({
+      query: ({ filters, pageNumber }) => ({
+        url: `/CallRecord/search?page=${pageNumber}`,
         method: "POST",
         body: filters,
       }),
@@ -273,6 +280,25 @@ export const pokemonApi = createApi({
         method: "POST",
       }),
     }),
+
+    // get astrologer state record
+
+    getAstrologersStateRecord: builder.query<GetStateRecord, number>({
+      query: (page = 1) => `/astrologerOther/stateRecord?page=${page}`,
+    }),
+
+    // search astrologer state record
+
+    searchAstrologersStateRecord: builder.query<
+      GetStateRecord,
+      { filters: object; pageNumber: number }
+    >({
+      query: ({ filters, pageNumber }) => ({
+        url: `/astrologerOther/searchState?page=${pageNumber}`,
+        method: "POST",
+        body: filters,
+      }),
+    }),
   }),
 });
 
@@ -307,4 +333,6 @@ export const {
   useLazySearchWalletChartQuery,
   useGetAstrologersQueryQuery,
   useUpdateAstrologerQueryRecordMutation,
+  useGetAstrologersStateRecordQuery,
+  useLazySearchAstrologersStateRecordQuery,
 } = pokemonApi;

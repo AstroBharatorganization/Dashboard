@@ -48,11 +48,10 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
   };
 
   const handleConfirmRefund = async () => {
-   
     await refundCallRecordMutation(selectedId);
 
     handleModalClose();
-    refetchData()
+    refetchData();
   };
 
   if (data?.length === 0) {
@@ -117,7 +116,7 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 <TableCell align="left">{row.callDuration || ""}</TableCell>
                 <TableCell
                   align="left"
-                  style={{ color: row.wallet === 0 ? "green" : "red" }}
+                  style={{ color: row.wallet === 0 ? "green" : "black" }}
                 >
                   {row.wallet === 0 ? "Free" : "Paid"}
                 </TableCell>

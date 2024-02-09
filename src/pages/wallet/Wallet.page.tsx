@@ -25,6 +25,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const Wallet = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
+
+  
   const [filter, setFilter] = useState({
     status: "",
     transactionType: "",
@@ -32,6 +35,7 @@ const Wallet = () => {
     date: "",
   });
   const [value, setValue] = React.useState<Dayjs | null>(null);
+ 
 
   const {
     data: WalletRecord,
@@ -48,8 +52,10 @@ const Wallet = () => {
     },
   ] = useLazyGetSearchWalletQuery();
   let searchData;
+  let searchDataLength;
   if (isSuccessSearch && searchResult) {
     searchData = searchResult.data || [];
+    searchDataLength = searchResult?.length || 0;
   }
 
   const isSearchResultAvailable = isSuccessSearch && searchResult;
@@ -80,9 +86,17 @@ const Wallet = () => {
     setFilter((prevFilter) => ({ ...prevFilter, [name]: value }));
   };
 
-  const handleSearch = () => {
+  const handleSearch = (currentSearchPage: number) => {
     const searchFilter = { ...filter, date: value?.format("YYYY-MM-DD") };
-    fetch(searchFilter);
+    fetch({ filters: searchFilter, pageNumber: currentSearchPage });
+  };
+  const handleChangeSearchPage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    console.log(event);
+    setCurrentSearchPage(value);
+    handleSearch(value);
   };
 
   const isFilterEmpty =
@@ -96,6 +110,7 @@ const Wallet = () => {
       date: "",
     });
     setValue(null);
+    setCurrentSearchPage(1);
   };
 
   return (
@@ -154,7 +169,7 @@ const Wallet = () => {
 
         <Button
           variant="contained"
-          onClick={handleSearch}
+          onClick={() => handleSearch(currentSearchPage)}
           disabled={isFilterEmpty}
         >
           Search
@@ -167,6 +182,13 @@ const Wallet = () => {
       {isSearchResultAvailable ? (
         <>
           <WalletSearch data={searchData!} />
+          <div className="pagination-container">
+            <Pagination
+              count={Math.ceil(searchDataLength! / limit)}
+              page={currentSearchPage}
+              onChange={handleChangeSearchPage}
+            />
+          </div>
         </>
       ) : (
         <>

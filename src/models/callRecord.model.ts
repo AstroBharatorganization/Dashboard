@@ -28,4 +28,5 @@ export interface GetSearchCallRecord {
   message: string;
   data: CallRecords[];
   success: boolean;
+  length: number;
 }

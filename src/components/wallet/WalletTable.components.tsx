@@ -14,7 +14,6 @@ interface WalletTableProps {
 }
 
 const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
-  console.log(data);
   return (
     <TableContainer sx={{ mr: 20 }} component={Paper}>
       <Table sx={{ minWidth: 200 }} aria-label="simple table">
@@ -70,7 +69,14 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
               <TableCell align="left">{row.username || ""}</TableCell>
               <TableCell align="left">{row.razorPayPaymentId || ""}</TableCell>
               <TableCell align="left">{row.status || ""}</TableCell>
-              <TableCell align="left" style={{ color: row.transactionType === 'credit' ? 'green' : 'red'}}>{row.transactionType || ""}</TableCell>
+              <TableCell
+                align="left"
+                style={{
+                  color: row.transactionType === "credit" ? "green" : "red",
+                }}
+              >
+                {row.transactionType || ""}
+              </TableCell>
               <TableCell align="left">{row.refund ? "Yes" : "No"}</TableCell>
               <TableCell align="left">{row.totalPayment || ""}</TableCell>
               <TableCell align="left">{row.userWalletAmount || ""}</TableCell>

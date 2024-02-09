@@ -116,44 +116,41 @@ export const menu = [
         url: "/banner",
         icon: "bann.png",
       },
+    ],
+  },
+
+  {
+    id: 3,
+    title: "astrologer",
+    listItems: [
       {
-        id: 7,
+        id: 1,
+        title: "Queries",
+        url: "/astroQueries",
+        icon: "queries.png",
+      },
+      {
+        id:2,
+        title:"State Record",
+        url:"/astrologerState"
+      }
+     
+    ],
+  },
+
+  {
+    id: 4,
+    title: "user",
+    listItems: [
+      
+      {
+        id: 1,
         title: "Queries",
         url: "/queries",
         icon: "queries.png",
       },
     ],
   },
-  // {
-  //     id: 3,
-  //     title: "general",
-  //     listItems: [
-  //         {
-  //             id: 1,
-  //             title: "Elements",
-  //             url: "/",
-  //             icon: "element.svg",
-  //         },
-  //         {
-  //             id: 2,
-  //             title: "Notes",
-  //             url: "/",
-  //             icon: "note.svg",
-  //         },
-  //         {
-  //             id: 3,
-  //             title: "Forms",
-  //             url: "/",
-  //             icon: "form.svg",
-  //         },
-  //         {
-  //             id: 4,
-  //             title: "Calendar",
-  //             url: "/",
-  //             icon: "calendar.svg",
-  //         },
-  //     ],
-  // },
   // {
   //     id: 4,
   //     title: "Maintenance",

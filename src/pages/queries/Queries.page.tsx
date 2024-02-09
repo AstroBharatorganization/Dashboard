@@ -60,9 +60,9 @@ const Queries = () => {
         }}
       >
         <h2>User Queries</h2>
-        <Link to="/astroQueries">
+        {/* <Link to="/astroQueries">
           <button>Go to Astrologer Query</button>
-        </Link>
+        </Link> */}
       </div>
 
       {resultData.length === 0 ? (

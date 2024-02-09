@@ -33,6 +33,14 @@
         width: 20px;
       }
 
+      &.selected {
+       
+        background-color:  #e5d4ff;
+        
+        color: rgb(43, 34, 34);
+      
+      }
+
       &:hover {
         background-color: #e5d4ff;
       }

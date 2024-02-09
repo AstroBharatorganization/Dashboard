@@ -31,6 +31,7 @@ export interface GetSearchWallet {
   message: string;
   data: WalletRecord[];
   success: boolean;
+  length: number;
 }
 
 export interface WalletChart {

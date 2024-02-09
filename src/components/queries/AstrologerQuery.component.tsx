@@ -20,7 +20,6 @@ import {
 } from "../../services/master.service";
 
 import { AstrologerQueryRecord } from "../../models/query.model";
-import { Link } from "react-router-dom";
 
 const AstrologerQuery = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -71,9 +70,9 @@ const AstrologerQuery = () => {
         }}
       >
         <h2>Astrologer Queries</h2>
-        <Link to="/queries">
+        {/* <Link to="/queries">
           <button>Go to User Query</button>
-        </Link>
+        </Link> */}
       </div>
 
       {resultData.length === 0 ? (

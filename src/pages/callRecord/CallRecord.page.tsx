@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 
 import { Button, CircularProgress, Pagination, TextField } from "@mui/material";
 import { Dayjs } from "dayjs";
@@ -16,6 +16,8 @@ import CallRecordTable from "../../components/callRecord/CallRecordTable.compone
 
 const CallRecord = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
 
   const [filter, setFilter] = useState({
     astrologerName: "",
@@ -42,8 +44,10 @@ const CallRecord = () => {
   ] = useLazyGetSearchCallRecordQuery();
 
   let searchData;
+  let searchDataLength;
   if (isSuccessSearch && searchResult) {
     searchData = searchResult.data || [];
+    searchDataLength = searchResult?.length || 0;
   }
 
   if (isFetching || isFetchingSearch) {
@@ -71,9 +75,19 @@ const CallRecord = () => {
     setFilter((prevFilter) => ({ ...prevFilter, [name]: value }));
   };
 
-  const handleSearch = () => {
+  const handleSearch = (currentSearchPage: number) => {
     const searchFilter = { ...filter, date: value?.format("YYYY-MM-DD") };
-    fetch(searchFilter);
+
+    fetch({ filters: searchFilter, pageNumber: currentSearchPage });
+  };
+
+  const handleChangeSearchPage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    console.log(event);
+    setCurrentSearchPage(value);
+    handleSearch(value);
   };
 
   const isFilterEmpty =
@@ -86,6 +100,7 @@ const CallRecord = () => {
       username: "",
     });
     setValue(null);
+    setCurrentSearchPage(1);
   };
 
   return (
@@ -117,7 +132,7 @@ const CallRecord = () => {
 
         <Button
           variant="contained"
-          onClick={handleSearch}
+          onClick={() => handleSearch(currentSearchPage)}
           disabled={isFilterEmpty}
         >
           Search
@@ -130,7 +145,17 @@ const CallRecord = () => {
       <h2 style={{ margin: 5 }}>Call Records</h2>
 
       {isSuccessSearch ? (
-        <CallRecordTable data={searchData!} refetchData={refetch} />
+        <>
+          <CallRecordTable data={searchData!} refetchData={refetch} />
+
+          <div className="pagination-container">
+            <Pagination
+              count={Math.ceil(searchDataLength! / limit)}
+              page={currentSearchPage}
+              onChange={handleChangeSearchPage}
+            />
+          </div>
+        </>
       ) : (
         <>
           <CallRecordTable data={callRecordTableData!} refetchData={refetch} />
