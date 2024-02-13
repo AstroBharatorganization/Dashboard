@@ -5,8 +5,14 @@ import "./styles/global.style.scss";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
+import ProtectedRoute from "./config/protectedRoute";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { persistor, store } from "./store/store";
+
+import { PersistGate } from "redux-persist/integration/react";
 
 // pages
 import Home from "./pages/home/Home.page";
@@ -30,19 +36,22 @@ import Navbar from "./components/navbar/Navbar.component";
 
 import Menu from "./components/menu/Menu.component";
 
-import { useAppDispatch } from "./store/hooks";
-import { useEffect } from "react";
-import { setAdmin } from "./features/authSlice.ts";
+import SideBar from "./components/sidebar/SideBar.component";
+import { Provider } from "react-redux";
+
+// import { useAppDispatch } from "./store/hooks";
+// import { useEffect } from "react";
+// import { setAdmin } from "./features/authSlice.ts";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const dispatch = useAppDispatch();
-  const admin = JSON.parse(localStorage.getItem("admin") || "{}");
+  // const dispatch = useAppDispatch();
+  // const admin = JSON.parse(localStorage.getItem("admin") || "{}");
 
-  useEffect(() => {
-    dispatch(setAdmin(admin));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setAdmin(admin));
+  // }, [dispatch]);
   const Layout = () => {
     return (
       <div className="app-container">
@@ -73,15 +82,28 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: (
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          ),
         },
+
         {
           path: "masters",
-          element: <Masters />,
+          element: (
+            <ProtectedRoute>
+              <Masters />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "update/:id",
-          element: <Update />,
+          element: (
+            <ProtectedRoute>
+              <Update />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/users",
@@ -90,43 +112,87 @@ function App() {
 
         {
           path: "/wallet",
-          element: <Wallet />,
+          element: (
+            <ProtectedRoute>
+              <Wallet />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/income",
-          element: <Income />,
+          element: (
+            <ProtectedRoute>
+              <Income />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/callRecord",
-          element: <CallRecord />,
+          element: (
+            <ProtectedRoute>
+              <CallRecord />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/banner",
-          element: <Banner />,
+          element: (
+            <ProtectedRoute>
+              <Banner />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/queries",
-          element: <Queries />,
+          element: (
+            <ProtectedRoute>
+              <Queries />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/queries/details/:id",
-          element: <QueriesDetail />,
+          element: (
+            <ProtectedRoute>
+              <QueriesDetail />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/astroQueries",
-          element: <AstroQuery />,
+          element: (
+            <ProtectedRoute>
+              <AstroQuery />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/reports",
-          element: <Reports />,
+          element: (
+            <ProtectedRoute>
+              <Reports />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/feedback",
-          element: <Feedback />,
+          element: (
+            <ProtectedRoute>
+              <Feedback />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/astrologerState",
-          element: <AstrologerState />,
+          element: (
+            <ProtectedRoute>
+              <AstrologerState />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/side",
+          element: <SideBar />,
         },
       ],
     },
@@ -138,8 +204,12 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ToastContainer position="top-right" autoClose={3000} />
+          <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
     </>
   );
 }

@@ -19,9 +19,19 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { selectAuth } from "../../features/authSlice";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+
 const defaultTheme = createTheme();
 
 const Login = () => {
+  const token: string | null = useSelector(selectAuth);
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [credentials, setCredentials] = useState<LoginRequest>({
@@ -29,7 +39,10 @@ const Login = () => {
     password: "",
   });
 
-  const [adminLogin, { data: loginData, isSuccess }] = useAdminLoginMutation();
+  const [errorMsg, setErrorMsg] = useState<any>("");
+
+  const [adminLogin, { data: loginData, isSuccess, isError, error }] =
+    useAdminLoginMutation();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -38,10 +51,16 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (error) {
+      setErrorMsg(error);
+    }
+  }, [isError]);
+
+  useEffect(() => {
     if (isSuccess) {
       toast.success("Login successfull");
       navigate("/");
-      dispatch(setAdmin({ token: loginData.token }));
+      dispatch(setAdmin({ token: loginData.data }));
     }
   }, [isSuccess]);
 
@@ -59,8 +78,9 @@ const Login = () => {
             }}
           >
             <Typography component="h1" variant="h5">
-              Sign in
+              Login to Continue..
             </Typography>
+
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -77,7 +97,7 @@ const Login = () => {
                 autoComplete="username"
                 autoFocus
                 value={credentials.username}
-                onChange={(e) =>
+                onChange={(e: any) =>
                   setCredentials({ ...credentials, username: e.target.value })
                 }
               />
@@ -91,10 +111,16 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
                 value={credentials.password}
-                onChange={(e) =>
+                onChange={(e: any) =>
                   setCredentials({ ...credentials, password: e.target.value })
                 }
               />
+
+              {errorMsg && errorMsg.data && errorMsg.data.message && (
+                <Typography color="error" variant="subtitle1">
+                  {errorMsg.data.message}
+                </Typography>
+              )}
 
               <Button
                 type="submit"

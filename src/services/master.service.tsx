@@ -28,15 +28,13 @@ import {
 import { GetFeedBackRecord } from "../models/feedback.model";
 import { GetStateRecord } from "../models/astrologerOther.model";
 
+import { authHeader } from "./authHeader";
+
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1/dashboard",
+  baseQuery: fetchBaseQuery(authHeader()),
 
-    // baseUrl:
-    //   "http://astro-bharat-backend-env.eba-wu4uqupp.ap-south-1.elasticbeanstalk.com/api/v1/dashboard",
-  }),
   endpoints: (builder) => ({
     // get astrologers
     getAstrologers: builder.query<GetAstrologers, number>({
