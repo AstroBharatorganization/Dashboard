@@ -41,6 +41,8 @@ export interface WalletChart {
   totalGstAmountMonth: number;
   totalPaymentMonth: number;
   totalUserWalletAmountMonth: number;
+  totalCountDay: number;
+  totalCountMonth: number;
 }
 
 export interface GetWalletChart {
@@ -54,6 +56,7 @@ export interface SearchWalletChart {
   totalGstAmount: number;
   totalUserWalletAmount: number;
   totalPayment: number;
+  totalCount: number;
 }
 
 export interface GetSearchWalletChart {

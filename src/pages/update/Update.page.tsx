@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {
-  useGetAstrologersQuery,
   useUpdateAstrologerMutation,
+  useGetAstrologersByIdQuery,
 } from "../../services/master.service";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UpdateForm from "../../components/updateForm/UpdateForm.component";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,21 +13,20 @@ import { CircularProgress } from "@mui/material";
 const Update: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const { id } = useParams();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const page = queryParams.get("page") ?? "1";
 
-  console.log(errorMsg, "at update");
+  const {
+    data: astrologer,
+    isFetching,
+    isSuccess,
+    refetch,
+  } = useGetAstrologersByIdQuery(id);
 
-  const { data: astrologer, isFetching } = useGetAstrologersQuery(
-    parseInt(page, 10) || 1
-  );
   const navigate = useNavigate();
 
   let selectedAstrologer;
 
-  if (astrologer) {
-    selectedAstrologer = astrologer.data?.find((a: any) => a._id === id);
+  if (isSuccess) {
+    selectedAstrologer = astrologer.data[0];
   }
 
   const [updatedAstrologer, { isLoading: isUpdating }] =
@@ -35,8 +34,6 @@ const Update: React.FC = () => {
 
   const handleFormSubmit = async (values: any) => {
     try {
-      console.log(values, "at page");
-
       const formDataWithFiles = new FormData();
 
       for (const [key, value] of Object.entries(values)) {
@@ -62,7 +59,7 @@ const Update: React.FC = () => {
         updatedAstrologer: formDataWithFiles,
       }).unwrap();
       toast.success("Updated successfully!");
-
+      refetch();
       navigate("/masters");
     } catch (error) {
       toast.error("Update Failed.. Please try again.");

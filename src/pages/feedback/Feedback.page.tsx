@@ -13,13 +13,15 @@ import { useGetFeedbackRecordsQuery } from "../../services/master.service";
 
 const Feedback = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  let resultData: any[] = [];
+
   const {
     data: feedbackData,
     isSuccess,
     isFetching,
-  } = useGetFeedbackRecordsQuery(currentPage);
-
-  let resultData: any[] = [];
+  } = useGetFeedbackRecordsQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (isFetching) {
     return (
@@ -80,8 +82,6 @@ const Feedback = () => {
           onChange={handleChange}
         />
       </div>
-
-      
     </>
   );
 };

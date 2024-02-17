@@ -12,6 +12,8 @@ import { GetIncomeReport, SearchIncomeData } from "../models/income.model";
 import {
   GetCallRecords,
   GetSearchCallRecord,
+  GetCallRecordReport,
+  GetCallRecordByAstrologer,
 } from "../models/callRecord.model";
 import {
   Banner,
@@ -297,12 +299,31 @@ export const pokemonApi = createApi({
         body: filters,
       }),
     }),
+
+    // get astrologer by id
+
+    getAstrologersById: builder.query<any, any>({
+      query: (id) => `astrologer/getByid?id=${id}`,
+    }),
+
+    // get call Record report
+
+    getCallRecordReport: builder.query<GetCallRecordReport, void>({
+      query: () => `callRecord/dailyReport`,
+    }),
+
+    // get call record daily astrologers list
+
+    getAstrologerCallReport: builder.query<GetCallRecordByAstrologer, void>({
+      query: () => `callRecord/reportByAstrologer`,
+    }),
   }),
 });
 
 export const {
   useCreateAstrologerMutation,
   useGetAstrologersQuery,
+  useGetAstrologersByIdQuery,
   useUpdateAstrologerMutation,
   useGetUsersQuery,
   useLazySearchUsersQuery,
@@ -333,4 +354,6 @@ export const {
   useUpdateAstrologerQueryRecordMutation,
   useGetAstrologersStateRecordQuery,
   useLazySearchAstrologersStateRecordQuery,
+  useGetCallRecordReportQuery,
+  useGetAstrologerCallReportQuery,
 } = pokemonApi;

@@ -54,6 +54,16 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
     refetchData();
   };
 
+  const formatTime = (totalSeconds: number) => {
+    if (totalSeconds <= 60) {
+      return `${totalSeconds} secs`;
+    } else {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes} min ${seconds} sec`;
+    }
+  };
+
   if (data?.length === 0) {
     return (
       <div
@@ -113,7 +123,9 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 <TableCell align="left">{row.username || ""}</TableCell>
                 <TableCell align="left">{row.astrologerName || ""}</TableCell>
                 <TableCell align="left">{row.callStatus || ""}</TableCell>
-                <TableCell align="left">{row.callDuration || ""}</TableCell>
+                <TableCell align="left">
+                  {formatTime(row.callDuration) || ""}
+                </TableCell>
                 <TableCell
                   align="left"
                   style={{ color: row.wallet === 0 ? "green" : "black" }}

@@ -1,9 +1,19 @@
+
+
+
+
+
+
 .app {
-    background: #a8d5e5;
+    background: white;
+    max-width: 150px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
 h1 {
     color: #165a72;
-    margin: 50px auto;
+    margin: 5px auto;
     font-size: 40px;
 }
 .menu1 {
@@ -13,3 +23,4 @@ h1 {
 h2 {
     color: #165a72;
 }
+

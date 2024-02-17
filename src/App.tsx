@@ -30,28 +30,20 @@ import Reports from "./pages/report/Reports.page";
 import Feedback from "./pages/feedback/Feedback.page";
 import AstroQuery from "./pages/queries/AstroQueries.page";
 import AstrologerState from "./pages/astrologerState/AstrologerState.page";
+import CallReport from "./pages/report/CallReport.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
 
-import Menu from "./components/menu/Menu.component";
+// import Menu from "./components/menu/Menu.component";
 
 import SideBar from "./components/sidebar/SideBar.component";
-import { Provider } from "react-redux";
 
-// import { useAppDispatch } from "./store/hooks";
-// import { useEffect } from "react";
-// import { setAdmin } from "./features/authSlice.ts";
+import { Provider } from "react-redux";
 
 const queryClient = new QueryClient();
 
 function App() {
-  // const dispatch = useAppDispatch();
-  // const admin = JSON.parse(localStorage.getItem("admin") || "{}");
-
-  // useEffect(() => {
-  //   dispatch(setAdmin(admin));
-  // }, [dispatch]);
   const Layout = () => {
     return (
       <div className="app-container">
@@ -60,7 +52,7 @@ function App() {
             <Navbar />
             <div className="container">
               <div className="menuContainer">
-                <Menu />
+                <SideBar />
               </div>
               <div className="contentContainer">
                 <QueryClientProvider client={queryClient}>
@@ -107,7 +99,11 @@ function App() {
         },
         {
           path: "/users",
-          element: <Users />,
+          element: (
+            <ProtectedRoute>
+              <Users />
+            </ProtectedRoute>
+          ),
         },
 
         {
@@ -193,6 +189,14 @@ function App() {
         {
           path: "/side",
           element: <SideBar />,
+        },
+        {
+          path: "/callReport",
+          element: (
+            <ProtectedRoute>
+              <CallReport />
+            </ProtectedRoute>
+          ),
         },
       ],
     },

@@ -30,3 +30,30 @@ export interface GetSearchCallRecord {
   success: boolean;
   length: number;
 }
+
+export interface CallRecordReport {
+  totalCompleted: number;
+  totalFailed: number;
+}
+
+export interface GetCallRecordReport {
+  status: number;
+  message: string;
+  data: CallRecordReport;
+  success: boolean;
+}
+
+export interface CallRecordByAstrologer {
+  _id: string;
+  totalCompleted: number;
+  astrologerName: string;
+  astrologerId: string;
+}
+
+export interface GetCallRecordByAstrologer {
+  status: number;
+  message: string;
+  data: CallRecordByAstrologer[];
+  success: boolean;
+}
+

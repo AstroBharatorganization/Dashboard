@@ -100,6 +100,9 @@ const AstrologerQuery = () => {
                     Date
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
+                    Time
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Astrologer ID
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
@@ -127,6 +130,12 @@ const AstrologerQuery = () => {
                     <TableCell component="th" scope="row">
                       {row.createdAt
                         ? new Date(row.createdAt).toLocaleDateString()
+                        : ""}
+                    </TableCell>
+
+                    <TableCell component="th" scope="row">
+                      {row.createdAt
+                        ? new Date(row.createdAt).toLocaleTimeString()
                         : ""}
                     </TableCell>
                     <TableCell align="left">{row.astrologerId || ""}</TableCell>

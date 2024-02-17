@@ -91,7 +91,11 @@ const WalletChart = () => {
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div className="boxes">
-                <h3>Total Payment</h3>
+                <h3>Total Payments</h3>
+                <h2> {searchData.totalCount}</h2>
+              </div>
+              <div className="boxes">
+                <h3>Total Amount</h3>
                 <h2> &#8377; {searchData.totalPayment}</h2>
               </div>
 
@@ -118,7 +122,11 @@ const WalletChart = () => {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <div className="boxes">
-                    <h3>Total Payment</h3>
+                    <h3>Total Payments</h3>
+                    <h2> {walletChartData!.data.totalCountDay}</h2>
+                  </div>
+                  <div className="boxes">
+                    <h3>Total Amount</h3>
                     <h2> &#8377; {walletChartData!.data.totalPaymentDay}</h2>
                   </div>
 
@@ -139,7 +147,12 @@ const WalletChart = () => {
               <h2>Monthly Report</h2>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div className="boxes">
-                  <h3>Total Payment</h3>
+                  <h3>Total Payments</h3>
+                  <h2> {walletChartData!.data.totalCountMonth}</h2>
+                </div>
+
+                <div className="boxes">
+                  <h3>Total Amount</h3>
                   <h2> &#8377; {walletChartData!.data.totalPaymentMonth}</h2>
                 </div>
                 <div className="boxes">

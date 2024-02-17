@@ -101,8 +101,6 @@ const Masters = () => {
     isFetching,
   } = useGetAstrologersQuery(currentPage);
 
-  console.log(GetAstrologer,"astrologers")
-
   const astrologersLength = GetAstrologer?.length || 0;
   let limit = 10;
 
@@ -171,7 +169,7 @@ const Masters = () => {
                 type="text"
                 value={filters.name}
                 onChange={(e) =>
-                  setFilters({ ...filters, name: e.target.value.toLowerCase() })
+                  setFilters({ ...filters, name: e.target.value })
                 }
               />
             </label>

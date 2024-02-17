@@ -1,6 +1,15 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
-import { Button, CircularProgress, Pagination, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  TextField,
+} from "@mui/material";
 import { Dayjs } from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,6 +32,7 @@ const CallRecord = () => {
     astrologerName: "",
     date: "",
     username: "",
+    callstatus: "",
   });
 
   const [value, setValue] = React.useState<Dayjs | null>(null);
@@ -98,6 +108,7 @@ const CallRecord = () => {
       astrologerName: "",
       date: "",
       username: "",
+      callstatus: "",
     });
     setValue(null);
     setCurrentSearchPage(1);
@@ -120,6 +131,23 @@ const CallRecord = () => {
           onChange={handleFilterChange}
           sx={{ mr: 1 }}
         />
+
+        <FormControl sx={{ minWidth: 220 }}>
+          <InputLabel id="demo-simple-select-label">Call Status</InputLabel>
+          <Select
+            label="callstatus"
+            name="callstatus"
+            value={filter.callstatus}
+            onChange={handleFilterChange}
+            sx={{ mr: 1 }}
+            placeholder="Select"
+          >
+            <MenuItem value="completed">Completed</MenuItem>
+            <MenuItem value="	failed">Failed</MenuItem>
+            <MenuItem value="no-answer">No Answer</MenuItem>
+            <MenuItem value="canceled">Canceled</MenuItem>
+          </Select>
+        </FormControl>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]} sx={{ mt: -1 }}>
