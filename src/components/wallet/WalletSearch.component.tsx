@@ -42,6 +42,9 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Date
               </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Time
+              </TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
 
               {hasUsername && (
@@ -86,14 +89,17 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
                     ? new Date(row.createdAt).toLocaleDateString()
                     : ""}
                 </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.createdAt
+                    ? new Date(row.createdAt).toLocaleTimeString()
+                    : ""}
+                </TableCell>
 
                 <TableCell align="left">{row.description || ""}</TableCell>
                 {hasUsername && (
                   <TableCell align="left">{row.username || ""}</TableCell>
                 )}
-                <TableCell align="left">
-                  {row.razorPayPaymentId || ""}
-                </TableCell>
+                <TableCell align="left">{row.phonePePaymentId || ""}</TableCell>
                 <TableCell align="left">{row.status || ""}</TableCell>
                 <TableCell
                   align="left"

@@ -73,6 +73,16 @@ const Masters = () => {
         </Link>
       ),
     },
+    {
+      field: "detailButton",
+      headerName: "Details",
+      width: 150,
+      renderCell: () => (
+        <Link to={`/`}>
+          <button>View</button>
+        </Link>
+      ),
+    },
   ];
 
   interface Filters {

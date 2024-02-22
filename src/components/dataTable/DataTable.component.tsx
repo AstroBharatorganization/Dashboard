@@ -11,7 +11,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
   const getRowId = (row: any) => row._id;
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}

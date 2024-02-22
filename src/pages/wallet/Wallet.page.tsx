@@ -27,7 +27,6 @@ const Wallet = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
 
-  
   const [filter, setFilter] = useState({
     status: "",
     transactionType: "",
@@ -35,7 +34,6 @@ const Wallet = () => {
     date: "",
   });
   const [value, setValue] = React.useState<Dayjs | null>(null);
- 
 
   const {
     data: WalletRecord,
@@ -126,11 +124,9 @@ const Wallet = () => {
             sx={{ mr: 1 }}
             placeholder="Select"
           >
-            <MenuItem value="created">Created</MenuItem>
-            <MenuItem value="authorized">Authorized</MenuItem>
-            <MenuItem value="captured">Captured</MenuItem>
-            <MenuItem value="refunded">Refunded</MenuItem>
-            <MenuItem value="failed">Failed</MenuItem>
+            <MenuItem value="COMPLETED">Completed</MenuItem>
+            <MenuItem value="FAILED">Failed</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
           </Select>
         </FormControl>
 

@@ -34,15 +34,31 @@ const IncomeTable: React.FC<IncomeTableProps> = ({ data }) => {
 
   return (
     <div>
-      <TableContainer  component={Paper}>
-        <Table  aria-label="simple table">
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Date</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Astrologer Cut</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Company Cut</TableCell>
-              <TableCell sx={{fontWeight:'bold'}} align="left">Ratio</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Time
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Astrologer
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Astrologer Id
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Astrologer Cut
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Company Cut
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Ratio
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -56,7 +72,13 @@ const IncomeTable: React.FC<IncomeTableProps> = ({ data }) => {
                     ? new Date(row.createdAt).toLocaleDateString()
                     : ""}
                 </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.createdAt
+                    ? new Date(row.createdAt).toLocaleTimeString()
+                    : ""}
+                </TableCell>
                 <TableCell align="left">{row.name || ""}</TableCell>
+                <TableCell align="left">{row.aid || ""}</TableCell>
                 <TableCell align="left">{row.astrologerCut || ""}</TableCell>
                 <TableCell align="left">{row.companyCut || ""}</TableCell>
                 <TableCell align="left">{row.ratio || ""}</TableCell>

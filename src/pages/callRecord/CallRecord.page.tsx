@@ -118,7 +118,7 @@ const CallRecord = () => {
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <TextField
-          label="Astrologer Name"
+          label="Astrologer Name / Aid"
           name="astrologerName"
           value={filter.astrologerName}
           onChange={handleFilterChange}

@@ -1,17 +1,18 @@
-import { CallRecords } from "./callRecord.model";
+// import { CallRecords } from "./callRecord.model";
 import { Users } from "./users.model";
 import { WalletRecord } from "./wallet.model";
 
 export interface QueryRecord {
   _id: number;
   type: string;
-  walletRecord: WalletRecord[];
-  callRecord: CallRecords;
+  walletRecord: WalletRecord;
+  callRecord: any;
   user: Users;
   query: string;
   closed: boolean;
   createdAt: Date;
   username: string;
+  reply: string;
 }
 
 export interface GetQueryRecord {

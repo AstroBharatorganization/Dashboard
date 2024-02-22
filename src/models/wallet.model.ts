@@ -16,6 +16,7 @@ export interface WalletRecord {
   updatedAt: Date;
   username: string;
   refund: boolean;
+  phonePePaymentId: string;
 }
 
 export interface GetWallet {

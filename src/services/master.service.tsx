@@ -123,9 +123,12 @@ export const pokemonApi = createApi({
 
     // search Income
 
-    getSearchIncome: builder.query<SearchIncomeData, object>({
-      query: (filters) => ({
-        url: "/income/search",
+    getSearchIncome: builder.query<
+      SearchIncomeData,
+      { filters: object; pageNumber: number }
+    >({
+      query: ({ filters, pageNumber }) => ({
+        url: `/income/search?page=${pageNumber}`,
         method: "POST",
         body: filters,
       }),
@@ -223,24 +226,34 @@ export const pokemonApi = createApi({
       }),
     }),
 
-    // get all query records
+    // get all user query records
 
     getQueryRecords: builder.query<GetQueryRecord, number>({
       query: (page = 1) => `/query/all?page=${page}`,
     }),
 
-    // get query by one
+    // get user query by one
 
     getQueryRecordsById: builder.query<GetQueryRecordById, any>({
       query: (id) => `/query/details?id=${id}`,
     }),
 
-    // query updation
+    // user query updation
 
     updateQueryRecord: builder.mutation<void, any>({
       query: (id) => ({
         url: `/query/update/${id}`,
         method: "POST",
+      }),
+    }),
+
+    // user query reply
+
+    userQueryreply: builder.mutation<void, { id: string; reply: string }>({
+      query: ({ id, reply }) => ({
+        url: `/query/userQueryReply/${id}?reply=${reply}`,
+        method: "POST",
+        body: reply,
       }),
     }),
 
@@ -347,6 +360,7 @@ export const {
   useGetQueryRecordsQuery,
   useGetQueryRecordsByIdQuery,
   useUpdateQueryRecordMutation,
+  useUserQueryreplyMutation,
   useGetFeedbackRecordsQuery,
   useGetWalletChartQuery,
   useLazySearchWalletChartQuery,

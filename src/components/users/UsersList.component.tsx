@@ -9,12 +9,11 @@ const UsersList = () => {
   const { data, isFetching } = useGetUsersQuery(currentPage);
 
   const usersLength = data?.length || 0;
-  let limit = 10;
+  let limit = 15;
   const users = data?.data || [];
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-
-    console.log(event)
+    console.log(event);
     setCurrentPage(value);
   };
 

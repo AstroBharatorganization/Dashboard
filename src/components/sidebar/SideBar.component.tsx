@@ -12,6 +12,8 @@ import SelfImprovementTwoToneIcon from "@mui/icons-material/SelfImprovementTwoTo
 import LiveHelpOutlinedIcon from "@mui/icons-material/LiveHelpOutlined";
 import SignalWifiStatusbarConnectedNoInternet4OutlinedIcon from "@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4Outlined";
 import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
+import DatasetOutlinedIcon from "@mui/icons-material/DatasetOutlined";
+import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
 const SideBar = () => {
   return (
@@ -30,7 +32,7 @@ const SideBar = () => {
               Homepage{" "}
             </MenuItem>
 
-            <SubMenu label="LISTS">
+            <SubMenu label="LISTS" icon={<DatasetOutlinedIcon />}>
               <MenuItem
                 component={<Link to="/users" className="link" />}
                 icon={<PeopleOutlineIcon />}
@@ -73,7 +75,7 @@ const SideBar = () => {
                 Banner{" "}
               </MenuItem>
             </SubMenu>
-            <SubMenu label="ASTROLOGER">
+            <SubMenu label="ASTROLOGER" icon={<SelfImprovementTwoToneIcon />}>
               <MenuItem
                 component={<Link to="/astroQueries" className="link" />}
                 icon={<LiveHelpOutlinedIcon />}
@@ -88,7 +90,7 @@ const SideBar = () => {
               </MenuItem>
             </SubMenu>
 
-            <SubMenu label="USER">
+            <SubMenu label="USER" icon={<PeopleOutlineIcon />}>
               <MenuItem
                 component={<Link to="/queries" className="link" />}
                 icon={<LiveHelpOutlinedIcon />}
@@ -103,11 +105,17 @@ const SideBar = () => {
               </MenuItem>
             </SubMenu>
 
-            <SubMenu label="REPORT">
-              <MenuItem component={<Link to="/reports" className="link" />}>
+            <SubMenu label="REPORT" icon={<AssessmentOutlinedIcon />}>
+              <MenuItem
+                component={<Link to="/reports" className="link" />}
+                icon={<AccountBalanceWalletOutlinedIcon />}
+              >
                 Wallet
               </MenuItem>
-              <MenuItem component={<Link to="/callReport" className="link" />}>
+              <MenuItem
+                component={<Link to="/callReport" className="link" />}
+                icon={<LocalPhoneIcon />}
+              >
                 Call
               </MenuItem>
             </SubMenu>

@@ -16,10 +16,11 @@ import {
 
 const Income = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
   const [filter, setFilter] = useState({
     name: "",
     date: "",
+    aid: "",
   });
   const [value, setValue] = React.useState<Dayjs | null>(null);
 
@@ -33,8 +34,10 @@ const Income = () => {
   ] = useLazyGetSearchIncomeQuery();
 
   let searchData;
+  let searchDataLength;
   if (isSuccessSearch && searchResult) {
     searchData = searchResult.data || [];
+    searchDataLength = searchResult.length || 0;
   }
 
   const {
@@ -69,9 +72,18 @@ const Income = () => {
     setFilter((prevFilter) => ({ ...prevFilter, [name]: value }));
   };
 
-  const handleSearch = () => {
+  const handleSearch = (currentSearchPage: number) => {
     const searchFilter = { ...filter, date: value?.format("YYYY-MM-DD") };
-    fetch(searchFilter);
+    fetch({ filters: searchFilter, pageNumber: currentSearchPage });
+  };
+
+  const handleChangeSearchPage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    console.log(event);
+    setCurrentSearchPage(value);
+    handleSearch(value);
   };
 
   const isFilterEmpty =
@@ -81,6 +93,7 @@ const Income = () => {
     setFilter({
       name: "",
       date: "",
+      aid: "",
     });
     setValue(null);
   };
@@ -92,6 +105,13 @@ const Income = () => {
           label="Astrologer Name"
           name="name"
           value={filter.name}
+          onChange={handleFilterChange}
+          sx={{ mr: 1 }}
+        />
+        <TextField
+          label="Astrologer Id"
+          name="aid"
+          value={filter.aid}
           onChange={handleFilterChange}
           sx={{ mr: 1 }}
         />
@@ -107,7 +127,7 @@ const Income = () => {
 
         <Button
           variant="contained"
-          onClick={handleSearch}
+          onClick={() => handleSearch(currentSearchPage)}
           disabled={isFilterEmpty}
         >
           Search
@@ -119,7 +139,17 @@ const Income = () => {
       <h2 style={{ margin: 5 }}>Income Records</h2>
 
       {isSuccessSearch ? (
-        <IncomeTable data={searchData!} />
+        <>
+          <IncomeTable data={searchData!} />
+
+          <div className="pagination-container">
+            <Pagination
+              count={Math.ceil(searchDataLength! / limit)}
+              page={currentSearchPage}
+              onChange={handleChangeSearchPage}
+            />
+          </div>
+        </>
       ) : (
         <>
           <IncomeTable data={incomeTableData!} />

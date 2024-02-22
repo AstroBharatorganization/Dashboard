@@ -11,6 +11,8 @@ import Paper from "@mui/material/Paper";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { useRefundCallRecordMutation } from "../../services/master.service";
 
+import { formatTime } from "../../utils/helpers";
+
 interface CallRecordTableProps {
   data: CallRecords[];
   refetchData: () => void;
@@ -54,16 +56,6 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
     refetchData();
   };
 
-  const formatTime = (totalSeconds: number) => {
-    if (totalSeconds <= 60) {
-      return `${totalSeconds} secs`;
-    } else {
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      return `${minutes} min ${seconds} sec`;
-    }
-  };
-
   if (data?.length === 0) {
     return (
       <div
@@ -88,6 +80,9 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
             <TableRow>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Time
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
                 User
@@ -118,6 +113,11 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 <TableCell component="th" scope="row">
                   {row.createdAt
                     ? new Date(row.createdAt).toLocaleDateString()
+                    : ""}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.createdAt
+                    ? new Date(row.createdAt).toLocaleTimeString()
                     : ""}
                 </TableCell>
                 <TableCell align="left">{row.username || ""}</TableCell>

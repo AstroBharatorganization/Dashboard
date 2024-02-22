@@ -65,6 +65,8 @@ const Update: React.FC = () => {
       toast.error("Update Failed.. Please try again.");
 
       const errMsg = await extractErrorMessage(error);
+
+      console.log(errorMsg);
       setErrorMsg(errMsg);
       console.error("Error updating astrologer:", error);
     }

@@ -23,6 +23,9 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
               Date
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
+              Time
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
               Description
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
@@ -65,9 +68,14 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
                   ? new Date(row.createdAt).toLocaleDateString()
                   : ""}
               </TableCell>
+              <TableCell component="th" scope="row">
+                {row.createdAt
+                  ? new Date(row.createdAt).toLocaleTimeString()
+                  : ""}
+              </TableCell>
               <TableCell align="left">{row.description || ""}</TableCell>
               <TableCell align="left">{row.username || ""}</TableCell>
-              <TableCell align="left">{row.razorPayPaymentId || ""}</TableCell>
+              <TableCell align="left">{row.phonePePaymentId || ""}</TableCell>
               <TableCell align="left">{row.status || ""}</TableCell>
               <TableCell
                 align="left"

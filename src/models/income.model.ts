@@ -10,6 +10,7 @@ export interface IncomeRecord {
   ratio: number;
   createdAt: Date;
   updatedAt: Date;
+  aid: string;
 }
 
 export interface GetIncomeReport {
@@ -25,4 +26,5 @@ export interface SearchIncomeData {
   message: string;
   data: IncomeRecord[];
   success: boolean;
+  length: number;
 }
