@@ -34,7 +34,9 @@ const AstrologerState = () => {
     data: stateRecordData,
     isSuccess,
     isFetching,
-  } = useGetAstrologersStateRecordQuery(currentPage);
+  } = useGetAstrologersStateRecordQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [
     fetch,

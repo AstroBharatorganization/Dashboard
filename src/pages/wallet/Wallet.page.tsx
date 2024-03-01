@@ -39,7 +39,7 @@ const Wallet = () => {
     data: WalletRecord,
     isFetching,
     isSuccess,
-  } = useGetWalletQuery(currentPage);
+  } = useGetWalletQuery(currentPage, { refetchOnMountOrArgChange: true });
 
   const [
     fetch,

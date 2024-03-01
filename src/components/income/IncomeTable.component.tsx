@@ -15,7 +15,7 @@ interface IncomeTableProps {
 }
 
 const IncomeTable: React.FC<IncomeTableProps> = ({ data }) => {
-  if (data.length === 0) {
+  if (data?.length === 0) {
     return (
       <div
         style={{
@@ -62,7 +62,7 @@ const IncomeTable: React.FC<IncomeTableProps> = ({ data }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, index) => (
+            {data?.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

@@ -29,7 +29,9 @@ const AstrologerQuery = () => {
     isSuccess,
     isFetching,
     refetch,
-  } = useGetAstrologersQueryQuery(currentPage);
+  } = useGetAstrologersQueryQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [statusUpdateMutation] = useUpdateAstrologerQueryRecordMutation();
 

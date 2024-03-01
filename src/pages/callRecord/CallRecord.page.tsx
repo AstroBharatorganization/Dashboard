@@ -19,14 +19,20 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import {
   useGetCallRecordsQuery,
   useLazyGetSearchCallRecordQuery,
+  useLazyGetDownloadQuery,
 } from "../../services/master.service";
 
 import CallRecordTable from "../../components/callRecord/CallRecordTable.component";
+
+import { downloadJSONAsCSV } from "../../utils/helpers";
 
 const CallRecord = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+
+  console.log(setLimit);
 
   const [filter, setFilter] = useState({
     astrologerName: "",
@@ -42,7 +48,10 @@ const CallRecord = () => {
     isFetching,
     isSuccess,
     refetch,
-  } = useGetCallRecordsQuery(currentPage);
+  } = useGetCallRecordsQuery(
+    { page: currentPage, limit },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [
     fetch,
@@ -53,7 +62,15 @@ const CallRecord = () => {
     },
   ] = useLazyGetSearchCallRecordQuery();
 
-  let searchData;
+  const [fetchDownload, { data: downLoadData, isSuccess: isDownloadSuccess }] =
+    useLazyGetDownloadQuery();
+
+  let downLoadResult: any;
+  if (isDownloadSuccess) {
+    downLoadResult = downLoadData!.data || [];
+  }
+
+  let searchData: any;
   let searchDataLength;
   if (isSuccessSearch && searchResult) {
     searchData = searchResult.data || [];
@@ -67,13 +84,12 @@ const CallRecord = () => {
       </div>
     );
   }
-  let callRecordTableData;
+  let callRecordTableData: any;
   if (isSuccess) {
     callRecordTableData = CallRecordData.data || [];
   }
 
   const callRecordLength = CallRecordData?.length || 0;
-  let limit = 10;
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(event);
@@ -112,6 +128,24 @@ const CallRecord = () => {
     });
     setValue(null);
     setCurrentSearchPage(1);
+  };
+
+  const handleDownloadCsv = (callRecordTableData: any) => {
+    downloadJSONAsCSV(callRecordTableData);
+  };
+
+  const handleSearchDownload = async () => {
+    const searchFilter = { ...filter, date: value?.format("YYYY-MM-DD") };
+    await fetchDownload({
+      filters: searchFilter,
+      pageNumber: currentSearchPage,
+      limit: 50,
+    });
+
+    
+    if (downLoadResult) {
+      downloadJSONAsCSV(downLoadResult);
+    }
   };
 
   return (
@@ -170,10 +204,27 @@ const CallRecord = () => {
           Reset
         </Button>
       </div>
-      <h2 style={{ margin: 5 }}>Call Records</h2>
 
       {isSuccessSearch ? (
         <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: "10px",
+            }}
+          >
+            <h2 style={{ marginTop: 5 }}>Call Records</h2>
+            <Button
+              variant="contained"
+              onClick={handleSearchDownload}
+              // onClick={() => handleDownloadCsv(searchData)}
+            >
+              Download Csv
+            </Button>
+          </div>
+
           <CallRecordTable data={searchData!} refetchData={refetch} />
 
           <div className="pagination-container">
@@ -186,6 +237,23 @@ const CallRecord = () => {
         </>
       ) : (
         <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: "10px",
+            }}
+          >
+            {" "}
+            <h2 style={{ marginTop: 5 }}>Call Records</h2>
+            <Button
+              variant="contained"
+              onClick={() => handleDownloadCsv(callRecordTableData)}
+            >
+              Download Csv
+            </Button>
+          </div>
           <CallRecordTable data={callRecordTableData!} refetchData={refetch} />
 
           <div className="pagination-container">

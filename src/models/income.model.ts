@@ -28,3 +28,16 @@ export interface SearchIncomeData {
   success: boolean;
   length: number;
 }
+
+export interface IncomeReport {
+  totalIncome: number;
+  astrologerName: string;
+  astrologerId: string;
+}
+
+export interface GetIncomeRecordData {
+  status: number;
+  message: string;
+  data: IncomeReport[];
+  success: boolean;
+}

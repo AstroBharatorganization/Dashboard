@@ -44,7 +44,7 @@ const Income = () => {
     data: IncomeRecord,
     isFetching,
     isSuccess,
-  } = useGetIncomeQuery(currentPage);
+  } = useGetIncomeQuery(currentPage, { refetchOnMountOrArgChange: true });
 
   if (isFetching || isSearchFetching) {
     return (

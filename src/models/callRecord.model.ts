@@ -13,6 +13,8 @@ export interface CallRecords {
   updatedAt: Date;
   refund: boolean;
   wallet: number;
+  date: string;
+  time: string;
 }
 
 export interface GetCallRecords {
@@ -56,4 +58,3 @@ export interface GetCallRecordByAstrologer {
   data: CallRecordByAstrologer[];
   success: boolean;
 }
-

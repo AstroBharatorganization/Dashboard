@@ -55,6 +55,7 @@ const QueriesDetail = () => {
   };
 
   const handleReplySubmit = async (id: any, reply: string) => {
+    await statusUpdateMutation(id);
     await userQueryreplyMutation({ id, reply });
     setReplyMessage("");
     refetch();
@@ -206,25 +207,38 @@ const QueriesDetail = () => {
             )}
           </Grid>
 
-          <Grid item xs={12}>
-            <Paper elevation={2} style={{ padding: 20, marginTop: 20 }}>
-              <TextField
-                label="Your Reply"
-                variant="outlined"
-                fullWidth
-                value={replyMessage}
-                onChange={(e) => setReplyMessage(e.target.value)}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: 10 }}
-                onClick={() => handleReplySubmit(id, replyMessage)}
-              >
-                Add Reply
-              </Button>
-            </Paper>
-          </Grid>
+          {resultData?.reply ? (
+            <Grid item xs={12}>
+              <Paper elevation={2} style={{ padding: 20, marginTop: 20 }}>
+                <Typography
+                  variant="body1"
+                  style={{ overflowWrap: "break-word", wordWrap: "break-word" }}
+                >
+                  Reply: {resultData!.reply}
+                </Typography>
+              </Paper>
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <Paper elevation={2} style={{ padding: 20, marginTop: 20 }}>
+                <TextField
+                  label="Your Reply"
+                  variant="outlined"
+                  fullWidth
+                  value={replyMessage}
+                  onChange={(e) => setReplyMessage(e.target.value)}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: 10 }}
+                  onClick={() => handleReplySubmit(id, replyMessage)}
+                >
+                  Add Reply
+                </Button>
+              </Paper>
+            </Grid>
+          )}
         </Paper>
       )}
     </div>

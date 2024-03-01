@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { GetUsers } from "../models/users.model";
+import { GetUsers, Users } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
@@ -8,7 +8,11 @@ import {
   GetWallet,
   GetWalletChart,
 } from "../models/wallet.model";
-import { GetIncomeReport, SearchIncomeData } from "../models/income.model";
+import {
+  GetIncomeReport,
+  SearchIncomeData,
+  GetIncomeRecordData,
+} from "../models/income.model";
 import {
   GetCallRecords,
   GetSearchCallRecord,
@@ -31,12 +35,16 @@ import { GetFeedBackRecord } from "../models/feedback.model";
 import { GetStateRecord } from "../models/astrologerOther.model";
 
 import { authHeader } from "./authHeader";
+import {
+  GetDailyDataReport,
+  PostDailyDataReport,
+} from "@/models/dailyData.model";
 
 // Define a service using a base URL and expected endpoints
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
   baseQuery: fetchBaseQuery(authHeader()),
-
+  refetchOnMountOrArgChange: 30,
   endpoints: (builder) => ({
     // get astrologers
     getAstrologers: builder.query<GetAstrologers, number>({
@@ -62,11 +70,14 @@ export const pokemonApi = createApi({
       }),
     }),
 
-    // search user
+    // search astrologer
 
-    searchAstrologers: builder.query<GetAstrologers, object>({
-      query: (filters) => ({
-        url: "/astrologer/search",
+    searchAstrologers: builder.query<
+      GetAstrologers,
+      { filters: object; pageNumber: number }
+    >({
+      query: ({ filters, pageNumber }) => ({
+        url: `/astrologer/search?page=${pageNumber}`,
         method: "POST",
         body: filters,
       }),
@@ -136,8 +147,12 @@ export const pokemonApi = createApi({
 
     // get call record
 
-    getCallRecords: builder.query<GetCallRecords, number>({
-      query: (page = 1) => `callRecord/all?page=${page}`,
+    getCallRecords: builder.query<
+      GetCallRecords,
+      { page: number; limit: number }
+    >({
+      query: ({ page = 1, limit }) =>
+        `callRecord/all?page=${page}&limit=${limit}`,
     }),
 
     // searchCallRecord
@@ -148,6 +163,19 @@ export const pokemonApi = createApi({
     >({
       query: ({ filters, pageNumber }) => ({
         url: `/CallRecord/search?page=${pageNumber}`,
+        method: "POST",
+        body: filters,
+      }),
+    }),
+
+    // downLoad csv
+
+    getDownload: builder.query<
+      GetSearchCallRecord,
+      { filters: object; pageNumber: number; limit: number }
+    >({
+      query: ({ filters, pageNumber, limit }) => ({
+        url: `/CallRecord/search?page=${pageNumber}&limit=${limit}`,
         method: "POST",
         body: filters,
       }),
@@ -330,6 +358,33 @@ export const pokemonApi = createApi({
     getAstrologerCallReport: builder.query<GetCallRecordByAstrologer, void>({
       query: () => `callRecord/reportByAstrologer`,
     }),
+
+    // post daily report
+
+    createDailyReportData: builder.mutation<PostDailyDataReport, void>({
+      query: () => ({
+        url: `report/create`,
+        method: "POST",
+      }),
+    }),
+
+    // get daily report data
+
+    getDailyReportData: builder.query<GetDailyDataReport, void>({
+      query: () => `report/getReport`,
+    }),
+
+    // get users with zero calls
+
+    getUsersWithZeroCalls: builder.query<GetUsers, void>({
+      query: () => `report/usersWithZeroCall`,
+    }),
+
+    // Income Report between dates
+
+    getIncomeReportBetweenDates: builder.query<GetIncomeRecordData, void>({
+      query: () => `income/data`,
+    }),
   }),
 });
 
@@ -348,6 +403,7 @@ export const {
   useLazyGetSearchIncomeQuery,
   useGetCallRecordsQuery,
   useLazyGetSearchCallRecordQuery,
+  useLazyGetDownloadQuery,
   useAddSingleBannerMutation,
   useGetSingleBannerQuery,
   useAddSecondBannerListMutation,
@@ -369,5 +425,9 @@ export const {
   useGetAstrologersStateRecordQuery,
   useLazySearchAstrologersStateRecordQuery,
   useGetCallRecordReportQuery,
+  useCreateDailyReportDataMutation,
   useGetAstrologerCallReportQuery,
+  useGetDailyReportDataQuery,
+  useGetUsersWithZeroCallsQuery,
+  useGetIncomeReportBetweenDatesQuery,
 } = pokemonApi;

@@ -14,6 +14,7 @@ import SignalWifiStatusbarConnectedNoInternet4OutlinedIcon from "@mui/icons-mate
 import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
 import DatasetOutlinedIcon from "@mui/icons-material/DatasetOutlined";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 
 const SideBar = () => {
   return (
@@ -106,7 +107,7 @@ const SideBar = () => {
             </SubMenu>
 
             <SubMenu label="REPORT" icon={<AssessmentOutlinedIcon />}>
-              <MenuItem
+              {/* <MenuItem
                 component={<Link to="/reports" className="link" />}
                 icon={<AccountBalanceWalletOutlinedIcon />}
               >
@@ -117,6 +118,13 @@ const SideBar = () => {
                 icon={<LocalPhoneIcon />}
               >
                 Call
+              </MenuItem> */}
+
+              <MenuItem
+                component={<Link to="/lineChart" className="link" />}
+                icon={<ShowChartIcon/>}
+              >
+                Daily Chart
               </MenuItem>
             </SubMenu>
 

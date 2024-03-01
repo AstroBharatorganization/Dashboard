@@ -6,7 +6,9 @@ import { Pagination, CircularProgress } from "@mui/material";
 const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isFetching } = useGetUsersQuery(currentPage);
+  const { data, isFetching } = useGetUsersQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const usersLength = data?.length || 0;
   let limit = 15;

@@ -31,9 +31,13 @@ import Feedback from "./pages/feedback/Feedback.page";
 import AstroQuery from "./pages/queries/AstroQueries.page";
 import AstrologerState from "./pages/astrologerState/AstrologerState.page";
 import CallReport from "./pages/report/CallReport.page";
+import LineChartPage from "./pages/lineCharts/LineChartPage.page";
+import IncomeReport from "./pages/report/IncomeReport.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
+
+import UserZeroCallList from "./components/users/UserZeroCallList.component";
 
 // import Menu from "./components/menu/Menu.component";
 
@@ -195,6 +199,31 @@ function App() {
           element: (
             <ProtectedRoute>
               <CallReport />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/lineChart",
+          element: (
+            <ProtectedRoute>
+              <LineChartPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/userZeroCall",
+          element: (
+            <ProtectedRoute>
+              <UserZeroCallList />
+            </ProtectedRoute>
+          ),
+        },
+
+        {
+          path: "/incomeReport",
+          element: (
+            <ProtectedRoute>
+              <IncomeReport />
             </ProtectedRoute>
           ),
         },

@@ -1,6 +1,7 @@
 export interface Users {
   username: string;
   wallet: number;
+  numberOfCall:number;
 }
 
 export interface GetUsers {

@@ -111,14 +111,10 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.createdAt
-                    ? new Date(row.createdAt).toLocaleDateString()
-                    : ""}
+                  {row.date}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.createdAt
-                    ? new Date(row.createdAt).toLocaleTimeString()
-                    : ""}
+                  {row.time}
                 </TableCell>
                 <TableCell align="left">{row.username || ""}</TableCell>
                 <TableCell align="left">{row.astrologerName || ""}</TableCell>

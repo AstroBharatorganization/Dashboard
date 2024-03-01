@@ -27,6 +27,7 @@ const Masters = () => {
   const [masters, setMasters] = useState<object[]>([]);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
 
   const [status, setStatus] = useState<Status>({
     visible: false,
@@ -109,13 +110,16 @@ const Masters = () => {
     data: GetAstrologer,
     refetch: refetchAstrologers,
     isFetching,
-  } = useGetAstrologersQuery(currentPage);
+  } = useGetAstrologersQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const astrologersLength = GetAstrologer?.length || 0;
   let limit = 10;
 
   const [fetch, { data: searchResult, isSuccess: isSuccessSearch }] =
     useLazySearchAstrologersQuery();
+  let searchDataLength = searchResult?.length;
 
   useEffect(() => {
     if (GetAstrologer) {
@@ -139,15 +143,25 @@ const Masters = () => {
     setOpen(!open);
   };
 
-  const handleSearch = () => {
-    setFilters(filters);
-    fetch({ filters });
+  const handleSearch = (currentSearchPage: number) => {
+    fetch({ filters: filters, pageNumber: currentSearchPage });
   };
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(event);
     setCurrentPage(value);
   };
+
+  const handleChangeSearchPage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    console.log(event);
+    setCurrentSearchPage(value);
+    handleSearch(value);
+  };
+
+  const isFilterEmpty = Object.values(filters).every((value) => value === "");
 
   const handleReset = () => {
     setFilters({
@@ -278,7 +292,12 @@ const Masters = () => {
               </select>
             </label>
 
-            <button onClick={handleSearch}>Search</button>
+            <button
+              onClick={() => handleSearch(currentSearchPage)}
+              disabled={isFilterEmpty}
+            >
+              Search
+            </button>
 
             <button onClick={handleReset}>Reset</button>
           </div>
@@ -313,14 +332,23 @@ const Masters = () => {
                 rows={masters}
                 currentPage={currentPage}
               />
-
-              <div className="pagination-container">
-                <Pagination
-                  count={Math.ceil(astrologersLength / limit)}
-                  page={currentPage}
-                  onChange={handleChange}
-                />
-              </div>
+              {isSuccessSearch ? (
+                <div className="pagination-container">
+                  <Pagination
+                    count={Math.ceil(searchDataLength! / limit)}
+                    page={currentSearchPage}
+                    onChange={handleChangeSearchPage}
+                  />
+                </div>
+              ) : (
+                <div className="pagination-container">
+                  <Pagination
+                    count={Math.ceil(astrologersLength / limit)}
+                    page={currentPage}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
             </>
           ) : (
             <div style={{ textAlign: "center" }}>

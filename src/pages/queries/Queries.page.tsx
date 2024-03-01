@@ -22,7 +22,7 @@ const Queries = () => {
     isSuccess,
     isFetching,
     refetch,
-  } = useGetQueryRecordsQuery(currentPage);
+  } = useGetQueryRecordsQuery(currentPage, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     refetch();
@@ -90,10 +90,17 @@ const Queries = () => {
                     Date
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
+                    Time
+                  </TableCell>
+
+                  <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Username
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Type
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="left">
+                    Query
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Status
@@ -115,8 +122,14 @@ const Queries = () => {
                         ? new Date(row.createdAt).toLocaleDateString()
                         : ""}
                     </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.createdAt
+                        ? new Date(row.createdAt).toLocaleTimeString()
+                        : ""}
+                    </TableCell>
                     <TableCell align="left">{row.username || ""}</TableCell>
                     <TableCell align="left">{row.type || ""}</TableCell>
+                    <TableCell align="left">{row.query || ""}</TableCell>
                     <TableCell
                       align="left"
                       style={{ color: row.closed ? "green" : "red" }}
