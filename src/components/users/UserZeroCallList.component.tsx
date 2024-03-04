@@ -1,4 +1,3 @@
-import React from "react";
 
 import { useGetUsersWithZeroCallsQuery } from "../../services/master.service";
 import { Users } from "@/models/users.model";
@@ -36,7 +35,7 @@ const UserZeroCallList = () => {
         <thead>
           <tr>
             <th style={{ border: "1px solid black", padding: "8px" }}>Usernames</th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>Number of Calls</th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>Number of Recharges</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +45,7 @@ const UserZeroCallList = () => {
                 {user.username}
               </td>
               <td style={{ border: "1px solid black", padding: "8px" }}>
-                {user.numberOfCall}
+                {user.numberOfRecharge}
               </td>
             </tr>
           ))}

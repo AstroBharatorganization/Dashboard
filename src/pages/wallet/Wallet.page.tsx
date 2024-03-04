@@ -23,6 +23,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+import { downloadJSONAsCSV } from "../../utils/helpers";
+import { WalletRecord } from "@/models/wallet.model";
+
 const Wallet = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentSearchPage, setCurrentSearchPage] = useState<number>(1);
@@ -41,6 +44,8 @@ const Wallet = () => {
     isSuccess,
   } = useGetWalletQuery(currentPage, { refetchOnMountOrArgChange: true });
 
+  console.log(WalletRecord,"data")
+
   const [
     fetch,
     {
@@ -49,7 +54,7 @@ const Wallet = () => {
       isFetching: isFetchingSearch,
     },
   ] = useLazyGetSearchWalletQuery();
-  let searchData;
+  let searchData:WalletRecord[] = [];
   let searchDataLength;
   if (isSuccessSearch && searchResult) {
     searchData = searchResult.data || [];
@@ -69,7 +74,7 @@ const Wallet = () => {
       </div>
     );
   }
-  let walletTableData;
+  let walletTableData: WalletRecord[] = [];
   if (isSuccess) {
     walletTableData = WalletRecord.data || [];
   }
@@ -110,6 +115,14 @@ const Wallet = () => {
     setValue(null);
     setCurrentSearchPage(1);
   };
+
+  const handleDownloadCsv = () => {
+    downloadJSONAsCSV(walletTableData);
+  };
+
+  const handleDownloadSearch=()=>{
+    downloadJSONAsCSV(searchData)
+  }
 
   return (
     <div>
@@ -174,9 +187,20 @@ const Wallet = () => {
           Reset
         </Button>
       </div>
-      <h2 style={{ margin: 5 }}>Wallet Records</h2>
+
       {isSearchResultAvailable ? (
         <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: "10px",
+            }}
+          >
+            <h2 style={{ marginTop: 5 }}>Wallet Records</h2>
+            <Button variant="contained" onClick={handleDownloadSearch}>Download Csv</Button>
+          </div>
           <WalletSearch data={searchData!} />
           <div className="pagination-container">
             <Pagination
@@ -188,6 +212,20 @@ const Wallet = () => {
         </>
       ) : (
         <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: "10px",
+            }}
+          >
+            <h2 style={{ marginTop: 5 }}>Wallet Records</h2>
+            <Button variant="contained" onClick={handleDownloadCsv}>
+              Download Csv
+            </Button>
+          </div>
+
           <WalletTable data={walletTableData!} />
 
           <div className="pagination-container">

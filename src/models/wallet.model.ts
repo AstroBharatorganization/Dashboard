@@ -14,6 +14,8 @@ export interface WalletRecord {
   couponUsed?: boolean;
   createdAt: Date;
   updatedAt: Date;
+  date:string;
+  time:string;
   username: string;
   refund: boolean;
   phonePePaymentId: string;

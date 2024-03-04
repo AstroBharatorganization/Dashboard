@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { GetUsers, Users } from "../models/users.model";
+import { GetUsers } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
@@ -385,6 +385,12 @@ export const pokemonApi = createApi({
     getIncomeReportBetweenDates: builder.query<GetIncomeRecordData, void>({
       query: () => `income/data`,
     }),
+
+    // get call month pie chart
+
+    getCallMonthPieChart: builder.query<GetDailyDataReport, void>({
+      query: () => `report/getMonthlyCallReport`,
+    }),
   }),
 });
 
@@ -430,4 +436,5 @@ export const {
   useGetDailyReportDataQuery,
   useGetUsersWithZeroCallsQuery,
   useGetIncomeReportBetweenDatesQuery,
+  useGetCallMonthPieChartQuery,
 } = pokemonApi;

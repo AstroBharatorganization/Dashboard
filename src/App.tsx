@@ -33,6 +33,7 @@ import AstrologerState from "./pages/astrologerState/AstrologerState.page";
 import CallReport from "./pages/report/CallReport.page";
 import LineChartPage from "./pages/lineCharts/LineChartPage.page";
 import IncomeReport from "./pages/report/IncomeReport.page";
+import Test from "./pages/Test.page";
 
 // components
 import Navbar from "./components/navbar/Navbar.component";
@@ -224,6 +225,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <IncomeReport />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/testPage",
+          element: (
+            <ProtectedRoute>
+              <Test />
             </ProtectedRoute>
           ),
         },

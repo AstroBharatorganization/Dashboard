@@ -2,6 +2,7 @@ export interface Users {
   username: string;
   wallet: number;
   numberOfCall:number;
+  numberOfRecharge:number;
 }
 
 export interface GetUsers {

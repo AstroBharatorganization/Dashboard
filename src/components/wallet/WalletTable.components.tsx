@@ -64,18 +64,14 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.createdAt
-                  ? new Date(row.createdAt).toLocaleDateString()
-                  : ""}
+                {row.date}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.createdAt
-                  ? new Date(row.createdAt).toLocaleTimeString()
-                  : ""}
+                {row.time}
               </TableCell>
               <TableCell align="left">{row.description || ""}</TableCell>
               <TableCell align="left">{row.username || ""}</TableCell>
-              <TableCell align="left">{row.phonePePaymentId || ""}</TableCell>
+              <TableCell align="left">{row.phonePePaymentId || "_"}</TableCell>
               <TableCell align="left">{row.status || ""}</TableCell>
               <TableCell
                 align="left"

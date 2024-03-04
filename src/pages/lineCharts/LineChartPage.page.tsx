@@ -8,8 +8,7 @@ import {
 } from "../../services/master.service";
 import { DailyDataReport } from "@/models/dailyData.model";
 import { Button, CircularProgress } from "@mui/material";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
+
 
 interface Metric {
   label: string;
@@ -25,7 +24,7 @@ const LineChartPage = () => {
     refetch,
   } = useGetDailyReportDataQuery();
 
-  const [createReportMutation, { isLoading, isError, error }] =
+  const [createReportMutation, { isLoading, error }] =
     useCreateDailyReportDataMutation();
 
   let dailyReport: DailyDataReport[] = [];
@@ -46,7 +45,7 @@ const LineChartPage = () => {
     if ("status" in error) {
       const errMsg =
         "error" in error ? error.error : JSON.stringify(error.data);
-       
+       console.log(errMsg)
     } else {
       
     }
