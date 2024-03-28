@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGetUsersQuery } from "../../services/master.service";
 import "./usersList.style.scss";
 import { Pagination, CircularProgress } from "@mui/material";
+import { Users } from "../../models/users.model";
 
 const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,13 +31,15 @@ const UsersList = () => {
           <table className="user-table">
             <thead>
               <tr>
+                <th>Name</th>
                 <th>Username</th>
                 <th>Wallet Detail</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user: any) => (
+              {users.map((user: Users) => (
                 <tr key={user._id}>
+                  <td>{user.name}</td>
                   <td>{user.username}</td>
                   <td>{user.wallet}</td>
                 </tr>

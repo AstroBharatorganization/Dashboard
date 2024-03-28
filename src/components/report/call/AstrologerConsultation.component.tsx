@@ -1,21 +1,25 @@
+import React from 'react'
+
 import { CallRecordByAstrologer } from "@/models/callRecord.model";
-import { useGetAstrologeraNocallListQuery } from "../../../services/master.service";
+import { useGetConsultationByAstrologerQuery } from "../../../services/master.service";
 import { downloadJSONAsCSV } from "../../../utils/helpers";
 import { Button } from "@mui/material";
 
-const AstrologerNocall = () => {
-  const { data, isSuccess } = useGetAstrologeraNocallListQuery();
+const AstrologerConsultation = () => {
 
-  let resultData: CallRecordByAstrologer[] = [];
-  if (isSuccess) {
-    resultData = data.data || [];
-  }
+    const {data,isSuccess} = useGetConsultationByAstrologerQuery()
+    let resultData: CallRecordByAstrologer[] = [];
+    if (isSuccess) {
+        resultData = data.data || [];
+      }
 
-  const handleDownloadCsv = (data: any) => {
-    downloadJSONAsCSV(data);
-  };
+      console.log(resultData,"sdfcshcbjs")
+    
+      const handleDownloadCsv = (data: any) => {
+        downloadJSONAsCSV(data);
+      };
   return (
-    <>
+    <div>
       <div
         style={{
           display: "flex",
@@ -24,7 +28,7 @@ const AstrologerNocall = () => {
           margin: "10px",
         }}
       >
-        <h3>Astrologer With no calls</h3>
+        <h3>Astrologer consultation list</h3>
         <Button
           variant="contained"
           onClick={() => handleDownloadCsv(resultData)}
@@ -40,7 +44,7 @@ const AstrologerNocall = () => {
               Astrologer Name
             </th>
             <th style={{ border: "1px solid black", padding: "8px" }}>
-              Number of No Answers
+              Number of calls
             </th>
           </tr>
         </thead>
@@ -51,14 +55,14 @@ const AstrologerNocall = () => {
                 {user.astrologerName}
               </td>
               <td style={{ border: "1px solid black", padding: "8px" }}>
-                {user.totalNoAnswer}
+                {user.totalCalls}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
-  );
-};
+    </div>
+  )
+}
 
-export default AstrologerNocall;
+export default AstrologerConsultation

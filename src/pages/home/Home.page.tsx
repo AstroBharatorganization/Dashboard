@@ -41,10 +41,10 @@ const Home = () => {
         <BigChartBox />
       </div>
       <div className="box box8">
-        <BarChartBox {...barChartBoxVisit} />
+        {/* <BarChartBox /> */}
       </div>
       <div className="box box9">
-        <BarChartBox {...barChartBoxRevenue} />
+        <BarChartBox />
       </div>
     </div>
   );

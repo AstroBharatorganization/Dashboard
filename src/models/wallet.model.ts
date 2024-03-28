@@ -19,6 +19,7 @@ export interface WalletRecord {
   username: string;
   refund: boolean;
   phonePePaymentId: string;
+  name:string;
 }
 
 export interface GetWallet {

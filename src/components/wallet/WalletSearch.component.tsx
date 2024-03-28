@@ -46,6 +46,7 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
                 Time
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>User</TableCell>
 
               {hasUsername && (
                 <TableCell sx={{ fontWeight: "bold" }} align="left">
@@ -92,6 +93,7 @@ const WalletSearch: React.FC<WalletTableProps> = ({ data }) => {
                 </TableCell>
 
                 <TableCell align="left">{row.description || ""}</TableCell>
+                <TableCell align="left">{row.name || ""}</TableCell>
                 {hasUsername && (
                   <TableCell align="left">{row.username || ""}</TableCell>
                 )}

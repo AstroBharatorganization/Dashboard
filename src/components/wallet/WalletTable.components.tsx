@@ -29,6 +29,9 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
               Description
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
+              User
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="left">
               Username
             </TableCell>
             <TableCell sx={{ fontWeight: "bold" }} align="left">
@@ -70,6 +73,7 @@ const WalletTable: React.FC<WalletTableProps> = ({ data }) => {
                 {row.time}
               </TableCell>
               <TableCell align="left">{row.description || ""}</TableCell>
+              <TableCell align="left">{row.name || ""}</TableCell>
               <TableCell align="left">{row.username || ""}</TableCell>
               <TableCell align="left">{row.phonePePaymentId || "_"}</TableCell>
               <TableCell align="left">{row.status || ""}</TableCell>

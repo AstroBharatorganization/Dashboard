@@ -107,10 +107,13 @@ const QueriesDetail = () => {
               </Typography>
             </Grid>
 
-            {resultData!.user && (
+            {resultData!.user! && (
               <Grid item xs={12}>
                 <Typography variant="body1">
-                  User name:{resultData!.user.username}{" "}
+                  User :{resultData!.user?.name}{" "}
+                </Typography>
+                <Typography variant="body1">
+                  User name:{resultData!.user?.username}{" "}
                 </Typography>
               </Grid>
             )}
@@ -176,28 +179,28 @@ const QueriesDetail = () => {
                     <ListItem>
                       <ListItemText
                         primary={`Call Status: ${
-                          resultData!.callRecord.callStatus.user.status
+                          resultData!.callRecord.callStatus?.user?.status
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Call Duration: ${formatTime(
-                          resultData!.callRecord.callStatus.user.onCallDuration
+                          resultData!.callRecord.callStatus?.user?.onCallDuration
                         )}`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Astrologer Id: ${
-                          resultData!.callRecord.astrologer
+                          resultData!.callRecord?.astrologer
                         }`}
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
                         primary={`Astrologer Mobile No: ${
-                          resultData!.callRecord.phoneNumbers.astrologer
+                          resultData!.callRecord.phoneNumbers?.astrologer
                         }`}
                       />
                     </ListItem>

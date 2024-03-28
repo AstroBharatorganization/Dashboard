@@ -13,6 +13,7 @@ export interface QueryRecord {
   createdAt: Date;
   username: string;
   reply: string;
+  name:string;
 }
 
 export interface GetQueryRecord {

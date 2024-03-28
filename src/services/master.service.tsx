@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { GetUsers } from "../models/users.model";
+import { GetUsers, GetUserChart } from "../models/users.model";
 import { AstrologerFormData, GetAstrologers } from "../models/master.model";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
@@ -391,6 +391,44 @@ export const pokemonApi = createApi({
     getCallMonthPieChart: builder.query<GetDailyDataReport, void>({
       query: () => `report/getMonthlyCallReport`,
     }),
+
+    // get Astrologer no call list
+
+    getAstrologeraNocallList: builder.query<GetCallRecordByAstrologer, void>({
+      query: () => `report/astrologerNoAnswer`,
+    }),
+
+    // get new Users count day wise list
+
+    getNewUsersDaywiseList: builder.query<GetUsers, void>({
+      query: () => `report/newUsersCountDaywise`,
+    }),
+
+    // users with wallet balance
+
+    getUsersWithWalletBalance: builder.query<GetUsers, void>({
+      query: () => `report/usersWithWalletBalance`,
+    }),
+
+    // users with wallet and no calls
+
+    getUsersWithWalletAndNoCalls: builder.query<GetUsers, void>({
+      query: () => `report/usersWithWalletAndNoCalls`,
+    }),
+
+    // get consultaion by astrologer in dates
+
+    getConsultationByAstrologer: builder.query<GetCallRecordByAstrologer, void>(
+      {
+        query: () => `report/consultationData`,
+      }
+    ),
+
+    // users age bar chart
+
+    getUsersAgeBarChart: builder.query<GetUserChart, void>({
+      query: () => `report/userAgeBarChart`,
+    }),
   }),
 });
 
@@ -437,4 +475,10 @@ export const {
   useGetUsersWithZeroCallsQuery,
   useGetIncomeReportBetweenDatesQuery,
   useGetCallMonthPieChartQuery,
+  useGetAstrologeraNocallListQuery,
+  useGetNewUsersDaywiseListQuery,
+  useGetUsersWithWalletBalanceQuery,
+  useGetUsersWithWalletAndNoCallsQuery,
+  useGetConsultationByAstrologerQuery,
+  useGetUsersAgeBarChartQuery,
 } = pokemonApi;

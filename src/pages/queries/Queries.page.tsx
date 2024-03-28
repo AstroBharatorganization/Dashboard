@@ -41,6 +41,7 @@ const Queries = () => {
     resultData = queryRecordData.data || [];
   }
 
+
   const queryDataLength = queryRecordData?.length || 0;
   let limit = 10;
 
@@ -92,6 +93,9 @@ const Queries = () => {
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Time
                   </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }} align="left">
+                    User
+                  </TableCell>
 
                   <TableCell sx={{ fontWeight: "bold" }} align="left">
                     Username
@@ -127,6 +131,7 @@ const Queries = () => {
                         ? new Date(row.createdAt).toLocaleTimeString()
                         : ""}
                     </TableCell>
+                    <TableCell align="left">{row.name || ""}</TableCell>
                     <TableCell align="left">{row.username || ""}</TableCell>
                     <TableCell align="left">{row.type || ""}</TableCell>
                     <TableCell align="left">{row.query || ""}</TableCell>

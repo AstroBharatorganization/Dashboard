@@ -1,22 +1,29 @@
-import { CallRecordByAstrologer } from "@/models/callRecord.model";
-import { useGetAstrologeraNocallListQuery } from "../../../services/master.service";
-import { downloadJSONAsCSV } from "../../../utils/helpers";
+
 import { Button } from "@mui/material";
+import { downloadJSONAsCSV } from "../../../utils/helpers";
 
-const AstrologerNocall = () => {
-  const { data, isSuccess } = useGetAstrologeraNocallListQuery();
+import { useGetUsersWithWalletBalanceQuery } from "../../../services/master.service";
+import { Users } from "@/models/users.model";
 
-  let resultData: CallRecordByAstrologer[] = [];
-  if (isSuccess) {
-    resultData = data.data || [];
+const UsersWithWallet = () => {
+ 
+
+  const {data,isSuccess} = useGetUsersWithWalletBalanceQuery()
+
+  let resultData :Users[]=[]
+
+  if(isSuccess){
+    resultData = data.data || []
   }
 
+  
   const handleDownloadCsv = (data: any) => {
     downloadJSONAsCSV(data);
   };
+
   return (
     <>
-      <div
+       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -24,7 +31,7 @@ const AstrologerNocall = () => {
           margin: "10px",
         }}
       >
-        <h3>Astrologer With no calls</h3>
+        <h3>Users with wallet balance</h3>
         <Button
           variant="contained"
           onClick={() => handleDownloadCsv(resultData)}
@@ -36,29 +43,31 @@ const AstrologerNocall = () => {
       <table style={{ borderCollapse: "collapse", border: "1px solid black" }}>
         <thead>
           <tr>
+            <th style={{ border: "1px solid black", padding: "8px" }}>Name</th>
             <th style={{ border: "1px solid black", padding: "8px" }}>
-              Astrologer Name
+             Username
             </th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              Number of No Answers
-            </th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>Wallet</th>
           </tr>
         </thead>
         <tbody>
           {resultData.map((user, index) => (
             <tr key={index}>
               <td style={{ border: "1px solid black", padding: "8px" }}>
-                {user.astrologerName}
+                {user.name}
               </td>
               <td style={{ border: "1px solid black", padding: "8px" }}>
-                {user.totalNoAnswer}
+                {user.username}
+              </td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
+                {user.wallet}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </>
-  );
-};
+  )
+}
 
-export default AstrologerNocall;
+export default UsersWithWallet

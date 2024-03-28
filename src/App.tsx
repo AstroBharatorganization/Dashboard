@@ -39,6 +39,10 @@ import Test from "./pages/Test.page";
 import Navbar from "./components/navbar/Navbar.component";
 
 import UserZeroCallList from "./components/users/UserZeroCallList.component";
+import NewUsersCount from "./components/report/user/NewUsersCount.component";
+import UsersWithWallet from "./components/report/user/UsersWithWallet.component";
+import UsersWithWalletAndNocalls from "./components/report/user/UsersWithWalletAndNocalls.component";
+import AstrologerConsultation from "./components/report/call/AstrologerConsultation.component";
 
 // import Menu from "./components/menu/Menu.component";
 
@@ -233,6 +237,38 @@ function App() {
           element: (
             <ProtectedRoute>
               <Test />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/newUsersCount",
+          element: (
+            <ProtectedRoute>
+              <NewUsersCount />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/usersWithWallet",
+          element: (
+            <ProtectedRoute>
+              <UsersWithWallet />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/usersWithWalletAndNoCallsList",
+          element: (
+            <ProtectedRoute>
+              <UsersWithWalletAndNocalls />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/consultationList",
+          element: (
+            <ProtectedRoute>
+              <AstrologerConsultation/>
             </ProtectedRoute>
           ),
         },

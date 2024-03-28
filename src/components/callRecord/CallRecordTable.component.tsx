@@ -88,6 +88,9 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 User
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
+                Username
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="left">
                 Astrologer
               </TableCell>
               <TableCell sx={{ fontWeight: "bold" }} align="left">
@@ -116,6 +119,7 @@ const CallRecordTable: React.FC<CallRecordTableProps> = ({
                 <TableCell component="th" scope="row">
                   {row.time}
                 </TableCell>
+                <TableCell align="left">{row.name || ""}</TableCell>
                 <TableCell align="left">{row.username || ""}</TableCell>
                 <TableCell align="left">{row.astrologerName || ""}</TableCell>
                 <TableCell align="left">{row.callStatus || ""}</TableCell>

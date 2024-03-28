@@ -15,6 +15,7 @@ export interface CallRecords {
   wallet: number;
   date: string;
   time: string;
+  name:string;
 }
 
 export interface GetCallRecords {
@@ -50,6 +51,8 @@ export interface CallRecordByAstrologer {
   totalCompleted: number;
   astrologerName: string;
   astrologerId: string;
+  totalNoAnswer:number;
+  totalCalls:number;
 }
 
 export interface GetCallRecordByAstrologer {
